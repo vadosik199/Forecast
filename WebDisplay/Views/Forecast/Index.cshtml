@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "Forecast";
+}
+<h2 style="margin-top: 35px">@ViewBag.Title</h2>
+
+<div class="row" style="margin: 0 auto">
+    <form method="get" action="@Url.Action("Result")" style="padding-left: 15px">
+        <div class="form-inline row">
+            <div class="col-xs-2" style="vertical-align: middle; line-height: 45px">
+                Entry Range:
+            </div>
+            <div class="col-xs-10">
+                <div class="form-group">
+                    <input type="number" required class="form-control" min="1" name="From" id="From" placeholder="From">
+                </div>
+                -
+                <div class="form-group">
+                    <input type="number" required class="form-control" min="1" name="To" id="To" placeholder="To">
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" style="margin-top: 20px">
+            <label for="Count" style="vertical-align: middle; line-height: 45px" class="col-xs-2">Periods count</label>
+            <div class="col-xs-10">
+                <input type="number" required class="form-control" min="1" name="Count" id="Count" placeholder="Count">
+            </div>
+        </div>
+        <div class="form-group row" style="margin-top: 13px">
+            <label for="Periodicity" style="vertical-align: middle; line-height: 45px" class="col-xs-2">Periodicity</label>
+            <div class="col-xs-10">
+                <input type="number" required class="form-control" min="1" name="Periodicity" id="Periodicity" placeholder="Periodicity">
+            </div>
+        </div>
+        <div class="form-group row" style="margin-top: 13px">
+            <label for="Method" style="vertical-align: middle; line-height: 45px" class="col-xs-2">Method</label>
+            <div class="col-xs-10">
+                <select class="form-control" id="Method" name="Method">
+                    @foreach (var method in ViewBag.Methods) {
+                        <option>@method.GetMethodName()</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-inline row">
+            <div class="col-xs-2" style="vertical-align: middle; line-height: 45px">
+                Image Size:
+            </div>
+            <div class="col-xs-10">
+                <div class="form-group">
+                    <input type="number" required class="form-control" min="1" style="max-width: 75px; text-align: center" name="ImageWidth" id="ImageWidth" placeholder="Image Width" value="1920">
+                </div>
+                x
+                <div class="form-group">
+                    <input type="number" required class="form-control" min="1" style="max-width: 75px; text-align: center" name="ImageHeight" id="ImageHeight" placeholder="Image Height" value="1080">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row" style="margin-top: 13px">
+            <div class="col-xs-2 col-xs-offset-2">
+                <button type="submit" class="btn btn-primary ">Forecast</button>
+            </div>
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,119 @@
+﻿@using System.Collections
+@using PagedList
+@using PagedList.Mvc
+@model IPagedList<BasicForecaster.Models.Sales_History>
+@{
+    ViewBag.Title = "Sales History";
+}
+<h2 style="margin-top: 35px">@ViewBag.Title</h2>
+
+
+<div style="text-align: center; margin-bottom: 15px">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    
+    @Html.PagedListPager(Model, page => Url.Action("List", new { page, editable = ViewBag.IsEditable }))
+</div>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+    <tr>
+        <th scope="col">
+            Entry No.
+        </th>
+        <th scope="col">
+            Item No.
+        </th>
+        <th scope="col">
+            Description
+        </th>
+        <th scope="col">
+            Qty.
+        </th>
+        <th scope="col">
+            Price
+        </th>
+        <th scope="col">
+            Invoice Date
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr data-id="@item.Entry_No">
+            <th scope="row" data-field="Entry_No" contenteditable="@ViewBag.IsEditable.ToString()">@Html.DisplayFor(x => item.Entry_No)</th>
+            <td data-field="Item_No" contenteditable="@ViewBag.IsEditable.ToString()">@Html.DisplayFor(x => item.Item_No)</td>
+            <td data-field="Item_Description" contenteditable="@ViewBag.IsEditable.ToString()">@Html.DisplayFor(x => item.Item_Description)</td>
+            <td data-field="Sales_Quantity" contenteditable="@ViewBag.IsEditable.ToString()">@item.Sales_Quantity</td>
+            <td data-field="Sales_Price" contenteditable="@ViewBag.IsEditable.ToString()">@item.Sales_Price</td>
+            <td>
+                @Html.DisplayFor(x => item.Invoice_Date)
+            </td>
+        </tr>
+    }
+    </tbody>
+
+
+
+</table>
+<div style="text-align: center">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("List", new { page, editable = ViewBag.IsEditable}))  
+    <br />
+    @if (ViewBag.IsEditable)
+    {
+        ViewBag.ChangeStateText = "View mode";
+        ViewBag.ChangeStateClass = "btn-primary";
+    }
+    else
+    {
+        ViewBag.ChangeStateText = "Edit mode";
+        ViewBag.ChangeStateClass = "btn-danger";
+    }
+    <a href="@Url.Action("List", new { page = (Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber), editable = !ViewBag.IsEditable })" class="btn @ViewBag.ChangeStateClass">@ViewBag.ChangeStateText</a>
+</div>
+
+<script type="text/javascript">
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $("[contenteditable='True']").on('keyup keypress', function (e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        $("[contenteditable='True']").on('focus', function () {
+            before = $(this).html();
+        }).on('blur keyup paste', function () {
+            if (before != $(this).html()) {
+                $(this).trigger('change');
+                before = $(this).html();
+            }
+        });
+
+        $("[contenteditable='True']").on('change', function () {
+            var field = $(this).data('field');
+            var id = $(this).parent().data('id');
+            var data = JSON.stringify({
+                Id: id,
+                Field: field,
+                Value: $(this).text()
+            });
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Edit")",
+                data: data,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: onSuccess,
+                failure: function (AjaxResponse) {
+                    console.log(AjaxResponse);
+                }
+            });
+            function onSuccess(AjaxResponse) {
+                console.log(AjaxResponse);
+            }
+        });
+    });
+
+</script>

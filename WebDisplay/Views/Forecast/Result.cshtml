@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Result";
+}
+@model WebDisplay.Controllers.ForecastController.ForecastingResult
+
+<h3 style="margin-top: 35px; text-align: center">Result</h3>
+
+@if (Model.Error != "") {
+    <center><h3>@Model.Error</h3></center>
+} else
+{
+    var image = Url.Action("Image", new {id = Model.Image});
+
+    <a href="@image" target="_blank"><img src="@image" class="img-rounded" style="max-width: 100%" /></a>
+
+
+
+    if (Model.ForecastData != null) {
+         <table class="table table-striped table-bordered table-hover" style="margin-top: 20px">
+             <thead>
+             <tr>
+                 <th scope="col">
+                     Period Offset
+                 </th>
+                 <th scope="col">
+                     Forecasted Value
+                 </th>
+                 <th scope="col">
+                     Lo-Hi80 Range
+                 </th>
+                 <th scope="col">
+                     Lo-Hi95 Range
+                 </th>
+             </tr>
+             </thead>
+             <tbody>
+             @for(int i=0; i < Model.ForecastData.Length; i++)
+             {
+                 <tr>
+                     <th scope="row">@(i+1)</th>
+                     <th scope="row">@Model.ForecastData[i]</th>
+                     <th scope="row">@Model.Low80Data[i] - @Model.High80Data[i]</th>
+                     <th scope="row">@Model.Low95Data[i] - @Model.High95Data[i]</th>
+                 </tr>
+             }
+             </tbody>
+         </table>
+     }
+}
