@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BasicForecaster.ForecastMethods;
 using BasicForecaster.ForecastMethods.Method;
 using BasicForecaster.ForecastMethods.MethodInterface;
 using BasicForecaster.Models;
@@ -74,7 +75,12 @@ namespace BasicForecaster {
             List<double> items = null;
             using (var db = new dbContext())
             {
-                items = db.Sales_Histories.OrderByDescending(u => u.Entry_No).Take(days).OrderBy(u => u.Entry_No).Select(x => (double)x.Sales_Quantity).ToList();
+                items = db.Sales_Histories
+                    .OrderByDescending(u => u.Entry_No)
+                    .Take(days)
+                    .OrderBy(u => u.Entry_No)
+                    .Select(x => (double)x.Sales_Quantity)
+                    .ToList();
             }
             IBasicMethod method = availableMethods[comboBox1.SelectedIndex];
             //var data = new List<double>(new double[] { 200, 250, 300, 350, 140, 200, 555, 120 });

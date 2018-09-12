@@ -25,20 +25,18 @@ namespace BasicForecaster.ForecastMethods.MethodInterface {
                 suppressMessages(library(forecast))
                 data <- c({string.Join(",", data)})
             ";
-
-            var session = RHostSession.Create(Guid.NewGuid().ToString());
-            var sessionStartTask = session.StartHostAsync(new RHostSessionCallback());
-            await sessionStartTask;
-            await session.ExecuteAsync(template);
-            var result = await session.ExecuteAndOutputAsync(customTemplate);
+            RSession rInstance = RSession.GetInstance();
+            rInstance.StartHost();
+            await rInstance.Session.ExecuteAsync(template);
+            var result = await rInstance.Session.ExecuteAndOutputAsync(customTemplate);
             if (result.Errors != "") {
                 returnData.Error = result.Errors;
                 if(result.Errors.ToLower().IndexOf("warning") == -1)
                     return returnData;
             }
-            var resultDataFrame = await session.GetDataFrameAsync("print(forec)");
+            var resultDataFrame = await rInstance.Session.GetDataFrameAsync("print(forec)");
             if (resultDataFrame == null || resultDataFrame.Data == null || resultDataFrame.Data.Count != 5) {
-                session?.StopHostAsync();
+                rInstance.StopHost();
                 returnData.Error = "Unknown error detected!";
                 return returnData;
             }
@@ -49,14 +47,9 @@ namespace BasicForecaster.ForecastMethods.MethodInterface {
             returnData.High95 = resultDataFrame.Data[4].Select(x => (double)x).ToArray();
 
             if (plotName != "") {
-                var dataImg = await session.PlotAsync("forec", plotWidth, plotHeight, 72);
-                Bitmap bmp;
-                using (var ms = new MemoryStream(dataImg)) {
-                    bmp = new Bitmap(ms);
-                }
-                bmp.Save(plotName);
+                await RSession.SavePlotImage(rInstance.Session, plotName, plotWidth, plotHeight, 72);
             }
-            session?.StopHostAsync();
+            rInstance.StopHost();
             return returnData;
         }
     }
