@@ -25,7 +25,7 @@ namespace BasicForecaster.ForecastMethods.Method {
         public override async Task<FResult> Forecast(List<double> data, int lead, string savePlot, int frequency, int plotWidth, int plotHeight) {
             var returnData = new FResult();
             var template = $@"
-                data <- ts(data, frequency = {frequency})     
+                data <- ts(data, {(frequency > 0 ? $"frequency = {frequency}" : "")})     
                 fit <- auto.arima(data)
                 forec <- forecast(fit,h={lead})         
             ";

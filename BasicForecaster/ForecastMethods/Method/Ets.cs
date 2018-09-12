@@ -22,7 +22,7 @@ namespace BasicForecaster.ForecastMethods.Method {
             var returnData = new FResult();
 
             var template = $@"
-                data <- ts(data, frequency = {frequency})
+                data <- ts(data, {(frequency > 0 ? $"frequency = {frequency}" : "")})
                 fit <- ets(data)
                 forec <- forecast(fit,h={lead})
             ";
