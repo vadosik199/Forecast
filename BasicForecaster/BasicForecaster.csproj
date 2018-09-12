@@ -90,11 +90,9 @@
     </Reference>
     <Reference Include="Microsoft.R.Common.Core, Version=1.1.30719.1703, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.R.Host.Client.API.1.1.1\lib\net46\Microsoft.R.Common.Core.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.R.Host.Client.API, Version=1.1.30719.1703, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.R.Host.Client.API.1.1.1\lib\net46\Microsoft.R.Host.Client.API.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -224,7 +222,7 @@
   <Import Project="..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets" Condition="Exists('..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets'))" />
   </Target>
