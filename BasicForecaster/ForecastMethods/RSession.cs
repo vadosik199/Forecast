@@ -30,6 +30,7 @@ namespace BasicForecaster.ForecastMethods
             return instance;
         }
 
+
         /// <summary>
         /// Start R host process
         /// </summary>
