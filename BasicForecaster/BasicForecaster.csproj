@@ -176,6 +176,7 @@
     <Compile Include="SalesHistoryList.Designer.cs">
       <DependentUpon>SalesHistoryList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\ChartService.cs" />
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>

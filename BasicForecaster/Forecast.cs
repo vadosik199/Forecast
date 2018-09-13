@@ -19,6 +19,8 @@ using LiveCharts.WinForms;
 using Microsoft.R.Host.Client;
 using LiveCharts.Geared;
 using LiveCharts.Wpf.Charts.Base;
+using BasicForecaster.Services;
+using System.Windows.Media;
 
 namespace BasicForecaster {
     public partial class Forecast : Form
@@ -120,85 +122,7 @@ namespace BasicForecaster {
                 {
                     dataGridView1.Rows.Add(new object[] { item });
                 }
-                //MessageBox.Show("Ok");
-
-                /*Test chart*/
-                List<double> pointList = new List<double>();
-                List<double> bottomLine = Enumerable.Repeat(double.NaN, result.TimeSeriesPoints.Count).ToList();
-                List<double> topLine = Enumerable.Repeat(double.NaN, result.TimeSeriesPoints.Count).ToList();
-                List<double> bBottomLine = Enumerable.Repeat(double.NaN, result.TimeSeriesPoints.Count).ToList();
-                List<double> tTopLine = Enumerable.Repeat(double.NaN, result.TimeSeriesPoints.Count).ToList();
-                int k = 0;
-                for (int i = 0; i < result.ResultDataFrame.Data[0].Count; i++)
-                {
-                    for(int j = 0; j < result.ResultDataFrame.Data.Count; j++)
-                    {
-                        pointList.Add((double)result.ResultDataFrame.Data[j][i]);
-                        if (k == 1)
-                        {
-                            bottomLine.Add((double)result.ResultDataFrame.Data[j][i]);
-                        }
-                        else if (k == 2)
-                        {
-                            topLine.Add((double)result.ResultDataFrame.Data[j][i]);
-                        }
-                        else if (k == 3)
-                        {
-                            bBottomLine.Add((double)result.ResultDataFrame.Data[j][i]);
-                        }
-                        else if (k == 4)
-                        {
-                            tTopLine.Add((double)result.ResultDataFrame.Data[j][i]);
-                        }
-                        k++;
-                        if (k == 5)
-                            k = 0;
-                    }
-                }
-                testChart.Series = new SeriesCollection();
-                testChart.Series.Add(new LineSeries
-                {
-                    Title = "Forecast points",
-                    Values = new ChartValues<double>(Enumerable.Repeat(double.NaN, result.TimeSeriesPoints.Count).ToList().Concat(pointList.Where((x, i) => i % 5 == 0))),
-                    PointGeometry = DefaultGeometries.Diamond,
-                    Fill = System.Windows.Media.Brushes.Transparent,
-                    StrokeDashArray = new System.Windows.Media.DoubleCollection { 2 }
-                });
-                testChart.Series.Add(new LineSeries
-                {
-                    Title = "Lo 80",
-                    Values = new ChartValues<double>(bottomLine),
-                    Fill = System.Windows.Media.Brushes.Transparent,
-                    PointGeometry = null
-                });
-                testChart.Series.Add(new LineSeries
-                {
-                    Title = "Hi 80",
-                    Values = new ChartValues<double>(topLine),
-                    Fill = System.Windows.Media.Brushes.Transparent,
-                    PointGeometry = null
-                });
-                testChart.Series.Add(new LineSeries
-                {
-                    Title = "Lo 95",
-                    Values = new ChartValues<double>(bBottomLine),
-                    Fill = System.Windows.Media.Brushes.Transparent,
-                    PointGeometry = null
-                });
-                testChart.Series.Add(new LineSeries
-                {
-                    Title = "Hi 95",
-                    Values = new ChartValues<double>(tTopLine),
-                    Fill = System.Windows.Media.Brushes.Transparent,
-                    PointGeometry = null
-                });
-                testChart.Series.Add(new LineSeries
-                {
-                    Title = "Time Series",
-                    Values = new ChartValues<double>(result.TimeSeriesPoints),
-                    Fill = System.Windows.Media.Brushes.Transparent,
-                    PointGeometry = null
-                });
+                ChartService.RefreshForecastChart(testChart, result);
                 testChart.Zoom = ZoomingOptions.Xy;
                 testChart.LegendLocation = LegendLocation.Left;
             }

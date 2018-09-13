@@ -36,17 +36,23 @@ namespace BasicForecaster.ForecastMethods
         /// </summary>
         public void StartHost()
         {
-            Task sessionStartTask = Session.StartHostAsync(new RHostSessionCallback());
-            sessionStartTask.Wait();
+            if (!Session.IsHostRunning)
+            {
+                Task sessionStartTask = Session.StartHostAsync(new RHostSessionCallback());
+                sessionStartTask.Wait();
+            }
         }
-
+        
         /// <summary>
         /// Stop R host process
         /// </summary>
         public void StopHost()
         {
-            Task sessionStopTask = Session.StopHostAsync();
-            sessionStopTask.Wait();
+            if (Session.IsHostRunning)
+            {
+                Task sessionStopTask = Session.StopHostAsync();
+                sessionStopTask.Wait();
+            }
         }
 
         /// <summary>
