@@ -29,6 +29,7 @@ namespace BasicForecaster.ForecastMethods.MethodInterface {
             rInstance.StartHost();
             await rInstance.Session.ExecuteAsync(template);
             var result = await rInstance.Session.ExecuteAndOutputAsync(customTemplate);
+            var testResult = await rInstance.Session.ExecuteAndOutputAsync("print(fit)");
             if (result.Errors != "") {
                 returnData.Error = result.Errors;
                 if(result.Errors.ToLower().IndexOf("warning") == -1)

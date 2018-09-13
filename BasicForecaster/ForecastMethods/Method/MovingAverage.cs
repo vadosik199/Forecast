@@ -29,6 +29,7 @@ namespace BasicForecaster.ForecastMethods.Method {
             var template = $@"
                 data <- ts(data, frequency = {frequency})  
                 fit <- ma(data, order=2)
+                data <- fit[2:length(fit)-1]
                 forec <- forecast(fit,h={lead})          
             ";
 

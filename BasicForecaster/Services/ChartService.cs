@@ -11,6 +11,9 @@ using BasicForecaster.ForecastMethods.MethodInterface;
 
 namespace BasicForecaster.Services
 {
+    /// <summary>
+    /// Simplify work with LiveChart library and Forecasting methods
+    /// </summary>
     public static class ChartService
     {
         /// <summary>
@@ -66,6 +69,12 @@ namespace BasicForecaster.Services
                     line.IsDashed = true;
                     line.PointGeometry = DefaultGeometries.Diamond;
                 });
+            lineOptions.Where(line => line.Title.Equals("Time Series"))
+                .ToList()
+                .ForEach(line =>
+                {
+                    line.LineColor = Brushes.Black;
+                });
             chart.Series = CreateSeriesCollection(lineOptions);
         }
 
@@ -105,6 +114,10 @@ namespace BasicForecaster.Services
                 {
                     lineSeries.StrokeDashArray = new DoubleCollection { 2 };
                 }
+                if (lineOption.LineColor != null)
+                {
+                    lineSeries.Stroke = lineOption.LineColor;
+                }
                 series.Add(lineSeries);
             }
             return series;
@@ -121,5 +134,6 @@ namespace BasicForecaster.Services
         public Geometry PointGeometry { get; set; }
         public Brush PointFillColor { get; set; }
         public bool IsDashed { get; set; }
+        public Brush LineColor { get; set; }
     }
 }
