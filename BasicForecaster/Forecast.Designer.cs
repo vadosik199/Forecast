@@ -33,6 +33,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.testChart = new LiveCharts.WinForms.CartesianChart();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -129,11 +130,25 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // testChart
+            // 
+            this.testChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.testChart.BackColor = System.Drawing.Color.White;
+            this.testChart.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.testChart.Location = new System.Drawing.Point(13, 332);
+            this.testChart.Name = "testChart";
+            this.testChart.Size = new System.Drawing.Size(957, 314);
+            this.testChart.TabIndex = 13;
+            this.testChart.Text = "testChart";
+            // 
             // Forecast
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(980, 338);
+            this.ClientSize = new System.Drawing.Size(984, 658);
+            this.Controls.Add(this.testChart);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label3);
@@ -164,5 +179,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private LiveCharts.WinForms.CartesianChart testChart;
     }
 }
