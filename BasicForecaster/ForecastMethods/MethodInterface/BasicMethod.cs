@@ -29,11 +29,11 @@ namespace BasicForecaster.ForecastMethods.MethodInterface {
             rInstance.StartHost();
             await rInstance.Session.ExecuteAsync(template);
             var result = await rInstance.Session.ExecuteAndOutputAsync(customTemplate);
-            var testResult = await rInstance.Session.ExecuteAndOutputAsync("print(fit)");
             if (result.Errors != "") {
                 returnData.Error = result.Errors;
-                if(result.Errors.ToLower().IndexOf("warning") == -1)
-                    return returnData;
+                if (result.Errors.ToLower().IndexOf("warning") == -1)
+                    throw new Exception(returnData.Error);
+                        //return returnData;
             }
             var resultDataFrame = await rInstance.Session.GetDataFrameAsync("print(forec)");
             returnData.TimeSeriesPoints = await rInstance.Session.GetListAsync<double>("print(data[1:length(data)])");
@@ -42,11 +42,11 @@ namespace BasicForecaster.ForecastMethods.MethodInterface {
                 returnData.Error = "Unknown error detected!";
                 return returnData;
             }
-            returnData.Data = resultDataFrame.Data[0].Select(x => (double)x).ToArray();
-            returnData.Low80 = resultDataFrame.Data[1].Select(x => (double)x).ToArray();
-            returnData.High80 = resultDataFrame.Data[2].Select(x => (double)x).ToArray();
-            returnData.Low95 = resultDataFrame.Data[3].Select(x => (double)x).ToArray();
-            returnData.High95 = resultDataFrame.Data[4].Select(x => (double)x).ToArray();
+            returnData.Data = resultDataFrame.Data[0].Select(x => Convert.ToDouble(x)).ToArray();
+            returnData.Low80 = resultDataFrame.Data[1].Select(x => Convert.ToDouble(x)).ToArray();
+            returnData.High80 = resultDataFrame.Data[2].Select(x => Convert.ToDouble(x)).ToArray();
+            returnData.Low95 = resultDataFrame.Data[3].Select(x => Convert.ToDouble(x)).ToArray();
+            returnData.High95 = resultDataFrame.Data[4].Select(x => Convert.ToDouble(x)).ToArray();
             returnData.ResultDataFrame = resultDataFrame;
 
             if (plotName != "") {

@@ -39,23 +39,23 @@ namespace BasicForecaster.Services
                 {
                     if (count == 0)
                     {
-                        lines["Forecast points"].Add((double)data.ResultDataFrame.Data[j][i]);
+                        lines["Forecast points"].Add(Convert.ToDouble(data.ResultDataFrame.Data[j][i]));
                     }
                     else if (count == 1)
                     {
-                        lines["Lo 80"].Add((double)data.ResultDataFrame.Data[j][i]);
+                        lines["Lo 80"].Add(Convert.ToDouble(data.ResultDataFrame.Data[j][i]));
                     }
                     else if (count == 2)
                     {
-                        lines["Hi 80"].Add((double)data.ResultDataFrame.Data[j][i]);
+                        lines["Hi 80"].Add(Convert.ToDouble(data.ResultDataFrame.Data[j][i]));
                     }
                     else if (count == 3)
                     {
-                        lines["Lo 95"].Add((double)data.ResultDataFrame.Data[j][i]);
+                        lines["Lo 95"].Add(Convert.ToDouble(data.ResultDataFrame.Data[j][i]));
                     }
                     else if (count == 4)
                     {
-                        lines["Hi 95"].Add((double)data.ResultDataFrame.Data[j][i]);
+                        lines["Hi 95"].Add(Convert.ToDouble(data.ResultDataFrame.Data[j][i]));
                     }
                     count++;
                     if (count == 5)

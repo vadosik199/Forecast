@@ -83,11 +83,18 @@ namespace BasicForecaster {
             List<double> items = null;
             using (var db = new dbContext())
             {
-                items = db.Sales_Histories
+                /*items = db.Sales_Histories
                     .OrderByDescending(u => u.Entry_No)
                     .Take(days)
                     .OrderBy(u => u.Entry_No)
                     .Select(x => (double)x.Sales_Quantity)
+                    .ToList();*/
+                items = db.Sales_Histories
+                    .GroupBy(x => x.Invoice_Date)
+                    .OrderByDescending(x => x.Key)
+                    .Take(days)
+                    .OrderBy(x => x.Key)
+                    .Select(x => x.Select(o => (double)(o.Sales_Quantity)).ToList().Sum())
                     .ToList();
             }
             IBasicMethod method = availableMethods[comboBox1.SelectedIndex];
