@@ -11,6 +11,7 @@ namespace BasicForecaster.Models.Setup
     [Table("Unit of Measure")]
     public class UnitOfMeasure
     {
+        [Key]
         [Column("Unit of Measure")]
         [MaxLength(30)]
         public string UnitofMeasure { get; set; }

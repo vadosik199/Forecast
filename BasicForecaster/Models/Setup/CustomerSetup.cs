@@ -11,6 +11,7 @@ namespace BasicForecaster.Models.Setup
     [Table("Customer Setup")]
     public class CustomerSetup
     {
+        [Key]
         [Column("Customer No")]
         [MaxLength(30)]
         public string CustomerNo { get; set; }

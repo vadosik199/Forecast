@@ -11,6 +11,7 @@ namespace BasicForecaster.Models.Setup
     [Table("Sales Orders")]
     public class SalesOrders
     {
+        [Key]
         [Column("Sales Order No")]
         [MaxLength(30)]
         public string SalesOrderNo { get; set; }

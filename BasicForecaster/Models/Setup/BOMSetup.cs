@@ -11,6 +11,7 @@ namespace BasicForecaster.Models.Setup
     [Table("BOM Setup")]
     class BOMSetup
     {
+        [Key]
         [Column("BOM No")]
         [MaxLength(30)]
         public string BOMNo { get; set; }

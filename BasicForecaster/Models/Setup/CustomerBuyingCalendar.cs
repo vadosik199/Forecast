@@ -11,6 +11,7 @@ namespace BasicForecaster.Models.Setup
     [Table("Customer Buying Calendar")]
     public class CustomerBuyingCalendar
     {
+        [Key]
         [Column("Calendar Code")]
         [MaxLength(30)]
         public string CalendarCode { get; set; }

@@ -11,6 +11,7 @@ namespace BasicForecaster.Models.Setup
     [Table("Sales Price Change History")]
     public class SalesPriceChangeHistory
     {
+        [Key]
         [Column("Entry No.")]
         public string EntryNo { get; set; }
 

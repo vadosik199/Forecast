@@ -11,6 +11,7 @@ namespace BasicForecaster.Models.Setup
     [Table("Vendor Location")]
     public class VendorLocation
     {
+        [Key]
         [Column("Vendor Location Code")]
         [MaxLength(30)]
         public string VendorLocationCode { get; set; }

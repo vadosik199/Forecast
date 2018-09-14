@@ -11,6 +11,7 @@ namespace BasicForecaster.Models.Setup
     [Table("Item Setup")]
     public class ItemSetup
     {
+        [Key]
         [Column("Item No.")]
         [MaxLength(20)]
         public string ItemNo { get; set; }

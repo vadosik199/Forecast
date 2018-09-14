@@ -11,6 +11,7 @@ namespace BasicForecaster.Models.Setup
     [Table("Assembly Orders Production Orders")]
     public class AssemblyOrdersProductionOrders
     {
+        [Key]
         [Column("Production Order No")]
         [MaxLength(30)]
         public string ProductionOrderNo { get; set; }

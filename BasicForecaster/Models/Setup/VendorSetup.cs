@@ -11,6 +11,7 @@ namespace BasicForecaster.Models.Setup
     [Table("Vendor Setup")]
     public class VendorSetup
     {
+        [Key]
         [Column("Vendor No")]
         [MaxLength(30)]
         public string VendorNo { get; set; }

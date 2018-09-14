@@ -11,6 +11,7 @@ namespace BasicForecaster.Models.Setup
     [Table("POS History")]
     public class POSHistory
     {
+        [Key]
         [Column("Entry No")]
         public double EntryNo { get; set; }
 
