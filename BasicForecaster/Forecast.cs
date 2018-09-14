@@ -94,11 +94,10 @@ namespace BasicForecaster {
                     .OrderByDescending(x => x.Key)
                     .Take(days)
                     .OrderBy(x => x.Key)
-                    .Select(x => x.Select(o => (double)(o.Sales_Quantity)).ToList().Sum())
+                    .Select(x => x.Select(o => (double)o.Sales_Quantity).ToList().Sum())
                     .ToList();
             }
             IBasicMethod method = availableMethods[comboBox1.SelectedIndex];
-            //var data = new List<double>(new double[] { 200, 250, 300, 350, 140, 200, 555, 120 });
             if (!ok3)
                 period = 0;
             FResult result = null;
