@@ -13,6 +13,14 @@ using BasicForecaster.ForecastMethods;
 using BasicForecaster.ForecastMethods.Method;
 using BasicForecaster.ForecastMethods.MethodInterface;
 using BasicForecaster.Models;
+using LiveCharts;
+using LiveCharts.Wpf;
+using LiveCharts.WinForms;
+using Microsoft.R.Host.Client;
+using LiveCharts.Geared;
+using LiveCharts.Wpf.Charts.Base;
+using BasicForecaster.Services;
+using System.Windows.Media;
 
 namespace BasicForecaster {
     public partial class Forecast : Form
@@ -75,15 +83,21 @@ namespace BasicForecaster {
             List<double> items = null;
             using (var db = new dbContext())
             {
-                items = db.Sales_Histories
+                /*items = db.Sales_Histories
                     .OrderByDescending(u => u.Entry_No)
                     .Take(days)
                     .OrderBy(u => u.Entry_No)
                     .Select(x => (double)x.Sales_Quantity)
+                    .ToList();*/
+                items = db.Sales_Histories
+                    .GroupBy(x => x.Invoice_Date)
+                    .OrderByDescending(x => x.Key)
+                    .Take(days)
+                    .OrderBy(x => x.Key)
+                    .Select(x => x.Select(o => (double)o.Sales_Quantity).ToList().Sum())
                     .ToList();
             }
             IBasicMethod method = availableMethods[comboBox1.SelectedIndex];
-            //var data = new List<double>(new double[] { 200, 250, 300, 350, 140, 200, 555, 120 });
             if (!ok3)
                 period = 0;
             FResult result = null;
@@ -114,7 +128,9 @@ namespace BasicForecaster {
                 {
                     dataGridView1.Rows.Add(new object[] { item });
                 }
-                //MessageBox.Show("Ok");
+                ChartService.RefreshForecastChart(testChart, result);
+                testChart.Zoom = ZoomingOptions.Xy;
+                testChart.LegendLocation = LegendLocation.Left;
             }
         }
 

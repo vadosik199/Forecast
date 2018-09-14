@@ -310,3 +310,13 @@ M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\Microsoft.R.Host.
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.csprojAssemblyReference.cache
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.csproj.CoreCompileInputs.cache
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.csproj.CopyComplete
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.dll
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.WinForms.dll
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.Wpf.dll
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.pdb
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.xml
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.WinForms.pdb
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.WinForms.xml
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.Wpf.pdb
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.Wpf.xml
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.Geared.dll
