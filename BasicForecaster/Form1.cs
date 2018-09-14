@@ -19,21 +19,9 @@ namespace BasicForecaster {
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ForecastButton_Click(object sender, EventArgs e)
         {
-            var form = new SalesHistoryList();
-            form.Show();
-        }
-
-        private void button2_Click(object sender, EventArgs e) {
-
             var form = new Forecast();
-            form.Show();
-        }
-
-        private void button3_Click(object sender, EventArgs e) {
-
-            var form = new SettingsForm();
             form.Show();
         }
     }
