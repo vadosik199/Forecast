@@ -12,7 +12,7 @@ namespace BasicForecaster.Models.Setup
     public class CustomerItemPrice
     {
         [Key]
-        [Column("Item No")]
+        [Column(name: "Item No", Order = 1)]
         [MaxLength(30)]
         public string ItemNo { get; set; }
 
@@ -24,7 +24,7 @@ namespace BasicForecaster.Models.Setup
         public string CustomerDescription { get; set; }
 
         [Key]
-        [Column("Customer Code")]
+        [Column(name: "Customer Code", Order = 2)]
         [MaxLength(30)]
         public string CustomerCode { get; set; }
 
@@ -35,7 +35,7 @@ namespace BasicForecaster.Models.Setup
         public double? MinimumQty { get; set; }
 
         [Key]
-        [Column("Start Date")]
+        [Column(name: "Start Date", Order = 3)]
         public DateTime? StartDate { get; set; }
 
         [Column("End Date")]

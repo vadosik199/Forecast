@@ -136,6 +136,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBDataList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DBDataList.Designer.cs">
+      <DependentUpon>DBDataList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forecast.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +164,23 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="HistoryList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HistoryList.Designer.cs">
+      <DependentUpon>HistoryList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HistoryMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HistoryMenu.Designer.cs">
+      <DependentUpon>HistoryMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809141415433_SetupMigration.cs" />
+    <Compile Include="Migrations\201809141415433_SetupMigration.Designer.cs">
+      <DependentUpon>201809141415433_SetupMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\dbContext.cs" />
     <Compile Include="Models\Exclude_From_History.cs" />
     <Compile Include="Models\Forecast_datum.cs" />
@@ -185,13 +208,37 @@
     <Compile Include="Models\Setup\VariantSetup.cs" />
     <Compile Include="Models\Setup\VendorLocation.cs" />
     <Compile Include="Models\Setup\VendorSetup.cs" />
+    <Compile Include="POSHistoryCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POSHistoryCard.Designer.cs">
+      <DependentUpon>POSHistoryCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseOrdersCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PurchaseOrdersCard.Designer.cs">
+      <DependentUpon>PurchaseOrdersCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="SalesHistoryList.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SalesHistoryList.Designer.cs">
       <DependentUpon>SalesHistoryList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SalesOrdersCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SalesOrdersCard.Designer.cs">
+      <DependentUpon>SalesOrdersCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SalesPriceChangeHistoryCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SalesPriceChangeHistoryCard.Designer.cs">
+      <DependentUpon>SalesPriceChangeHistoryCard.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\ChartService.cs" />
     <Compile Include="SettingsForm.cs">
@@ -200,16 +247,61 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SetupMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupMenu.Designer.cs">
+      <DependentUpon>SetupMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UnitOfMeasureCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UnitOfMeasureCard.Designer.cs">
+      <DependentUpon>UnitOfMeasureCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VariantSetupCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VariantSetupCard.Designer.cs">
+      <DependentUpon>VariantSetupCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VendorLocationSetupCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VendorLocationSetupCard.Designer.cs">
+      <DependentUpon>VendorLocationSetupCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VendorSetupCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VendorSetupCard.Designer.cs">
+      <DependentUpon>VendorSetupCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Amit_R_devDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Amit_R_devDataSet.xsd</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DBDataList.resx">
+      <DependentUpon>DBDataList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forecast.resx">
       <DependentUpon>Forecast.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HistoryList.resx">
+      <DependentUpon>HistoryList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HistoryMenu.resx">
+      <DependentUpon>HistoryMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809141415433_SetupMigration.resx">
+      <DependentUpon>201809141415433_SetupMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POSHistoryCard.resx">
+      <DependentUpon>POSHistoryCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -221,13 +313,38 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="PurchaseOrdersCard.resx">
+      <DependentUpon>PurchaseOrdersCard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SalesHistoryList.resx">
       <DependentUpon>SalesHistoryList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SalesOrdersCard.resx">
+      <DependentUpon>SalesOrdersCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SalesPriceChangeHistoryCard.resx">
+      <DependentUpon>SalesPriceChangeHistoryCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SetupMenu.resx">
+      <DependentUpon>SetupMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UnitOfMeasureCard.resx">
+      <DependentUpon>UnitOfMeasureCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VariantSetupCard.resx">
+      <DependentUpon>VariantSetupCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VendorLocationSetupCard.resx">
+      <DependentUpon>VendorLocationSetupCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VendorSetupCard.resx">
+      <DependentUpon>VendorSetupCard.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\BasicForecaster.Models.dbContext.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

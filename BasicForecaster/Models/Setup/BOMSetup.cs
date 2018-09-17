@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace BasicForecaster.Models.Setup
 {
     [Table("BOM Setup")]
-    class BOMSetup
+    public class BOMSetup
     {
         [Key]
         [Column("BOM No")]

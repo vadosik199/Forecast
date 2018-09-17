@@ -3,6 +3,7 @@ namespace BasicForecaster.Models {
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using BasicForecaster.Models.Setup;
 
     public partial class dbContext : DbContext {
         public dbContext()
@@ -18,6 +19,23 @@ namespace BasicForecaster.Models {
         public virtual DbSet<Optimization_Level> Optimization_Levels { get; set; }
         public virtual DbSet<Sales_History> Sales_Histories { get; set; }
         public virtual DbSet<Sales_Price_Change> Sales_Price_changes { get; set; }
+        public virtual DbSet<AssemblyOrdersProductionOrders> AssemblyOrdersProductionOrders { get; set; }
+        public virtual DbSet<BOMSetup> BOMSetup { get; set; }
+        public virtual DbSet<CustomerBuyingCalendar> CustomerBuyingCalendar { get; set; }
+        public virtual DbSet<CustomerItemPrice> CustomerItemPrice { get; set; }
+        public virtual DbSet<CustomerLocation> CustomerLocation { get; set; }
+        public virtual DbSet<CustomerSetup> CustomerSetup { get; set; }
+        public virtual DbSet<ItemSetup> ItemSetup { get; set; }
+        public virtual DbSet<LocationSetup> LocationSetup { get; set; }
+        public virtual DbSet<PlanningSetup> PlanningSetup { get; set; }
+        public virtual DbSet<POSHistory> POSHistory { get; set; }
+        public virtual DbSet<PurchaseOrders> PurchaseOrders { get; set; }
+        public virtual DbSet<SalesOrders> SalesOrders { get; set; }
+        public virtual DbSet<SalesPriceChangeHistory> SalesPriceChangeHistory { get; set; }
+        public virtual DbSet<UnitOfMeasure> UnitOfMeasure { get; set; }
+        public virtual DbSet<VariantSetup> VariantSetup { get; set; }
+        public virtual DbSet<VendorLocation> VendorLocation { get; set; }
+        public virtual DbSet<VendorSetup> VendorSetup { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             modelBuilder.Entity<Exclude_From_History>()

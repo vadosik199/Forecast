@@ -320,3 +320,16 @@ M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.WinFor
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.Wpf.pdb
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.Wpf.xml
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.Geared.dll
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.SetupMenu.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.HistoryMenu.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.DBDataList.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.Migrations.SetupMigration.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.UnitOfMeasureCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.VendorLocationSetupCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.VendorSetupCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.VariantSetupCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.SalesPriceChangeHistoryCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.SalesOrdersCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.PurchaseOrdersCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.HistoryList.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.POSHistoryCard.resources

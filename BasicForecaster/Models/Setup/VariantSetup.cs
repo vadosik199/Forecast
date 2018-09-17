@@ -12,12 +12,12 @@ namespace BasicForecaster.Models.Setup
     public class VariantSetup
     {
         [Key]
-        [Column("Item Code")]
+        [Column(name: "Item Code", Order = 1)]
         [MaxLength(30)]
         public string ItemCode { get; set; }
 
         [Key]
-        [Column("Variant Code")]
+        [Column(name: "Variant Code", Order = 2)]
         [MaxLength(30)]
         public string VariantCode { get; set; }
 

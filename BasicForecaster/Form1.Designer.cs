@@ -45,6 +45,7 @@
             this.SetupButton.Text = "Setup";
             this.SetupButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.SetupButton.UseVisualStyleBackColor = false;
+            this.SetupButton.Click += new System.EventHandler(this.SetupButton_Click);
             // 
             // HistoryButton
             // 
@@ -60,6 +61,7 @@
             this.HistoryButton.Text = "History";
             this.HistoryButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.HistoryButton.UseVisualStyleBackColor = false;
+            this.HistoryButton.Click += new System.EventHandler(this.HistoryButton_Click);
             // 
             // ForecastButton
             // 
