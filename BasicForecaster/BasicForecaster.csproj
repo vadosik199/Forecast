@@ -136,6 +136,42 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyProductionOrdersCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssemblyProductionOrdersCard.Designer.cs">
+      <DependentUpon>AssemblyProductionOrdersCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BOMSetupCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BOMSetupCard.Designer.cs">
+      <DependentUpon>BOMSetupCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerBuyingCalendarCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomerBuyingCalendarCard.Designer.cs">
+      <DependentUpon>CustomerBuyingCalendarCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerItemPriceCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomerItemPriceCard.Designer.cs">
+      <DependentUpon>CustomerItemPriceCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerLocationCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomerLocationCard.Designer.cs">
+      <DependentUpon>CustomerLocationCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerSetupCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomerSetupCard.Designer.cs">
+      <DependentUpon>CustomerSetupCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="DBDataList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -175,6 +211,12 @@
     </Compile>
     <Compile Include="HistoryMenu.Designer.cs">
       <DependentUpon>HistoryMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LocationSetupCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LocationSetupCard.Designer.cs">
+      <DependentUpon>LocationSetupCard.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201809141415433_SetupMigration.cs" />
     <Compile Include="Migrations\201809141415433_SetupMigration.Designer.cs">
@@ -221,6 +263,12 @@
     </Compile>
     <Compile Include="PurchaseOrdersCard.Designer.cs">
       <DependentUpon>PurchaseOrdersCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SalesHistoryCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SalesHistoryCard.Designer.cs">
+      <DependentUpon>SalesHistoryCard.cs</DependentUpon>
     </Compile>
     <Compile Include="SalesHistoryList.cs">
       <SubType>Form</SubType>
@@ -282,6 +330,24 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_Amit_R_devDataSet.xsd</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AssemblyProductionOrdersCard.resx">
+      <DependentUpon>AssemblyProductionOrdersCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BOMSetupCard.resx">
+      <DependentUpon>BOMSetupCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomerBuyingCalendarCard.resx">
+      <DependentUpon>CustomerBuyingCalendarCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomerItemPriceCard.resx">
+      <DependentUpon>CustomerItemPriceCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomerLocationCard.resx">
+      <DependentUpon>CustomerLocationCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomerSetupCard.resx">
+      <DependentUpon>CustomerSetupCard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DBDataList.resx">
       <DependentUpon>DBDataList.cs</DependentUpon>
     </EmbeddedResource>
@@ -296,6 +362,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HistoryMenu.resx">
       <DependentUpon>HistoryMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LocationSetupCard.resx">
+      <DependentUpon>LocationSetupCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809141415433_SetupMigration.resx">
       <DependentUpon>201809141415433_SetupMigration.cs</DependentUpon>
@@ -315,6 +384,9 @@
     </Compile>
     <EmbeddedResource Include="PurchaseOrdersCard.resx">
       <DependentUpon>PurchaseOrdersCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SalesHistoryCard.resx">
+      <DependentUpon>SalesHistoryCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SalesHistoryList.resx">
       <DependentUpon>SalesHistoryList.cs</DependentUpon>

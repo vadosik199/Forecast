@@ -130,6 +130,26 @@ namespace BasicForecaster
                 POSHistoryCard card = new POSHistoryCard(double.Parse(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString()));
                 card.Show();
             }
+            else if (entityType == typeof(CustomerItemPrice))
+            {
+                CustomerItemPriceCard card = new CustomerItemPriceCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), historyDataGrid.Rows[e.RowIndex].Cells[3].Value.ToString(), DateTime.Parse(historyDataGrid.Rows[e.RowIndex].Cells[6].Value.ToString()));
+                card.Show();
+            }
+            else if (entityType == typeof(CustomerBuyingCalendar))
+            {
+                CustomerBuyingCalendarCard card = new CustomerBuyingCalendarCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                card.Show();
+            }
+            else if (entityType == typeof(AssemblyOrdersProductionOrders))
+            {
+                AssemblyProductionOrdersCard card = new AssemblyProductionOrdersCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                card.Show();
+            }
+            else if (entityType == typeof(Sales_History))
+            {
+                SalesHistoryCard card = new SalesHistoryCard(int.Parse(historyDataGrid.Rows[e.RowIndex].Cells[1].Value.ToString()));
+                card.Show();
+            }
         }
     }
 

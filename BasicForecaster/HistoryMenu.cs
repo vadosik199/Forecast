@@ -19,12 +19,16 @@ namespace BasicForecaster
 
         private void SalesHistoryButton_Click(object sender, EventArgs e)
         {
-
+            HistoryList historyList = new HistoryList(HistoryType.Sales);
+            historyList.Show();
+            Close();
         }
 
         private void CustomerItemPriceButton_Click(object sender, EventArgs e)
         {
-
+            HistoryList historyList = new HistoryList(HistoryType.CustomerItemPrice);
+            historyList.Show();
+            Close();
         }
 
         private void SalesPriceChangeHistoryButton_Click(object sender, EventArgs e)
@@ -57,12 +61,16 @@ namespace BasicForecaster
 
         private void AssemblyOrdersProductionOrdersButton_Click(object sender, EventArgs e)
         {
-
+            HistoryList historyList = new HistoryList(HistoryType.AssemblyProductionOrders);
+            historyList.Show();
+            Close();
         }
 
         private void CustomerBuyingCalendarButton_Click(object sender, EventArgs e)
         {
-
+            HistoryList historyList = new HistoryList(HistoryType.CustomerBuyingCalendar);
+            historyList.Show();
+            Close();
         }
     }
 }

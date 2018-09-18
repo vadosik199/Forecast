@@ -333,3 +333,11 @@ M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.S
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.PurchaseOrdersCard.resources
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.HistoryList.resources
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.POSHistoryCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.LocationSetupCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.CustomerItemPriceCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.CustomerLocationCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.CustomerSetupCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.CustomerBuyingCalendarCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.BOMSetupCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.AssemblyProductionOrdersCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.SalesHistoryCard.resources

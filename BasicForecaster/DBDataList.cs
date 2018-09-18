@@ -163,6 +163,26 @@ namespace BasicForecaster
                 VariantSetupCard card = new VariantSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), DBDataGrid.Rows[e.RowIndex].Cells[1].Value.ToString());
                 card.Show();
             }
+            else if (entityType == typeof(LocationSetup))
+            {
+                LocationSetupCard card = new LocationSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                card.Show();
+            }
+            else if (entityType == typeof(CustomerSetup))
+            {
+                CustomerSetupCard card = new CustomerSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                card.Show();
+            }
+            else if (entityType == typeof(CustomerLocation))
+            {
+                CustomerLocationCard card = new CustomerLocationCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                card.Show();
+            }
+            else if (entityType == typeof(BOMSetup))
+            {
+                BOMSetupCard card = new BOMSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                card.Show();
+            }
         }
     }
 
