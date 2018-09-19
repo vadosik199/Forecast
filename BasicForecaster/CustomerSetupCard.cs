@@ -1,4 +1,5 @@
-﻿using BasicForecaster.Models;
+﻿using BasicForecaster.Interfaces;
+using BasicForecaster.Models;
 using BasicForecaster.Models.Setup;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace BasicForecaster
     {
         private dbContext dataContext = null;
         private CustomerSetup dataCustomerSetup = null;
+        private IErrorHandler errorHandler;
 
         public CustomerSetupCard()
         {
             InitializeComponent();
             dataContext = new dbContext();
+            errorHandler = new WinFormErrorHandler();
         }
 
         public CustomerSetupCard(string customerNo)
@@ -55,92 +58,43 @@ namespace BasicForecaster
         private void customerNoField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerSetup.CustomerNo = customerNoField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void descriptionField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerSetup.Description = descriptionField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void blockedCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             dataCustomerSetup.Blocked = blockedCheckBox.Checked;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void posDataExistCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             dataCustomerSetup.POSDataExist = posDataExistCheckBox.Checked;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void customerLocationCodeField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerSetup.CustomerLocationCode = customerNoField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void customerBuyingCalendarField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerSetup.CustomerBuyingCalendar = customerBuyingCalendarField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void retailerCodeField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerSetup.RetailerCode = retailerCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
     }
 }

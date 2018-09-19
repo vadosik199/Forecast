@@ -1,4 +1,5 @@
-﻿using BasicForecaster.Models;
+﻿using BasicForecaster.Interfaces;
+using BasicForecaster.Models;
 using BasicForecaster.Models.Setup;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace BasicForecaster
     {
         private dbContext dataContext = null;
         private CustomerBuyingCalendar dataCustomerBuyingCalendar = null;
+        private IErrorHandler errorHandler;
 
         public CustomerBuyingCalendarCard()
         {
             InitializeComponent();
             dataContext = new dbContext();
+            errorHandler = new WinFormErrorHandler();
         }
 
         public CustomerBuyingCalendarCard(string calendarCode)
@@ -57,40 +60,19 @@ namespace BasicForecaster
         private void calendarCodeField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerBuyingCalendar.CalendarCode = calendarCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void itemCodeField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerBuyingCalendar.ItemCode = itemCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void itemDescriptionField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerBuyingCalendar.ItemDescription = itemCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void quantityToBuyField_TextChanged(object sender, EventArgs e)
@@ -100,40 +82,19 @@ namespace BasicForecaster
             {
                 dataCustomerBuyingCalendar.QuantityToBuy = qtyToBuy;
             }
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void unitOfMeasureField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerBuyingCalendar.UnitOfMeasure = unitOfMeasureField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void customerLocationCodeField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerBuyingCalendar.CustomerLocationCode = customerLocationCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -143,40 +104,19 @@ namespace BasicForecaster
         private void variantCodeField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerBuyingCalendar.VariantCode = variantCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void locationCodeField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerBuyingCalendar.LocationCode = locationCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void orderDatePicker_ValueChanged(object sender, EventArgs e)
         {
             dataCustomerBuyingCalendar.OrderDate = orderDatePicker.Value;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BasicForecaster.Models;
+﻿using BasicForecaster.Interfaces;
+using BasicForecaster.Models;
 using BasicForecaster.Models.Setup;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace BasicForecaster
     {
         private dbContext dataContext = null;
         private PurchaseOrders dataPurchaseOrders = null;
+        private IErrorHandler errorHandler;
 
         public PurchaseOrdersCard()
         {
             InitializeComponent();
             dataContext = new dbContext();
+            errorHandler = new WinFormErrorHandler();
         }
 
         public PurchaseOrdersCard(string purchaseOrderNo)
@@ -61,66 +64,31 @@ namespace BasicForecaster
         private void purchaseOrderNoField_TextChanged(object sender, EventArgs e)
         {
             dataPurchaseOrders.PurchaseOrderNo = purchaseOrderNoField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void vendorNoField_TextChanged(object sender, EventArgs e)
         {
             dataPurchaseOrders.VendorNo = vendorNoField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void descriptionField_TextChanged(object sender, EventArgs e)
         {
             dataPurchaseOrders.Description = descriptionField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void itemCodeField_TextChanged(object sender, EventArgs e)
         {
             dataPurchaseOrders.ItemCode = itemCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void itemDescriptionField_TextChanged(object sender, EventArgs e)
         {
             dataPurchaseOrders.ItemDescription = itemDescriptionField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void purchasePriceField_TextChanged(object sender, EventArgs e)
@@ -130,14 +98,7 @@ namespace BasicForecaster
             {
                 dataPurchaseOrders.PurchasePrice = purchasePrice;
             }
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void quantityField_TextChanged(object sender, EventArgs e)
@@ -147,92 +108,43 @@ namespace BasicForecaster
             {
                 dataPurchaseOrders.Quantity = quantity;
             }
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void unitOfMeasureField_TextChanged(object sender, EventArgs e)
         {
             dataPurchaseOrders.UnitOfMeasure = unitOfMeasureField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void variantCodeField_TextChanged(object sender, EventArgs e)
         {
             dataPurchaseOrders.VariantCode = variantCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void locationCodeField_TextChanged(object sender, EventArgs e)
         {
             dataPurchaseOrders.LocationCode = locationCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void vendorLocationCodeField_TextChanged(object sender, EventArgs e)
         {
             dataPurchaseOrders.VendorLocationCode = vendorLocationCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void expectedReceiptDatePicker_ValueChanged(object sender, EventArgs e)
         {
             dataPurchaseOrders.ExpectedReceiptDate = expectedReceiptDatePicker.Value;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void orderDatePicker_ValueChanged(object sender, EventArgs e)
         {
             dataPurchaseOrders.OrderDate = orderDatePicker.Value;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
     }
 }

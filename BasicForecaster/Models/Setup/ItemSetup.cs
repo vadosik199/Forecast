@@ -107,7 +107,7 @@ namespace BasicForecaster.Models.Setup
         public double? NoOfPeriodToForecast { get; set; }
 
         [Column("Forecast Period Aggregation Preference")]
-        public DateOption ForecastPeriodAggregationPreference { get; set; }
+        public DateOption? ForecastPeriodAggregationPreference { get; set; }
 
         [Column("MAD Tolerance")]
         public double? MADTolerance { get; set; }

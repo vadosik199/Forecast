@@ -341,3 +341,5 @@ M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.C
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.BOMSetupCard.resources
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.AssemblyProductionOrdersCard.resources
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.SalesHistoryCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.ItemSetupCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.Migrations.ItemSetupModelMigration.resources

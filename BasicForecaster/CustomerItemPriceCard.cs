@@ -1,4 +1,5 @@
-﻿using BasicForecaster.Models;
+﻿using BasicForecaster.Interfaces;
+using BasicForecaster.Models;
 using BasicForecaster.Models.Setup;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace BasicForecaster
     {
         private dbContext dataContext = null;
         private CustomerItemPrice dataCustomerItemPrice = null;
+        private IErrorHandler errorHandler;
 
         public CustomerItemPriceCard()
         {
             InitializeComponent();
             dataContext = new dbContext();
+            errorHandler = new WinFormErrorHandler();
         }
 
         public CustomerItemPriceCard(string itemNo, string customerCode, DateTime startDate)
@@ -58,53 +61,25 @@ namespace BasicForecaster
         private void itemNoField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerItemPrice.ItemNo = itemNoField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void descriptionField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerItemPrice.Description = descriptionField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void customerCodeField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerItemPrice.CustomerCode = customerCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void customerDescriptionField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerItemPrice.CustomerDescription = customerDescriptionField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void unitPriceField_TextChanged(object sender, EventArgs e)
@@ -114,14 +89,7 @@ namespace BasicForecaster
             {
                 dataCustomerItemPrice.UnitPrice = unitPrice;
             }
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void minimumQtyField_TextChanged(object sender, EventArgs e)
@@ -131,66 +99,31 @@ namespace BasicForecaster
             {
                 dataCustomerItemPrice.MinimumQty = minQty;
             }
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void unitOfMeasureField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerItemPrice.UnitOfMeasure = unitOfMeasureField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void variantCodeField_TextChanged(object sender, EventArgs e)
         {
             dataCustomerItemPrice.VariantCode = variantCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void startDatePicker_ValueChanged(object sender, EventArgs e)
         {
             dataCustomerItemPrice.StartDate = startDatePicker.Value;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void endDatePicker_ValueChanged(object sender, EventArgs e)
         {
             dataCustomerItemPrice.EndDate = endDatePicker.Value;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
     }
 }

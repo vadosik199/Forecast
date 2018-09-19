@@ -1,4 +1,5 @@
-﻿using BasicForecaster.Models;
+﻿using BasicForecaster.Interfaces;
+using BasicForecaster.Models;
 using BasicForecaster.Models.Setup;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace BasicForecaster
     {
         private dbContext dataContext = null;
         private VendorLocation dataVendorLocation = null;
+        private IErrorHandler errorHandler;
 
         public VendorLocationSetupCard()
         {
             InitializeComponent();
             dataContext = new dbContext();
+            errorHandler = new WinFormErrorHandler();
         }
 
         public VendorLocationSetupCard(string locationCode)
@@ -51,40 +54,19 @@ namespace BasicForecaster
         private void locationCodeField_TextChanged(object sender, EventArgs e)
         {
             dataVendorLocation.VendorLocationCode = locationCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void descriptionField_TextChanged(object sender, EventArgs e)
         {
             dataVendorLocation.Description = descriptionField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void blockedCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             dataVendorLocation.Blocked = blockedCheckBox.Checked;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void VendorLocationSetupCard_FormClosed(object sender, FormClosedEventArgs e)

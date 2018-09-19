@@ -61,6 +61,7 @@
             this.unitOfMeasureField.Size = new System.Drawing.Size(257, 20);
             this.unitOfMeasureField.TabIndex = 1;
             this.unitOfMeasureField.TextChanged += new System.EventHandler(this.unitOfMeasureField_TextChanged);
+            this.unitOfMeasureField.Leave += new System.EventHandler(this.unitOfMeasureField_Leave);
             // 
             // descriptionField
             // 
@@ -133,6 +134,7 @@
             this.Controls.Add(this.label1);
             this.Name = "UnitOfMeasureCard";
             this.Text = "UnitOfMeasureCard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UnitOfMeasureCard_FormClosing);
             this.Load += new System.EventHandler(this.UnitOfMeasureCard_Load);
             ((System.ComponentModel.ISupportInitialize)(this._Amit_R_devDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.unitOfMeasureBindingSource)).EndInit();

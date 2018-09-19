@@ -1,4 +1,5 @@
-﻿using BasicForecaster.Models;
+﻿using BasicForecaster.Interfaces;
+using BasicForecaster.Models;
 using BasicForecaster.Models.Setup;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace BasicForecaster
     {
         private dbContext dataContext = null;
         private AssemblyOrdersProductionOrders dataAssemblyProductionPrders = null;
+        private IErrorHandler errorHandler;
 
         public AssemblyProductionOrdersCard()
         {
             InitializeComponent();
             dataContext = new dbContext();
+            errorHandler = new WinFormErrorHandler();
         }
 
         public AssemblyProductionOrdersCard(string productionOrderNo)
@@ -57,40 +60,19 @@ namespace BasicForecaster
         private void productionOrderNoField_TextChanged(object sender, EventArgs e)
         {
             dataAssemblyProductionPrders.ProductionOrderNo = productionOrderNoField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void itemCodeField_TextChanged(object sender, EventArgs e)
         {
             dataAssemblyProductionPrders.ItemCode = itemCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void itemDescriptionField_TextChanged(object sender, EventArgs e)
         {
             dataAssemblyProductionPrders.ItemDescription = itemDescriptionField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void quantityToMakeField_TextChanged(object sender, EventArgs e)
@@ -100,79 +82,37 @@ namespace BasicForecaster
             {
                 dataAssemblyProductionPrders.QuantityToMake = qty;
             }
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void unitOfMeasureField_TextChanged(object sender, EventArgs e)
         {
             dataAssemblyProductionPrders.UnitOfMeasure = unitOfMeasureField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void expectedCompletionDatePicker_ValueChanged(object sender, EventArgs e)
         {
             dataAssemblyProductionPrders.ExpectedCompletionDate = expectedCompletionDatePicker.Value;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void variantCodeField_TextChanged(object sender, EventArgs e)
         {
             dataAssemblyProductionPrders.VariantCode = variantCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void locationCodeField_TextChanged(object sender, EventArgs e)
         {
             dataAssemblyProductionPrders.LocationCode = locationCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void orderDatePicker_ValueChanged(object sender, EventArgs e)
         {
             dataAssemblyProductionPrders.OrderDate = orderDatePicker.Value;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
     }
 }

@@ -106,7 +106,6 @@ namespace BasicForecaster
         {
             try
             {
-                DBDataGrid.EndEdit();
                 dataContext.SaveChanges();
             }
             catch (Exception ex)
@@ -181,6 +180,11 @@ namespace BasicForecaster
             else if (entityType == typeof(BOMSetup))
             {
                 BOMSetupCard card = new BOMSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                card.Show();
+            }
+            else if (entityType == typeof(ItemSetup))
+            {
+                ItemSetupCard card = new ItemSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
                 card.Show();
             }
         }

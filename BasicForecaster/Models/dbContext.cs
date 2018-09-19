@@ -4,6 +4,8 @@ namespace BasicForecaster.Models {
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using BasicForecaster.Models.Setup;
+    using System.Windows;
+    using BasicForecaster.Interfaces;
 
     public partial class dbContext : DbContext {
         public dbContext()
@@ -36,6 +38,18 @@ namespace BasicForecaster.Models {
         public virtual DbSet<VariantSetup> VariantSetup { get; set; }
         public virtual DbSet<VendorLocation> VendorLocation { get; set; }
         public virtual DbSet<VendorSetup> VendorSetup { get; set; }
+
+        public void SaveData(IErrorHandler handler)
+        {
+            try
+            {
+                SaveChanges();
+            }
+            catch (Exception e)
+            {
+                handler.Handle(e);
+            }
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             modelBuilder.Entity<Exclude_From_History>()

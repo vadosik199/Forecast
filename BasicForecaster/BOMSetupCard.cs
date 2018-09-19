@@ -1,4 +1,5 @@
-﻿using BasicForecaster.Models;
+﻿using BasicForecaster.Interfaces;
+using BasicForecaster.Models;
 using BasicForecaster.Models.Setup;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace BasicForecaster
     {
         private dbContext dataContext = null;
         private BOMSetup dataBOMSetup = null;
+        private IErrorHandler errorHandler;
 
         public BOMSetupCard()
         {
             InitializeComponent();
             dataContext = new dbContext();
+            errorHandler = new WinFormErrorHandler();
         }
 
         public BOMSetupCard(string bomNo)
@@ -59,14 +62,7 @@ namespace BasicForecaster
         private void bomNoField_TextChanged(object sender, EventArgs e)
         {
             dataBOMSetup.BOMNo = bomNoField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void lineNoField_TextChanged(object sender, EventArgs e)
@@ -76,66 +72,31 @@ namespace BasicForecaster
             {
                 dataBOMSetup.LineNo = lineNo;
             }
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void bomItemNoField_TextChanged(object sender, EventArgs e)
         {
             dataBOMSetup.BOMItemNo = bomItemNoField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void bomVariantCodeField_TextChanged(object sender, EventArgs e)
         {
             dataBOMSetup.BOMVariantCode = bomVariantCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void descriptionField_TextChanged(object sender, EventArgs e)
         {
             dataBOMSetup.Description = descriptionField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void bomUnitOfMeasureCodeField_TextChanged(object sender, EventArgs e)
         {
             dataBOMSetup.BOMUnitOfMeasureCode = bomUnitOfMeasureCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void bomQuantityField_TextChanged(object sender, EventArgs e)
@@ -145,40 +106,19 @@ namespace BasicForecaster
             {
                 dataBOMSetup.BOMQuantity = bomQty;
             }
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void compItemNoField_TextChanged(object sender, EventArgs e)
         {
             dataBOMSetup.CompItemNo = compItemNoField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void compVariantCodeField_TextChanged(object sender, EventArgs e)
         {
             dataBOMSetup.CompVariantCode = compVariantCodeField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void quantityPerField_TextChanged(object sender, EventArgs e)
@@ -188,14 +128,7 @@ namespace BasicForecaster
             {
                 dataBOMSetup.QuantityPer = bomQty;
             }
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void quantityPerBaseField_TextChanged(object sender, EventArgs e)
@@ -205,14 +138,7 @@ namespace BasicForecaster
             {
                 dataBOMSetup.QuantityPerBase = bomQty;
             }
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
     }
 }

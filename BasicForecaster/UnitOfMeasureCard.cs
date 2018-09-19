@@ -1,4 +1,5 @@
-﻿using BasicForecaster.Models;
+﻿using BasicForecaster.Interfaces;
+using BasicForecaster.Models;
 using BasicForecaster.Models.Setup;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace BasicForecaster
     {
         private dbContext dataContext = null;
         private UnitOfMeasure dataUnitOfMeasure = null;
+        private IErrorHandler errorHandler;
         private bool isNew;
         public UnitOfMeasureCard(bool isNew = true)
         {
@@ -26,10 +28,15 @@ namespace BasicForecaster
             if (isNew)
             {
                 New.Visible = false;
+                Delete.Visible = false;
+                unitOfMeasureField.Focus();
+                dataUnitOfMeasure = new UnitOfMeasure();
+                dataContext.UnitOfMeasure.Load();
             }
+            errorHandler = new WinFormErrorHandler();
         }
 
-        public UnitOfMeasureCard(string entityId, bool isNew = true)
+        public UnitOfMeasureCard(string entityId, bool isNew = false)
             : this(isNew)
         {
             dataContext.UnitOfMeasure.Load();
@@ -70,26 +77,37 @@ namespace BasicForecaster
         private void unitOfMeasureField_TextChanged(object sender, EventArgs e)
         {
             dataUnitOfMeasure.UnitofMeasure = unitOfMeasureField.Text;
-            try
-            {
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataContext.SaveData(errorHandler);
         }
 
         private void descriptionField_TextChanged(object sender, EventArgs e)
         {
             dataUnitOfMeasure.Description = descriptionField.Text;
-            try
+            dataContext.SaveData(errorHandler);
+        }
+
+        private void unitOfMeasureField_Leave(object sender, EventArgs e)
+        {
+            if (isNew && dataContext.UnitOfMeasure.Where(u => u.UnitofMeasure.Equals(dataUnitOfMeasure.UnitofMeasure)).Count() == 0)
             {
-                dataContext.SaveChanges();
+                if (!string.IsNullOrEmpty(unitOfMeasureField.Text))
+                {
+                    dataUnitOfMeasure.UnitofMeasure = unitOfMeasureField.Text;
+                    dataContext.UnitOfMeasure.Add(dataUnitOfMeasure);
+                }
+                else
+                {
+                    MessageBox.Show("Value shoul be entered!");
+                    unitOfMeasureField.Focus();
+                }
             }
-            catch (Exception ex)
+        }
+
+        private void UnitOfMeasureCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (isNew && dataContext.UnitOfMeasure.Where(u => u.UnitofMeasure.Equals(dataUnitOfMeasure.UnitofMeasure)).Count() > 0)
             {
-                MessageBox.Show(ex.Message);
+                dataContext.SaveData(errorHandler);
             }
         }
     }
