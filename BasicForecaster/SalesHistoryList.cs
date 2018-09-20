@@ -23,7 +23,7 @@ namespace BasicForecaster {
         private void SalesHistoryList_Load(object sender, EventArgs e) {
             // TODO: This line of code loads data into the '_Amit_R_devDataSet1.Sales_History' table. You can move, or remove it, as needed.
             //this.sales_HistoryTableAdapter.Fill(this._Amit_R_devDataSet1.Sales_History);
-            db = new dbContext();
+            db = dbContext.GetInstance();
             db.Sales_Histories.Load();
             dataGridView1.DataSource = db.Sales_Histories.Local.ToBindingList();
             MessageBox.Show(": " + db.Sales_Histories.Local.Count);

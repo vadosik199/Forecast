@@ -22,7 +22,7 @@ namespace BasicForecaster
         public DBDataList()
         {
             InitializeComponent();
-            dataContext = new dbContext();
+            dataContext = dbContext.GetInstance();
         }
 
         public DBDataList(SetupType setupType)
@@ -97,6 +97,11 @@ namespace BasicForecaster
                     dataContext.PlanningSetup.Load();
                     entityType = typeof(PlanningSetup);
                     DBDataGrid.DataSource = dataContext.PlanningSetup.Local.ToBindingList();
+                    break;
+                case SetupType.Forecast:
+                    dataContext.ForecastSetup.Load();
+                    entityType = typeof(ForecastSetup);
+                    DBDataGrid.DataSource = dataContext.ForecastSetup.Local.ToBindingList();
                     break;
             }
         }
@@ -218,12 +223,17 @@ namespace BasicForecaster
                 SalesOrdersCard card = new SalesOrdersCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
+            else if (entityType == typeof(ForecastSetup))
+            {
+                ForecastSetupCard card = new ForecastSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
+                card.Show();
+            }
         }
 
         public override void Refresh()
         {
             base.Refresh();
-            dataContext = new dbContext();
+            //dataContext = new dbContext();
             if (entityType == typeof(UnitOfMeasure))
             {
                 dataContext.UnitOfMeasure.Load();
@@ -284,6 +294,11 @@ namespace BasicForecaster
                 dataContext.PlanningSetup.Load();
                 DBDataGrid.DataSource = dataContext.PlanningSetup.Local.ToBindingList();
             }
+            else if (entityType == typeof(ForecastSetup))
+            {
+                dataContext.ForecastSetup.Load();
+                DBDataGrid.DataSource = dataContext.ForecastSetup.Local.ToBindingList();
+            }
         }
     }
 
@@ -302,6 +317,7 @@ namespace BasicForecaster
         UnitOfMeasure,
         Sales,
         Integration,
-        Planning
+        Planning,
+        Forecast
     }
 }

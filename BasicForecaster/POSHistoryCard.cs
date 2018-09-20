@@ -24,7 +24,7 @@ namespace BasicForecaster
         public POSHistoryCard()
         {
             InitializeComponent();
-            dataContext = new dbContext();
+            dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
         }
 

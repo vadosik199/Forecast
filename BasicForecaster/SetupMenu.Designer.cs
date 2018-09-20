@@ -42,6 +42,7 @@
             this.SalesSetupButton = new System.Windows.Forms.Button();
             this.IntegrationSetupButton = new System.Windows.Forms.Button();
             this.PlanningSetupButton = new System.Windows.Forms.Button();
+            this.ForecastSetupButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // UserSetupButton
@@ -239,12 +240,27 @@
             this.PlanningSetupButton.UseVisualStyleBackColor = false;
             this.PlanningSetupButton.Click += new System.EventHandler(this.PlanningSetupButton_Click);
             // 
+            // ForecastSetupButton
+            // 
+            this.ForecastSetupButton.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ForecastSetupButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ForecastSetupButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ForecastSetupButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.ForecastSetupButton.Location = new System.Drawing.Point(12, 488);
+            this.ForecastSetupButton.Name = "ForecastSetupButton";
+            this.ForecastSetupButton.Size = new System.Drawing.Size(289, 28);
+            this.ForecastSetupButton.TabIndex = 14;
+            this.ForecastSetupButton.Text = "Forecast Setup";
+            this.ForecastSetupButton.UseVisualStyleBackColor = false;
+            this.ForecastSetupButton.Click += new System.EventHandler(this.ForecastSetupButton_Click);
+            // 
             // SetupMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(313, 498);
+            this.ClientSize = new System.Drawing.Size(313, 527);
+            this.Controls.Add(this.ForecastSetupButton);
             this.Controls.Add(this.PlanningSetupButton);
             this.Controls.Add(this.IntegrationSetupButton);
             this.Controls.Add(this.SalesSetupButton);
@@ -281,5 +297,6 @@
         private System.Windows.Forms.Button SalesSetupButton;
         private System.Windows.Forms.Button IntegrationSetupButton;
         private System.Windows.Forms.Button PlanningSetupButton;
+        private System.Windows.Forms.Button ForecastSetupButton;
     }
 }

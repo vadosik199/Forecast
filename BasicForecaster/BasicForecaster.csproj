@@ -194,6 +194,12 @@
     <Compile Include="ForecastMethods\MethodInterface\BasicMethod.cs" />
     <Compile Include="ForecastMethods\Method\Settings.cs" />
     <Compile Include="ForecastMethods\RSession.cs" />
+    <Compile Include="ForecastSetupCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ForecastSetupCard.Designer.cs">
+      <DependentUpon>ForecastSetupCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -243,6 +249,10 @@
     <Compile Include="Migrations\201809191311360_GeneralUserSetupMigration.Designer.cs">
       <DependentUpon>201809191311360_GeneralUserSetupMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809201023051_ForecastMigration.cs" />
+    <Compile Include="Migrations\201809201023051_ForecastMigration.Designer.cs">
+      <DependentUpon>201809201023051_ForecastMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\dbContext.cs" />
     <Compile Include="Models\Exclude_From_History.cs" />
@@ -260,6 +270,7 @@
     <Compile Include="Models\Setup\CustomerItemPrice.cs" />
     <Compile Include="Models\Setup\CustomerLocation.cs" />
     <Compile Include="Models\Setup\CustomerSetup.cs" />
+    <Compile Include="Models\Setup\ForecastSetup.cs" />
     <Compile Include="Models\Setup\GeneralSetup.cs" />
     <Compile Include="Models\Setup\ItemSetup.cs" />
     <Compile Include="Models\Setup\LocationSetup.cs" />
@@ -390,6 +401,9 @@
     <EmbeddedResource Include="Forecast.resx">
       <DependentUpon>Forecast.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ForecastSetupCard.resx">
+      <DependentUpon>ForecastSetupCard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -416,6 +430,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809191311360_GeneralUserSetupMigration.resx">
       <DependentUpon>201809191311360_GeneralUserSetupMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809201023051_ForecastMigration.resx">
+      <DependentUpon>201809201023051_ForecastMigration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PlanningSetupCard.resx">
       <DependentUpon>PlanningSetupCard.cs</DependentUpon>

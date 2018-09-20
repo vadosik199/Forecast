@@ -25,7 +25,7 @@ namespace BasicForecaster
         public UnitOfMeasureCard(bool isNew = true)
         {
             InitializeComponent();
-            dataContext = new dbContext();
+            dataContext = dbContext.GetInstance();
             this.isNew = isNew;
             if (isNew)
             {

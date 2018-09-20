@@ -24,7 +24,7 @@ namespace BasicForecaster
         public LocationSetupCard()
         {
             InitializeComponent();
-            dataContext = new dbContext();
+            dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
         }
 

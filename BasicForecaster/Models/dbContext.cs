@@ -10,7 +10,7 @@ namespace BasicForecaster.Models {
     public partial class dbContext : DbContext {
         private static dbContext instance;
 
-        private dbContext()
+        public dbContext()
             : base("name=dbContext") {
         }
 
@@ -51,6 +51,7 @@ namespace BasicForecaster.Models {
         public virtual DbSet<VendorSetup> VendorSetup { get; set; }
         public virtual DbSet<UserSetup> UserSetup { get; set; }
         public virtual DbSet<GeneralSetup> GeneralSetup { get; set; }
+        public virtual DbSet<ForecastSetup> ForecastSetup { get; set; }
 
         public void SaveData(IErrorHandler handler)
         {

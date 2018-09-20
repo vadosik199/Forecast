@@ -347,3 +347,5 @@ M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.M
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.UserSetupCard.resources
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.GeneralSetupCard.resources
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.PlanningSetupCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.ForecastSetupCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.Migrations.ForecastMigration.resources

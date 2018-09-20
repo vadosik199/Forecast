@@ -104,5 +104,12 @@ namespace BasicForecaster
             dBDataList.Show();
             Close();
         }
+
+        private void ForecastSetupButton_Click(object sender, EventArgs e)
+        {
+            DBDataList dBDataList = new DBDataList(SetupType.Forecast);
+            dBDataList.Show();
+            Close();
+        }
     }
 }

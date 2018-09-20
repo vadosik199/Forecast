@@ -24,7 +24,7 @@ namespace BasicForecaster
         public CustomerBuyingCalendarCard()
         {
             InitializeComponent();
-            dataContext = new dbContext();
+            dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
         }
 

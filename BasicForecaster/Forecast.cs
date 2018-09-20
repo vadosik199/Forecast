@@ -81,7 +81,7 @@ namespace BasicForecaster {
                 return;
             }
             List<double> items = null;
-            using (var db = new dbContext())
+            using (var db = dbContext.GetInstance())
             {
                 /*items = db.Sales_Histories
                     .OrderByDescending(u => u.Entry_No)

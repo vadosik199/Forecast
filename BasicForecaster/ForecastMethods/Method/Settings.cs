@@ -10,13 +10,13 @@ namespace BasicForecaster.ForecastMethods.Method {
     public class Settings {
 
         static Forecast_Setup GetForecastSetup() {
-            using (var db = new dbContext())
+            using (var db = dbContext.GetInstance())
             {
                 return db.Forecast_Setups.First();
             }
         }
         static Forecast_Method GetForecastMethodSetup(IBasicMethod method) {
-            using (var db = new dbContext())
+            using (var db = dbContext.GetInstance())
             {
                 var setup = db.Forecast_Methods.First(x => x.Code == method.GetMethodName());
                 if (setup == null)
