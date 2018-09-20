@@ -270,6 +270,7 @@
             this.Controls.Add(this.label1);
             this.Name = "CustomerItemPriceCard";
             this.Text = "CustomerItemPriceCard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CustomerItemPriceCard_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

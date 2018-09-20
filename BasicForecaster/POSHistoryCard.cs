@@ -19,6 +19,7 @@ namespace BasicForecaster
         private dbContext dataContext = null;
         private POSHistory dataPOSHistory = null;
         private IErrorHandler errorHandler;
+        private Form parentForm;
 
         public POSHistoryCard()
         {
@@ -27,9 +28,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public POSHistoryCard(double entryNo)
+        public POSHistoryCard(double entryNo, Form parentForm)
             :this()
         {
+            this.parentForm = parentForm;
             dataContext.POSHistory.Load();
             dataPOSHistory = dataContext.POSHistory.Where(u => u.EntryNo.Equals(entryNo)).FirstOrDefault();
             entryNoField.Text = dataPOSHistory.EntryNo.ToString();
@@ -198,6 +200,17 @@ namespace BasicForecaster
         {
             dataPOSHistory.SaleDate = saleDatePicker.Value;
             dataContext.SaveData(errorHandler);
+        }
+
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
+        private void POSHistoryCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

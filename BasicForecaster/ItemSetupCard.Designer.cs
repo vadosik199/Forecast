@@ -1383,6 +1383,7 @@
             this.Controls.Add(this.label1);
             this.Name = "ItemSetupCard";
             this.Text = "ItemSetupCard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ItemSetupCard_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

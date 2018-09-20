@@ -19,6 +19,7 @@ namespace BasicForecaster
         private dbContext dataContext = null;
         private CustomerBuyingCalendar dataCustomerBuyingCalendar = null;
         private IErrorHandler errorHandler;
+        private Form parentForm;
 
         public CustomerBuyingCalendarCard()
         {
@@ -27,9 +28,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public CustomerBuyingCalendarCard(string calendarCode)
+        public CustomerBuyingCalendarCard(string calendarCode, Form parentForm)
             :this()
         {
+            this.parentForm = parentForm;
             dataContext.CustomerBuyingCalendar.Load();
             dataCustomerBuyingCalendar = dataContext.CustomerBuyingCalendar.Where(u => u.CalendarCode.Equals(calendarCode)).FirstOrDefault();
             calendarCodeField.Text = dataCustomerBuyingCalendar.CalendarCode;
@@ -117,6 +119,17 @@ namespace BasicForecaster
         {
             dataCustomerBuyingCalendar.OrderDate = orderDatePicker.Value;
             dataContext.SaveData(errorHandler);
+        }
+
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
+        private void CustomerBuyingCalendarCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

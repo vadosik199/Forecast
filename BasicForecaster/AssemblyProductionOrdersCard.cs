@@ -19,6 +19,7 @@ namespace BasicForecaster
         private dbContext dataContext = null;
         private AssemblyOrdersProductionOrders dataAssemblyProductionPrders = null;
         private IErrorHandler errorHandler;
+        private Form parentForm;
 
         public AssemblyProductionOrdersCard()
         {
@@ -27,9 +28,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public AssemblyProductionOrdersCard(string productionOrderNo)
+        public AssemblyProductionOrdersCard(string productionOrderNo, Form parentForm)
             :this()
         {
+            this.parentForm = parentForm;
             dataContext.AssemblyOrdersProductionOrders.Load();
             dataAssemblyProductionPrders = dataContext.AssemblyOrdersProductionOrders.Where(u => u.ProductionOrderNo.Equals(productionOrderNo)).FirstOrDefault();
             productionOrderNoField.Text = dataAssemblyProductionPrders.ProductionOrderNo;
@@ -113,6 +115,17 @@ namespace BasicForecaster
         {
             dataAssemblyProductionPrders.OrderDate = orderDatePicker.Value;
             dataContext.SaveData(errorHandler);
+        }
+
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
+        private void AssemblyProductionOrdersCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

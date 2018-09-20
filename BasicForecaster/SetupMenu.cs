@@ -82,7 +82,25 @@ namespace BasicForecaster
 
         private void SalesSetupButton_Click(object sender, EventArgs e)
         {
-            DBDataList dBDataList = new DBDataList(SetupType.Sales);
+        }
+
+        private void UserSetupButton_Click(object sender, EventArgs e)
+        {
+            DBDataList dBDataList = new DBDataList(SetupType.User);
+            dBDataList.Show();
+            Close();
+        }
+
+        private void GeneralSetupButton_Click(object sender, EventArgs e)
+        {
+            DBDataList dBDataList = new DBDataList(SetupType.General);
+            dBDataList.Show();
+            Close();
+        }
+
+        private void PlanningSetupButton_Click(object sender, EventArgs e)
+        {
+            DBDataList dBDataList = new DBDataList(SetupType.Planning);
             dBDataList.Show();
             Close();
         }

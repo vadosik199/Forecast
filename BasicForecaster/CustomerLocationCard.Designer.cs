@@ -162,6 +162,7 @@
             this.Controls.Add(this.label1);
             this.Name = "CustomerLocationCard";
             this.Text = "CustomerLocationCard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CustomerLocationCard_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -20,6 +20,8 @@ namespace BasicForecaster
         private UnitOfMeasure dataUnitOfMeasure = null;
         private IErrorHandler errorHandler;
         private bool isNew;
+        private Form parentForm;
+
         public UnitOfMeasureCard(bool isNew = true)
         {
             InitializeComponent();
@@ -36,9 +38,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public UnitOfMeasureCard(string entityId, bool isNew = false)
+        public UnitOfMeasureCard(string entityId, Form parentForm, bool isNew = false)
             : this(isNew)
         {
+            this.parentForm = parentForm;
             dataContext.UnitOfMeasure.Load();
             dataUnitOfMeasure = dataContext.UnitOfMeasure.Where(u => u.UnitofMeasure.Equals(entityId)).FirstOrDefault();
             unitOfMeasureField.Text = dataUnitOfMeasure.UnitofMeasure;
@@ -103,12 +106,20 @@ namespace BasicForecaster
             }
         }
 
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
         private void UnitOfMeasureCard_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (isNew && dataContext.UnitOfMeasure.Where(u => u.UnitofMeasure.Equals(dataUnitOfMeasure.UnitofMeasure)).Count() > 0)
             {
                 dataContext.SaveData(errorHandler);
             }
+
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

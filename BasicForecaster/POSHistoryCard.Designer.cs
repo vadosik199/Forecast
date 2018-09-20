@@ -490,6 +490,7 @@
             this.Controls.Add(this.label1);
             this.Name = "POSHistoryCard";
             this.Text = "POSHistoryCard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.POSHistoryCard_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

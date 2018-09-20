@@ -8,8 +8,19 @@ namespace BasicForecaster.Models {
     using BasicForecaster.Interfaces;
 
     public partial class dbContext : DbContext {
-        public dbContext()
+        private static dbContext instance;
+
+        private dbContext()
             : base("name=dbContext") {
+        }
+
+        public static dbContext GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new dbContext();
+            }
+            return instance;
         }
 
         public virtual DbSet<Exclude_From_History> Exclude_From_Histories { get; set; }
@@ -38,6 +49,8 @@ namespace BasicForecaster.Models {
         public virtual DbSet<VariantSetup> VariantSetup { get; set; }
         public virtual DbSet<VendorLocation> VendorLocation { get; set; }
         public virtual DbSet<VendorSetup> VendorSetup { get; set; }
+        public virtual DbSet<UserSetup> UserSetup { get; set; }
+        public virtual DbSet<GeneralSetup> GeneralSetup { get; set; }
 
         public void SaveData(IErrorHandler handler)
         {

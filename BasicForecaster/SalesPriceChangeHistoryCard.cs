@@ -19,6 +19,7 @@ namespace BasicForecaster
         private dbContext dataContext = null;
         private SalesPriceChangeHistory dataSalesPriceChangeHistory = null;
         private IErrorHandler errorHandler;
+        private Form parentForm;
 
         public SalesPriceChangeHistoryCard()
         {
@@ -27,9 +28,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public SalesPriceChangeHistoryCard(string entryNo)
+        public SalesPriceChangeHistoryCard(string entryNo, Form parentForm)
             :this()
         {
+            this.parentForm = parentForm;
             dataContext.SalesPriceChangeHistory.Load();
             dataSalesPriceChangeHistory = dataContext.SalesPriceChangeHistory.Where(u => u.EntryNo.Equals(entryNo)).FirstOrDefault();
             entryNoField.Text = dataSalesPriceChangeHistory.EntryNo;
@@ -113,6 +115,17 @@ namespace BasicForecaster
         {
             dataSalesPriceChangeHistory.ShipmentDate = shipmentDateDatePicker.Value;
             dataContext.SaveData(errorHandler);
+        }
+
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
+        private void SalesPriceChangeHistoryCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

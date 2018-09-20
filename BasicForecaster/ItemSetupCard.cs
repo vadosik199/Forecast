@@ -19,6 +19,7 @@ namespace BasicForecaster
         private dbContext dataContext = null;
         private ItemSetup dataItemSetup = null;
         private IErrorHandler errorHandler;
+        private Form parentForm;
 
         public ItemSetupCard()
         {
@@ -27,9 +28,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public ItemSetupCard(string itemNo)
+        public ItemSetupCard(string itemNo, Form parentForm)
             :this()
         {
+            this.parentForm = parentForm;
             dataContext.ItemSetup.Load();
             dataItemSetup = dataContext.ItemSetup.Where(u => u.ItemNo.Equals(itemNo)).FirstOrDefault();
             itemNoField.Text = dataItemSetup.ItemNo;
@@ -561,6 +563,17 @@ namespace BasicForecaster
                 dataItemSetup.NoOfVariants = no;
             }
             dataContext.SaveData(errorHandler);
+        }
+
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
+        private void ItemSetupCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

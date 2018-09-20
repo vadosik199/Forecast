@@ -343,3 +343,7 @@ M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.A
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.SalesHistoryCard.resources
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.ItemSetupCard.resources
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.Migrations.ItemSetupModelMigration.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.Migrations.GeneralUserSetupMigration.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.UserSetupCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.GeneralSetupCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.PlanningSetupCard.resources

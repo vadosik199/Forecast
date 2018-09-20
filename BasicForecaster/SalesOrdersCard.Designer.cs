@@ -336,6 +336,7 @@
             this.Controls.Add(this.label1);
             this.Name = "SalesOrdersCard";
             this.Text = "SalesOrdersCard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SalesOrdersCard_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -248,6 +248,7 @@
             this.Controls.Add(this.label1);
             this.Name = "CustomerBuyingCalendarCard";
             this.Text = "CustomerBuyingCalendarCard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CustomerBuyingCalendarCard_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

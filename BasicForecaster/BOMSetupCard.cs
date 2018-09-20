@@ -19,6 +19,7 @@ namespace BasicForecaster
         private dbContext dataContext = null;
         private BOMSetup dataBOMSetup = null;
         private IErrorHandler errorHandler;
+        private Form parentForm;
 
         public BOMSetupCard()
         {
@@ -27,9 +28,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public BOMSetupCard(string bomNo)
+        public BOMSetupCard(string bomNo, Form parentForm)
             :this()
         {
+            this.parentForm = parentForm;
             dataContext.BOMSetup.Load();
             dataBOMSetup = dataContext.BOMSetup.Where(u => u.BOMNo.Equals(bomNo)).FirstOrDefault();
             bomNoField.Text = dataBOMSetup.BOMNo;
@@ -139,6 +141,17 @@ namespace BasicForecaster
                 dataBOMSetup.QuantityPerBase = bomQty;
             }
             dataContext.SaveData(errorHandler);
+        }
+
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
+        private void BOMSetupCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

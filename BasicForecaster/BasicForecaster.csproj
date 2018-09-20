@@ -200,6 +200,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GeneralSetupCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GeneralSetupCard.Designer.cs">
+      <DependentUpon>GeneralSetupCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="HistoryList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -233,6 +239,10 @@
     <Compile Include="Migrations\201809190842028_ItemSetupModelMigration.Designer.cs">
       <DependentUpon>201809190842028_ItemSetupModelMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809191311360_GeneralUserSetupMigration.cs" />
+    <Compile Include="Migrations\201809191311360_GeneralUserSetupMigration.Designer.cs">
+      <DependentUpon>201809191311360_GeneralUserSetupMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\dbContext.cs" />
     <Compile Include="Models\Exclude_From_History.cs" />
@@ -250,6 +260,7 @@
     <Compile Include="Models\Setup\CustomerItemPrice.cs" />
     <Compile Include="Models\Setup\CustomerLocation.cs" />
     <Compile Include="Models\Setup\CustomerSetup.cs" />
+    <Compile Include="Models\Setup\GeneralSetup.cs" />
     <Compile Include="Models\Setup\ItemSetup.cs" />
     <Compile Include="Models\Setup\LocationSetup.cs" />
     <Compile Include="Models\Setup\PlanningSetup.cs" />
@@ -258,10 +269,17 @@
     <Compile Include="Models\Setup\SalesOrders.cs" />
     <Compile Include="Models\Setup\SalesPriceChangeHistory.cs" />
     <Compile Include="Models\Setup\UnitOfMeasure.cs" />
+    <Compile Include="Models\Setup\UserSetup.cs" />
     <Compile Include="Models\Setup\VariantSetup.cs" />
     <Compile Include="Models\Setup\VendorLocation.cs" />
     <Compile Include="Models\Setup\VendorSetup.cs" />
     <Compile Include="Models\WinFormErrorHandler.cs" />
+    <Compile Include="PlanningSetupCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlanningSetupCard.Designer.cs">
+      <DependentUpon>PlanningSetupCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="POSHistoryCard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -319,6 +337,12 @@
     <Compile Include="UnitOfMeasureCard.Designer.cs">
       <DependentUpon>UnitOfMeasureCard.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserSetupCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserSetupCard.Designer.cs">
+      <DependentUpon>UserSetupCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="VariantSetupCard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -369,6 +393,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GeneralSetupCard.resx">
+      <DependentUpon>GeneralSetupCard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HistoryList.resx">
       <DependentUpon>HistoryList.cs</DependentUpon>
     </EmbeddedResource>
@@ -386,6 +413,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809190842028_ItemSetupModelMigration.resx">
       <DependentUpon>201809190842028_ItemSetupModelMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809191311360_GeneralUserSetupMigration.resx">
+      <DependentUpon>201809191311360_GeneralUserSetupMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlanningSetupCard.resx">
+      <DependentUpon>PlanningSetupCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="POSHistoryCard.resx">
       <DependentUpon>POSHistoryCard.cs</DependentUpon>
@@ -423,6 +456,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UnitOfMeasureCard.resx">
       <DependentUpon>UnitOfMeasureCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserSetupCard.resx">
+      <DependentUpon>UserSetupCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VariantSetupCard.resx">
       <DependentUpon>VariantSetupCard.cs</DependentUpon>

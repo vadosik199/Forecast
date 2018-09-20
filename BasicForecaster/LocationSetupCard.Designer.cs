@@ -274,6 +274,7 @@
             this.Controls.Add(this.label1);
             this.Name = "LocationSetupCard";
             this.Text = "LocationSetupCard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LocationSetupCard_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

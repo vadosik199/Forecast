@@ -19,6 +19,7 @@ namespace BasicForecaster
         private dbContext dataContext = null;
         private CustomerItemPrice dataCustomerItemPrice = null;
         private IErrorHandler errorHandler;
+        private Form parentForm;
 
         public CustomerItemPriceCard()
         {
@@ -27,9 +28,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public CustomerItemPriceCard(string itemNo, string customerCode, DateTime startDate)
+        public CustomerItemPriceCard(string itemNo, string customerCode, DateTime startDate, Form parentForm)
             :this()
         {
+            this.parentForm = parentForm;
             dataContext.CustomerItemPrice.Load();
             dataCustomerItemPrice = dataContext.CustomerItemPrice.Where(u => u.ItemNo.Equals(itemNo) && u.CustomerCode.Equals(customerCode) && u.StartDate == startDate).FirstOrDefault();
             itemNoField.Text = dataCustomerItemPrice.ItemNo;
@@ -124,6 +126,17 @@ namespace BasicForecaster
         {
             dataCustomerItemPrice.EndDate = endDatePicker.Value;
             dataContext.SaveData(errorHandler);
+        }
+
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
+        private void CustomerItemPriceCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

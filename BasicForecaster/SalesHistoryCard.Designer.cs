@@ -446,6 +446,7 @@
             this.Controls.Add(this.label1);
             this.Name = "SalesHistoryCard";
             this.Text = "SalesHistoryCard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SalesHistoryCard_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

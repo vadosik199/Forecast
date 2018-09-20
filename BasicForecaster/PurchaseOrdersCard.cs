@@ -19,6 +19,7 @@ namespace BasicForecaster
         private dbContext dataContext = null;
         private PurchaseOrders dataPurchaseOrders = null;
         private IErrorHandler errorHandler;
+        private Form parentForm;
 
         public PurchaseOrdersCard()
         {
@@ -27,9 +28,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public PurchaseOrdersCard(string purchaseOrderNo)
+        public PurchaseOrdersCard(string purchaseOrderNo, Form parentForm)
             :this()
         {
+            this.parentForm = parentForm;
             dataContext.PurchaseOrders.Load();
             dataPurchaseOrders = dataContext.PurchaseOrders.Where(u => u.PurchaseOrderNo.Equals(purchaseOrderNo)).FirstOrDefault();
             purchaseOrderNoField.Text = dataPurchaseOrders.PurchaseOrderNo;
@@ -145,6 +147,17 @@ namespace BasicForecaster
         {
             dataPurchaseOrders.OrderDate = orderDatePicker.Value;
             dataContext.SaveData(errorHandler);
+        }
+
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
+        private void PurchaseOrdersCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

@@ -292,6 +292,7 @@
             this.Controls.Add(this.label1);
             this.Name = "BOMSetupCard";
             this.Text = "BOMSetupCard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BOMSetupCard_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

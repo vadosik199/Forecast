@@ -19,6 +19,7 @@ namespace BasicForecaster
         private dbContext dataContext = null;
         private VendorSetup dataVendorSetup = null;
         private IErrorHandler errorHandler;
+        private Form parentForm;
 
         public VendorSetupCard()
         {
@@ -27,9 +28,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public VendorSetupCard(string vendorNo)
+        public VendorSetupCard(string vendorNo, Form parentForm)
             :this()
         {
+            this.parentForm = parentForm;
             dataContext.VendorSetup.Load();
             dataVendorSetup = dataContext.VendorSetup.Where(u => u.VendorNo.Equals(vendorNo)).FirstOrDefault();
             vendorNoField.Text = dataVendorSetup.VendorNo;
@@ -117,6 +119,17 @@ namespace BasicForecaster
         {
             dataVendorSetup.VariantCode = variantCodeField.Text;
             dataContext.SaveData(errorHandler);
+        }
+
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
+        private void VendorSetupCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

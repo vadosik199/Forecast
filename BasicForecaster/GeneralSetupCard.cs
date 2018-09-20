@@ -14,36 +14,35 @@ using System.Windows.Forms;
 
 namespace BasicForecaster
 {
-    public partial class VendorLocationSetupCard : Form
+    public partial class GeneralSetupCard : Form
     {
         private dbContext dataContext = null;
-        private VendorLocation dataVendorLocation = null;
+        private GeneralSetup dataGeneralSetup = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
 
-        public VendorLocationSetupCard()
+        public GeneralSetupCard()
         {
             InitializeComponent();
             dataContext = new dbContext();
             errorHandler = new WinFormErrorHandler();
         }
 
-        public VendorLocationSetupCard(string locationCode, Form parentForm)
+        public GeneralSetupCard(int companyNo, Form parentForm)
             :this()
         {
             this.parentForm = parentForm;
-            dataContext.VendorLocation.Load();
-            dataVendorLocation = dataContext.VendorLocation.Where(u => u.VendorLocationCode.Equals(locationCode)).FirstOrDefault();
-            locationCodeField.Text = dataVendorLocation.VendorLocationCode;
-            descriptionField.Text = dataVendorLocation.Description;
-            blockedCheckBox.Checked = dataVendorLocation.Blocked == null ? false : true;
+            dataContext.GeneralSetup.Load();
+            dataGeneralSetup = dataContext.GeneralSetup.Where(u => u.CompanyNo == companyNo).FirstOrDefault();
+            companyNoField.Text = dataGeneralSetup.CompanyNo.ToString();
+            companyNameField.Text = dataGeneralSetup.CompanyName;
         }
 
         private void Delete_Click(object sender, EventArgs e)
         {
             try
             {
-                dataContext.VendorLocation.Remove(dataVendorLocation);
+                dataContext.GeneralSetup.Remove(dataGeneralSetup);
                 dataContext.SaveChanges();
                 Close();
             }
@@ -53,21 +52,19 @@ namespace BasicForecaster
             }
         }
 
-        private void locationCodeField_TextChanged(object sender, EventArgs e)
+        private void companyNoField_TextChanged(object sender, EventArgs e)
         {
-            dataVendorLocation.VendorLocationCode = locationCodeField.Text;
+            int companyNo;
+            if (int.TryParse(companyNoField.Text, out companyNo))
+            {
+                dataGeneralSetup.CompanyNo = companyNo;
+            }
             dataContext.SaveData(errorHandler);
         }
 
-        private void descriptionField_TextChanged(object sender, EventArgs e)
+        private void companyNameField_TextChanged(object sender, EventArgs e)
         {
-            dataVendorLocation.Description = descriptionField.Text;
-            dataContext.SaveData(errorHandler);
-        }
-
-        private void blockedCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            dataVendorLocation.Blocked = blockedCheckBox.Checked;
+            dataGeneralSetup.CompanyName = companyNameField.Text;
             dataContext.SaveData(errorHandler);
         }
 
@@ -76,7 +73,7 @@ namespace BasicForecaster
             parentForm.Refresh();
         }
 
-        private void VendorLocationSetupCard_FormClosed(object sender, FormClosedEventArgs e)
+        private void GeneralSetupCard_FormClosing(object sender, FormClosingEventArgs e)
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();

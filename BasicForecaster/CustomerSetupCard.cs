@@ -19,6 +19,7 @@ namespace BasicForecaster
         private dbContext dataContext = null;
         private CustomerSetup dataCustomerSetup = null;
         private IErrorHandler errorHandler;
+        private Form parentForm;
 
         public CustomerSetupCard()
         {
@@ -27,9 +28,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public CustomerSetupCard(string customerNo)
+        public CustomerSetupCard(string customerNo, Form parentForm)
             :this()
         {
+            this.parentForm = parentForm;
             dataContext.CustomerSetup.Load();
             dataCustomerSetup = dataContext.CustomerSetup.Where(u => u.CustomerNo.Equals(customerNo)).FirstOrDefault();
             customerNoField.Text = dataCustomerSetup.CustomerNo;
@@ -95,6 +97,17 @@ namespace BasicForecaster
         {
             dataCustomerSetup.RetailerCode = retailerCodeField.Text;
             dataContext.SaveData(errorHandler);
+        }
+
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
+        private void CustomerSetupCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

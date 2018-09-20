@@ -41,6 +41,7 @@
             this.UnitOfMeasureButton = new System.Windows.Forms.Button();
             this.SalesSetupButton = new System.Windows.Forms.Button();
             this.IntegrationSetupButton = new System.Windows.Forms.Button();
+            this.PlanningSetupButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // UserSetupButton
@@ -55,6 +56,7 @@
             this.UserSetupButton.TabIndex = 0;
             this.UserSetupButton.Text = "User Setup";
             this.UserSetupButton.UseVisualStyleBackColor = false;
+            this.UserSetupButton.Click += new System.EventHandler(this.UserSetupButton_Click);
             // 
             // GeneralSetupButton
             // 
@@ -68,6 +70,7 @@
             this.GeneralSetupButton.TabIndex = 1;
             this.GeneralSetupButton.Text = "General Setup";
             this.GeneralSetupButton.UseVisualStyleBackColor = false;
+            this.GeneralSetupButton.Click += new System.EventHandler(this.GeneralSetupButton_Click);
             // 
             // ItemSetupButton
             // 
@@ -222,12 +225,27 @@
             this.IntegrationSetupButton.Text = "Integration Setup";
             this.IntegrationSetupButton.UseVisualStyleBackColor = false;
             // 
+            // PlanningSetupButton
+            // 
+            this.PlanningSetupButton.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.PlanningSetupButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PlanningSetupButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PlanningSetupButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.PlanningSetupButton.Location = new System.Drawing.Point(12, 454);
+            this.PlanningSetupButton.Name = "PlanningSetupButton";
+            this.PlanningSetupButton.Size = new System.Drawing.Size(289, 28);
+            this.PlanningSetupButton.TabIndex = 13;
+            this.PlanningSetupButton.Text = "Planning Setup";
+            this.PlanningSetupButton.UseVisualStyleBackColor = false;
+            this.PlanningSetupButton.Click += new System.EventHandler(this.PlanningSetupButton_Click);
+            // 
             // SetupMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(313, 459);
+            this.ClientSize = new System.Drawing.Size(313, 498);
+            this.Controls.Add(this.PlanningSetupButton);
             this.Controls.Add(this.IntegrationSetupButton);
             this.Controls.Add(this.SalesSetupButton);
             this.Controls.Add(this.UnitOfMeasureButton);
@@ -262,5 +280,6 @@
         private System.Windows.Forms.Button UnitOfMeasureButton;
         private System.Windows.Forms.Button SalesSetupButton;
         private System.Windows.Forms.Button IntegrationSetupButton;
+        private System.Windows.Forms.Button PlanningSetupButton;
     }
 }

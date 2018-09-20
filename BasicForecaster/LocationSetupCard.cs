@@ -19,6 +19,7 @@ namespace BasicForecaster
         private dbContext dataContext = null;
         private LocationSetup dataLocationSetup = null;
         private IErrorHandler errorHandler;
+        private Form parentForm;
 
         public LocationSetupCard()
         {
@@ -27,9 +28,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public LocationSetupCard(string locationCode)
+        public LocationSetupCard(string locationCode, Form parentForm)
             :this()
         {
+            this.parentForm = parentForm;
             dataContext.LocationSetup.Load();
             dataLocationSetup = dataContext.LocationSetup.Where(u => u.LocationCode.Equals(locationCode)).FirstOrDefault();
             locationCodeField.Text = dataLocationSetup.LocationCode;
@@ -116,6 +118,17 @@ namespace BasicForecaster
         {
             dataLocationSetup.Country = countryField.Text;
             dataContext.SaveData(errorHandler);
+        }
+
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
+        private void LocationSetupCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

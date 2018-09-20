@@ -112,43 +112,89 @@ namespace BasicForecaster
         {
             if (entityType == typeof(SalesOrders))
             {
-                SalesOrdersCard card = new SalesOrdersCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                SalesOrdersCard card = new SalesOrdersCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(PurchaseOrders))
             {
-                PurchaseOrdersCard card = new PurchaseOrdersCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                PurchaseOrdersCard card = new PurchaseOrdersCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(SalesPriceChangeHistory))
             {
-                SalesPriceChangeHistoryCard card = new SalesPriceChangeHistoryCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                SalesPriceChangeHistoryCard card = new SalesPriceChangeHistoryCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(POSHistory))
             {
-                POSHistoryCard card = new POSHistoryCard(double.Parse(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString()));
+                POSHistoryCard card = new POSHistoryCard(double.Parse(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString()), this);
                 card.Show();
             }
             else if (entityType == typeof(CustomerItemPrice))
             {
-                CustomerItemPriceCard card = new CustomerItemPriceCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), historyDataGrid.Rows[e.RowIndex].Cells[3].Value.ToString(), DateTime.Parse(historyDataGrid.Rows[e.RowIndex].Cells[6].Value.ToString()));
+                CustomerItemPriceCard card = new CustomerItemPriceCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), historyDataGrid.Rows[e.RowIndex].Cells[3].Value.ToString(), DateTime.Parse(historyDataGrid.Rows[e.RowIndex].Cells[6].Value.ToString()), this);
                 card.Show();
             }
             else if (entityType == typeof(CustomerBuyingCalendar))
             {
-                CustomerBuyingCalendarCard card = new CustomerBuyingCalendarCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                CustomerBuyingCalendarCard card = new CustomerBuyingCalendarCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(AssemblyOrdersProductionOrders))
             {
-                AssemblyProductionOrdersCard card = new AssemblyProductionOrdersCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                AssemblyProductionOrdersCard card = new AssemblyProductionOrdersCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(Sales_History))
             {
-                SalesHistoryCard card = new SalesHistoryCard(int.Parse(historyDataGrid.Rows[e.RowIndex].Cells[1].Value.ToString()));
+                SalesHistoryCard card = new SalesHistoryCard(int.Parse(historyDataGrid.Rows[e.RowIndex].Cells[1].Value.ToString()), this);
                 card.Show();
+            }
+        }
+
+        public override void Refresh()
+        {
+            base.Refresh();
+            dataContext = new dbContext();
+            if (entityType == typeof(SalesOrders))
+            {
+                dataContext.SalesOrders.Load();
+                historyDataGrid.DataSource = dataContext.SalesOrders.Local.ToBindingList();
+            }
+            else if (entityType == typeof(PurchaseOrders))
+            {
+                dataContext.PurchaseOrders.Load();
+                historyDataGrid.DataSource = dataContext.PurchaseOrders.Local.ToBindingList();
+            }
+            else if (entityType == typeof(SalesPriceChangeHistory))
+            {
+                dataContext.SalesPriceChangeHistory.Load();
+                historyDataGrid.DataSource = dataContext.SalesPriceChangeHistory.Local.ToBindingList();
+            }
+            else if (entityType == typeof(POSHistory))
+            {
+                dataContext.POSHistory.Load();
+                historyDataGrid.DataSource = dataContext.POSHistory.Local.ToBindingList();
+            }
+            else if (entityType == typeof(CustomerItemPrice))
+            {
+                dataContext.CustomerItemPrice.Load();
+                historyDataGrid.DataSource = dataContext.CustomerItemPrice.Local.ToBindingList();
+            }
+            else if (entityType == typeof(CustomerBuyingCalendar))
+            {
+                dataContext.CustomerBuyingCalendar.Load();
+                historyDataGrid.DataSource = dataContext.CustomerBuyingCalendar.Local.ToBindingList();
+            }
+            else if (entityType == typeof(AssemblyOrdersProductionOrders))
+            {
+                dataContext.AssemblyOrdersProductionOrders.Load();
+                historyDataGrid.DataSource = dataContext.AssemblyOrdersProductionOrders.Local.ToBindingList();
+            }
+            else if (entityType == typeof(Sales_History))
+            {
+                dataContext.Sales_Histories.Load();
+                historyDataGrid.DataSource = dataContext.Sales_Histories.Local.ToBindingList();
             }
         }
     }

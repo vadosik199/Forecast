@@ -19,6 +19,7 @@ namespace BasicForecaster
         private dbContext dataContext = null;
         private CustomerLocation dataCustomerLocation = null;
         private IErrorHandler errorHandler;
+        private Form parentForm;
 
         public CustomerLocationCard()
         {
@@ -27,9 +28,10 @@ namespace BasicForecaster
             errorHandler = new WinFormErrorHandler();
         }
 
-        public CustomerLocationCard(string customerLocationCode)
+        public CustomerLocationCard(string customerLocationCode, Form parentForm)
             :this()
         {
+            this.parentForm = parentForm;
             dataContext.CustomerLocation.Load();
             dataCustomerLocation = dataContext.CustomerLocation.Where(u => u.CustomerLocationCode.Equals(customerLocationCode)).FirstOrDefault();
             customerLocationNoField.Text = dataCustomerLocation.CustomerLocationCode;
@@ -85,6 +87,17 @@ namespace BasicForecaster
                 dataCustomerLocation.POSDataExist = posExist;
             }
             dataContext.SaveData(errorHandler);
+        }
+
+        private void RefreshParentForm()
+        {
+            parentForm.Refresh();
+        }
+
+        private void CustomerLocationCard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dataContext.SaveData(errorHandler);
+            RefreshParentForm();
         }
     }
 }

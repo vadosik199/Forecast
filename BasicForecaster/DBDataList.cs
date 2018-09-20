@@ -32,8 +32,14 @@ namespace BasicForecaster
             switch (setupType)
             {
                 case SetupType.User:
+                    dataContext.UserSetup.Load();
+                    entityType = typeof(UserSetup);
+                    DBDataGrid.DataSource = dataContext.UserSetup.Local.ToBindingList();
                     break;
                 case SetupType.General:
+                    dataContext.GeneralSetup.Load();
+                    entityType = typeof(GeneralSetup);
+                    DBDataGrid.DataSource = dataContext.GeneralSetup.Local.ToBindingList();
                     break;
                 case SetupType.Item:
                     dataContext.ItemSetup.Load();
@@ -86,6 +92,11 @@ namespace BasicForecaster
                     DBDataGrid.DataSource = dataContext.SalesOrders.Local.ToBindingList();
                     break;
                 case SetupType.Integration:
+                    break;
+                case SetupType.Planning:
+                    dataContext.PlanningSetup.Load();
+                    entityType = typeof(PlanningSetup);
+                    DBDataGrid.DataSource = dataContext.PlanningSetup.Local.ToBindingList();
                     break;
             }
         }
@@ -144,48 +155,134 @@ namespace BasicForecaster
         {
             if (entityType == typeof(UnitOfMeasure))
             {
-                UnitOfMeasureCard card = new UnitOfMeasureCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                UnitOfMeasureCard card = new UnitOfMeasureCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(VendorLocation))
             {
-                VendorLocationSetupCard card = new VendorLocationSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                VendorLocationSetupCard card = new VendorLocationSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(VendorSetup))
             {
-                VendorSetupCard card = new VendorSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                VendorSetupCard card = new VendorSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(VariantSetup))
             {
-                VariantSetupCard card = new VariantSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), DBDataGrid.Rows[e.RowIndex].Cells[1].Value.ToString());
+                VariantSetupCard card = new VariantSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), DBDataGrid.Rows[e.RowIndex].Cells[1].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(LocationSetup))
             {
-                LocationSetupCard card = new LocationSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                LocationSetupCard card = new LocationSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(CustomerSetup))
             {
-                CustomerSetupCard card = new CustomerSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                CustomerSetupCard card = new CustomerSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(CustomerLocation))
             {
-                CustomerLocationCard card = new CustomerLocationCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                CustomerLocationCard card = new CustomerLocationCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(BOMSetup))
             {
-                BOMSetupCard card = new BOMSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                BOMSetupCard card = new BOMSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
             }
             else if (entityType == typeof(ItemSetup))
             {
-                ItemSetupCard card = new ItemSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                ItemSetupCard card = new ItemSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
                 card.Show();
+            }
+            else if (entityType == typeof(UserSetup))
+            {
+                UserSetupCard card = new UserSetupCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
+                card.Show();
+            }
+            else if (entityType == typeof(GeneralSetup))
+            {
+                GeneralSetupCard card = new GeneralSetupCard(int.Parse(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString()), this);
+                card.Show();
+            }
+            else if (entityType == typeof(PlanningSetup))
+            {
+                PlanningSetupCard card = new PlanningSetupCard(int.Parse(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString()), this);
+                card.Show();
+            }
+            else if (entityType == typeof(SalesOrders))
+            {
+                SalesOrdersCard card = new SalesOrdersCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
+                card.Show();
+            }
+        }
+
+        public override void Refresh()
+        {
+            base.Refresh();
+            dataContext = new dbContext();
+            if (entityType == typeof(UnitOfMeasure))
+            {
+                dataContext.UnitOfMeasure.Load();
+                DBDataGrid.DataSource = dataContext.UnitOfMeasure.Local.ToBindingList();
+            }
+            else if (entityType == typeof(VendorLocation))
+            {
+                dataContext.VendorLocation.Load();
+                DBDataGrid.DataSource = dataContext.VendorLocation.Local.ToBindingList();
+            }
+            else if (entityType == typeof(VendorSetup))
+            {
+                dataContext.VendorSetup.Load();
+                DBDataGrid.DataSource = dataContext.VendorSetup.Local.ToBindingList();
+            }
+            else if (entityType == typeof(VariantSetup))
+            {
+                dataContext.VariantSetup.Load();
+                DBDataGrid.DataSource = dataContext.VariantSetup.Local.ToBindingList();
+            }
+            else if (entityType == typeof(LocationSetup))
+            {
+                dataContext.LocationSetup.Load();
+                DBDataGrid.DataSource = dataContext.LocationSetup.Local.ToBindingList();
+            }
+            else if (entityType == typeof(CustomerSetup))
+            {
+                dataContext.CustomerSetup.Load();
+                DBDataGrid.DataSource = dataContext.CustomerSetup.Local.ToBindingList();
+            }
+            else if (entityType == typeof(CustomerLocation))
+            {
+                dataContext.CustomerLocation.Load();
+                DBDataGrid.DataSource = dataContext.CustomerLocation.Local.ToBindingList();
+            }
+            else if (entityType == typeof(BOMSetup))
+            {
+                dataContext.BOMSetup.Load();
+                DBDataGrid.DataSource = dataContext.BOMSetup.Local.ToBindingList();
+            }
+            else if (entityType == typeof(ItemSetup))
+            {
+                dataContext.ItemSetup.Load();
+                DBDataGrid.DataSource = dataContext.ItemSetup.Local.ToBindingList();
+            }
+            else if (entityType == typeof(UserSetup))
+            {
+                dataContext.UserSetup.Load();
+                DBDataGrid.DataSource = dataContext.UserSetup.Local.ToBindingList();
+            }
+            else if (entityType == typeof(GeneralSetup))
+            {
+                dataContext.GeneralSetup.Load();
+                DBDataGrid.DataSource = dataContext.GeneralSetup.Local.ToBindingList();
+            }
+            else if (entityType == typeof(PlanningSetup))
+            {
+                dataContext.PlanningSetup.Load();
+                DBDataGrid.DataSource = dataContext.PlanningSetup.Local.ToBindingList();
             }
         }
     }
@@ -204,6 +301,7 @@ namespace BasicForecaster
         Location,
         UnitOfMeasure,
         Sales,
-        Integration
+        Integration,
+        Planning
     }
 }
