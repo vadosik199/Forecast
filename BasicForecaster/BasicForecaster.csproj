@@ -178,6 +178,12 @@
     <Compile Include="DBDataList.Designer.cs">
       <DependentUpon>DBDataList.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExcludeFromHistoryCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExcludeFromHistoryCard.Designer.cs">
+      <DependentUpon>ExcludeFromHistoryCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forecast.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -397,6 +403,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DBDataList.resx">
       <DependentUpon>DBDataList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExcludeFromHistoryCard.resx">
+      <DependentUpon>ExcludeFromHistoryCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forecast.resx">
       <DependentUpon>Forecast.cs</DependentUpon>
