@@ -20,19 +20,28 @@ namespace BasicForecaster
         private CustomerSetup dataCustomerSetup = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public CustomerSetupCard()
+        public CustomerSetupCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.CustomerSetup.Load();
+            dataCustomerSetup = new CustomerSetup();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public CustomerSetupCard(string customerNo, Form parentForm)
-            :this()
+            :this(parentForm)
         {
-            this.parentForm = parentForm;
-            dataContext.CustomerSetup.Load();
             dataCustomerSetup = dataContext.CustomerSetup.Where(u => u.CustomerNo.Equals(customerNo)).FirstOrDefault();
             customerNoField.Text = dataCustomerSetup.CustomerNo;
             descriptionField.Text = dataCustomerSetup.Description;
@@ -41,6 +50,12 @@ namespace BasicForecaster
             customerLocationCodeField.Text = dataCustomerSetup.CustomerLocationCode;
             customerBuyingCalendarField.Text = dataCustomerSetup.CustomerBuyingCalendar;
             retailerCodeField.Text = dataCustomerSetup.RetailerCode;
+
+            if (!IsNew)
+            {
+                customerNoField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -83,7 +98,7 @@ namespace BasicForecaster
 
         private void customerLocationCodeField_TextChanged(object sender, EventArgs e)
         {
-            dataCustomerSetup.CustomerLocationCode = customerNoField.Text;
+            dataCustomerSetup.CustomerLocationCode = customerLocationCodeField.Text;
             dataContext.SaveData(errorHandler);
         }
 
@@ -108,6 +123,46 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            CustomerSetupCard card = new CustomerSetupCard(parentForm, true);
+            card.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(customerNoField.Text))
+                    {
+                        throw new Exception("Field 'Customer No' can`t be empty!");
+                    }
+                    if (context.CustomerSetup.Where(vs => vs.CustomerNo.Equals(customerNoField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Customer No' = {customerNoField.Text} already exist!");
+                    }
+                    dataCustomerSetup.CustomerNo = customerNoField.Text;
+                    dataCustomerSetup.Description = descriptionField.Text;
+                    dataCustomerSetup.Blocked = blockedCheckBox.Checked;
+                    dataCustomerSetup.POSDataExist = posDataExistCheckBox.Checked;
+                    dataCustomerSetup.CustomerLocationCode = customerLocationCodeField.Text;
+                    dataCustomerSetup.CustomerBuyingCalendar = customerBuyingCalendarField.Text;
+                    dataCustomerSetup.RetailerCode = retailerCodeField.Text;
+                    context.CustomerSetup.Add(dataCustomerSetup);
+                    context.SaveData(errorHandler);
+                    CustomerSetupCard card = new CustomerSetupCard(dataCustomerSetup.CustomerNo, parentForm);
+                    card.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

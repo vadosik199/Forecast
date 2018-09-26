@@ -260,6 +260,12 @@
       <DependentUpon>201809201023051_ForecastMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="ModelSelectionCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModelSelectionCard.Designer.cs">
+      <DependentUpon>ModelSelectionCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\dbContext.cs" />
     <Compile Include="Models\Exclude_From_History.cs" />
     <Compile Include="Models\Forecast_datum.cs" />
@@ -291,6 +297,12 @@
     <Compile Include="Models\Setup\VendorLocation.cs" />
     <Compile Include="Models\Setup\VendorSetup.cs" />
     <Compile Include="Models\WinFormErrorHandler.cs" />
+    <Compile Include="OptimizationLevelCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptimizationLevelCard.Designer.cs">
+      <DependentUpon>OptimizationLevelCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="PlanningSetupCard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -442,6 +454,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809201023051_ForecastMigration.resx">
       <DependentUpon>201809201023051_ForecastMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModelSelectionCard.resx">
+      <DependentUpon>ModelSelectionCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptimizationLevelCard.resx">
+      <DependentUpon>OptimizationLevelCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PlanningSetupCard.resx">
       <DependentUpon>PlanningSetupCard.cs</DependentUpon>

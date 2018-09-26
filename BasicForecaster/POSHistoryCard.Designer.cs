@@ -69,6 +69,8 @@
             this.variantCodeField = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.Delete = new System.Windows.Forms.Button();
+            this.NewButton = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // entryNoField
@@ -434,7 +436,7 @@
             // Delete
             // 
             this.Delete.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.Delete.Location = new System.Drawing.Point(16, 308);
+            this.Delete.Location = new System.Drawing.Point(11, 303);
             this.Delete.Name = "Delete";
             this.Delete.Size = new System.Drawing.Size(75, 28);
             this.Delete.TabIndex = 64;
@@ -442,11 +444,35 @@
             this.Delete.UseVisualStyleBackColor = true;
             this.Delete.Click += new System.EventHandler(this.Delete_Click);
             // 
+            // NewButton
+            // 
+            this.NewButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.NewButton.Location = new System.Drawing.Point(92, 303);
+            this.NewButton.Name = "NewButton";
+            this.NewButton.Size = new System.Drawing.Size(75, 28);
+            this.NewButton.TabIndex = 65;
+            this.NewButton.Text = "New";
+            this.NewButton.UseVisualStyleBackColor = true;
+            this.NewButton.Click += new System.EventHandler(this.NewButton_Click);
+            // 
+            // SaveButton
+            // 
+            this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SaveButton.Location = new System.Drawing.Point(11, 303);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(75, 28);
+            this.SaveButton.TabIndex = 66;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
             // POSHistoryCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(922, 343);
+            this.Controls.Add(this.SaveButton);
+            this.Controls.Add(this.NewButton);
             this.Controls.Add(this.Delete);
             this.Controls.Add(this.variantCodeField);
             this.Controls.Add(this.label20);
@@ -539,5 +565,7 @@
         private System.Windows.Forms.TextBox variantCodeField;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Button Delete;
+        private System.Windows.Forms.Button NewButton;
+        private System.Windows.Forms.Button SaveButton;
     }
 }

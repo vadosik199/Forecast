@@ -158,6 +158,14 @@ namespace BasicForecaster
 
         private void DBDataGrid_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            try
+            {
+                dataContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             if (entityType == typeof(UnitOfMeasure))
             {
                 UnitOfMeasureCard card = new UnitOfMeasureCard(DBDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
@@ -299,6 +307,80 @@ namespace BasicForecaster
                 dataContext.ForecastSetup.Load();
                 DBDataGrid.DataSource = dataContext.ForecastSetup.Local.ToBindingList();
             }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (entityType == typeof(UnitOfMeasure))
+            {
+                UnitOfMeasureCard unitOfMeasureCard = new UnitOfMeasureCard(this, true);
+                unitOfMeasureCard.Show();
+            }
+            else if (entityType == typeof(VendorLocation))
+            {
+                VendorLocationSetupCard vendorLocationSetupCard = new VendorLocationSetupCard(this, true);
+                vendorLocationSetupCard.Show();
+            }
+            else if (entityType == typeof(VendorSetup))
+            {
+                VendorSetupCard vendorSetupCard = new VendorSetupCard(this, true);
+                vendorSetupCard.Show();
+            }
+            else if (entityType == typeof(VariantSetup))
+            {
+                VariantSetupCard variantSetupCard = new VariantSetupCard(this, true);
+                variantSetupCard.Show();
+            }
+            else if (entityType == typeof(LocationSetup))
+            {
+                LocationSetupCard locationSetupCard = new LocationSetupCard(this, true);
+                locationSetupCard.Show();
+            }
+            else if (entityType == typeof(CustomerSetup))
+            {
+                CustomerSetupCard customerSetupCard = new CustomerSetupCard(this, true);
+                customerSetupCard.Show();
+            }
+            else if (entityType == typeof(CustomerLocation))
+            {
+                CustomerLocationCard customerLocationCard = new CustomerLocationCard(this, true);
+                customerLocationCard.Show();
+            }
+            else if (entityType == typeof(BOMSetup))
+            {
+                BOMSetupCard bomSetupCard = new BOMSetupCard(this, true);
+                bomSetupCard.Show();
+            }
+            else if (entityType == typeof(ItemSetup))
+            {
+                ItemSetupCard itemSetupCard = new ItemSetupCard(this, true);
+                itemSetupCard.Show();
+            }
+            else if (entityType == typeof(UserSetup))
+            {
+                UserSetupCard userSetupCard = new UserSetupCard(this, true);
+                userSetupCard.Show();
+            }
+            else if (entityType == typeof(GeneralSetup))
+            {
+                GeneralSetupCard generalSetupCard = new GeneralSetupCard(this, true);
+                generalSetupCard.Show();
+            }
+            else if (entityType == typeof(PlanningSetup))
+            {
+                PlanningSetupCard planningSetupCard = new PlanningSetupCard(this, true);
+                planningSetupCard.Show();
+            }
+            else if (entityType == typeof(ForecastSetup))
+            {
+                ForecastSetupCard forecastSetupCard = new ForecastSetupCard(this, true);
+                forecastSetupCard.Show();
+            }
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 

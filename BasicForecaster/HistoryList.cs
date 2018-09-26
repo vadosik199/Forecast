@@ -110,6 +110,14 @@ namespace BasicForecaster
 
         private void historyDataGrid_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            try
+            {
+                dataContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             if (entityType == typeof(SalesOrders))
             {
                 SalesOrdersCard card = new SalesOrdersCard(historyDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), this);
@@ -195,6 +203,50 @@ namespace BasicForecaster
             {
                 dataContext.Sales_Histories.Load();
                 historyDataGrid.DataSource = dataContext.Sales_Histories.Local.ToBindingList();
+            }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (entityType == typeof(SalesOrders))
+            {
+                SalesOrdersCard card = new SalesOrdersCard(this, true);
+                card.Show();
+            }
+            else if (entityType == typeof(PurchaseOrders))
+            {
+                PurchaseOrdersCard card = new PurchaseOrdersCard(this, true);
+                card.Show();
+            }
+            else if (entityType == typeof(SalesPriceChangeHistory))
+            {
+                SalesPriceChangeHistoryCard card = new SalesPriceChangeHistoryCard(this, true);
+                card.Show();
+            }
+            else if (entityType == typeof(POSHistory))
+            {
+                POSHistoryCard card = new POSHistoryCard(this, true);
+                card.Show();
+            }
+            else if (entityType == typeof(CustomerItemPrice))
+            {
+                CustomerItemPriceCard card = new CustomerItemPriceCard(this, true);
+                card.Show();
+            }
+            else if (entityType == typeof(CustomerBuyingCalendar))
+            {
+                CustomerBuyingCalendarCard card = new CustomerBuyingCalendarCard(this, true);
+                card.Show();
+            }
+            else if (entityType == typeof(AssemblyOrdersProductionOrders))
+            {
+                AssemblyProductionOrdersCard card = new AssemblyProductionOrdersCard(this, true);
+                card.Show();
+            }
+            else if (entityType == typeof(Sales_History))
+            {
+                SalesHistoryCard card = new SalesHistoryCard(this, true);
+                card.Show();
             }
         }
     }

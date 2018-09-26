@@ -33,6 +33,8 @@
             this.companyNameField = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.Delete = new System.Windows.Forms.Button();
+            this.NewButton = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // companyNoField
@@ -42,6 +44,7 @@
             this.companyNoField.Size = new System.Drawing.Size(257, 20);
             this.companyNoField.TabIndex = 35;
             this.companyNoField.TextChanged += new System.EventHandler(this.companyNoField_TextChanged);
+            this.companyNoField.Leave += new System.EventHandler(this.companyNoField_Leave);
             // 
             // label1
             // 
@@ -82,11 +85,35 @@
             this.Delete.UseVisualStyleBackColor = true;
             this.Delete.Click += new System.EventHandler(this.Delete_Click);
             // 
+            // NewButton
+            // 
+            this.NewButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.NewButton.Location = new System.Drawing.Point(93, 78);
+            this.NewButton.Name = "NewButton";
+            this.NewButton.Size = new System.Drawing.Size(75, 28);
+            this.NewButton.TabIndex = 48;
+            this.NewButton.Text = "New";
+            this.NewButton.UseVisualStyleBackColor = true;
+            this.NewButton.Click += new System.EventHandler(this.NewButton_Click);
+            // 
+            // SaveButton
+            // 
+            this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SaveButton.Location = new System.Drawing.Point(12, 78);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(75, 28);
+            this.SaveButton.TabIndex = 49;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
             // GeneralSetupCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(464, 122);
+            this.Controls.Add(this.SaveButton);
+            this.Controls.Add(this.NewButton);
             this.Controls.Add(this.Delete);
             this.Controls.Add(this.companyNameField);
             this.Controls.Add(this.label2);
@@ -107,5 +134,7 @@
         private System.Windows.Forms.TextBox companyNameField;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button Delete;
+        private System.Windows.Forms.Button NewButton;
+        private System.Windows.Forms.Button SaveButton;
     }
 }

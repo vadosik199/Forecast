@@ -20,19 +20,38 @@ namespace BasicForecaster
         private ItemSetup dataItemSetup = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public ItemSetupCard()
+        public ItemSetupCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.ItemSetup.Load();
+            dataItemSetup = new ItemSetup();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
+            foreach (var item in Enum.GetValues(typeof(DateOption)))
+            {
+                lotAggregationPreferenceComboBox.Items.Add(item);
+                forecastPeriodAggregationPreferenceComboBox.Items.Add(item);
+                safetyLeadTimeField.Items.Add(item);
+                safetyLeadTimeUOMField.Items.Add(item);
+                forwardBackwardConsumptionUONField.Items.Add(item);
+                leadTimeUOMField.Items.Add(item);
+                overlapPeriodCheckBox.Items.Add(item);
+            }
         }
 
         public ItemSetupCard(string itemNo, Form parentForm)
-            :this()
+            :this(parentForm)
         {
-            this.parentForm = parentForm;
-            dataContext.ItemSetup.Load();
             dataItemSetup = dataContext.ItemSetup.Where(u => u.ItemNo.Equals(itemNo)).FirstOrDefault();
             itemNoField.Text = dataItemSetup.ItemNo;
             descriptionField.Text = dataItemSetup.Description;
@@ -86,16 +105,6 @@ namespace BasicForecaster
             customerItemCodeField.Text = dataItemSetup.CustomerItemCode;
             vendorItemCodeField.Text = dataItemSetup.VendorItemCode;
             noOfVariantsField.Text = dataItemSetup.NoOfVariants == null ? "" : dataItemSetup.NoOfVariants.ToString();
-            foreach (var item in Enum.GetValues(typeof(DateOption)))
-            {
-                lotAggregationPreferenceComboBox.Items.Add(item);
-                forecastPeriodAggregationPreferenceComboBox.Items.Add(item);
-                safetyLeadTimeField.Items.Add(item);
-                safetyLeadTimeUOMField.Items.Add(item);
-                forwardBackwardConsumptionUONField.Items.Add(item);
-                leadTimeUOMField.Items.Add(item);
-                overlapPeriodCheckBox.Items.Add(item);
-            }
             lotAggregationPreferenceComboBox.SelectedIndex = dataItemSetup.LotAggregationPreference == null ? -1 : (int)dataItemSetup.LotAggregationPreference;
             forecastPeriodAggregationPreferenceComboBox.SelectedIndex = dataItemSetup.ForecastPeriodAggregationPreference == null ? -1 : (int)dataItemSetup.ForecastPeriodAggregationPreference;
             safetyLeadTimeUOMField.SelectedIndex = dataItemSetup.SafetyLeadTimeUOM == null ? -1 : (int)dataItemSetup.SafetyLeadTimeUOM;
@@ -103,6 +112,12 @@ namespace BasicForecaster
             forwardBackwardConsumptionUONField.SelectedIndex = dataItemSetup.ForwardBackwardConsumptionUOM == null ? -1 : (int)dataItemSetup.ForwardBackwardConsumptionUOM;
             leadTimeUOMField.SelectedIndex = dataItemSetup.LeadTimeUOM == null ? -1 : (int)dataItemSetup.LeadTimeUOM;
             overlapPeriodCheckBox.SelectedIndex = dataItemSetup.OverlapPeriod == null ? -1 : (int)dataItemSetup.OverlapPeriod;
+
+            if (!IsNew)
+            {
+                itemNoField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -574,6 +589,234 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            ItemSetupCard card = new ItemSetupCard(parentForm, true);
+            card.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(itemNoField.Text))
+                    {
+                        throw new Exception("Field 'Item No' can`t be empty!");
+                    }
+                    if (context.ItemSetup.Where(vs => vs.ItemNo.Equals(itemNoField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Item No' = {itemNoField.Text} already exist!");
+                    }
+                    dataItemSetup.ItemNo = itemNoField.Text;
+                    dataItemSetup.Description = descriptionField.Text;
+                    dataItemSetup.UnitOfMeasure = unitOfMeasureField.Text;
+                    dataItemSetup.PurchaseUnitOfMeasure = purchaseUnitOfMeasureField.Text;
+                    dataItemSetup.SalesUnitOfMeasure = salesUnitOfMeasureField.Text;
+                    dataItemSetup.UseHistoryOfItem = useHistoryOfItemField.Text;
+                    dataItemSetup.SeasonalItem = seasonalItemCheckBox.Checked;
+                    int safetyItem;
+                    if (int.TryParse(safetyItemField.Text, out safetyItem))
+                    {
+                        dataItemSetup.SafetyItem = safetyItem;
+                    }
+                    dataItemSetup.CustomerBuyingCalendar = customerBuyingCalendarField.Text;
+                    dataItemSetup.VendorBuyingCalendar = vendorBuyingCalendarField.Text;
+                    if (lotAggregationPreferenceComboBox.SelectedIndex == -1)
+                    {
+                        dataItemSetup.LotAggregationPreference = null;
+                    }
+                    else
+                    {
+                        dataItemSetup.LotAggregationPreference = (DateOption)lotAggregationPreferenceComboBox.SelectedIndex;
+                    }
+                    dataItemSetup.PeriodsToBeUsedForHistory = periodsToBeUsedForHistoryField.Text;
+                    dataItemSetup.ForecastingMethod = forecastingMethodField.Text;
+                    dataItemSetup.UsePOSData = usePOSDataCheckBox.Checked;
+                    int itemClassification;
+                    if (int.TryParse(itemClassificationField.Text, out itemClassification))
+                    {
+                        dataItemSetup.ItemClassification = itemClassification;
+                    }
+                    dataItemSetup.VariantsExist = variantsExistCheckBox.Checked;
+                    dataItemSetup.ForecastByVariants = forecastByVariantsCheckBox.Checked;
+                    dataItemSetup.IncludeSalesReturn = includeSalesReturnCheckBox.Checked;
+                    double alpha;
+                    if (double.TryParse(alphaFactorField.Text, out alpha))
+                    {
+                        dataItemSetup.AlphaFactor = alpha;
+                    }
+                    double beta;
+                    if (double.TryParse(betaFactorField.Text, out beta))
+                    {
+                        dataItemSetup.BetaFactor = beta;
+                    }
+                    double gamma;
+                    if (double.TryParse(gammaFactorField.Text, out gamma))
+                    {
+                        dataItemSetup.GammaFactor = gamma;
+                    }
+                    double delta;
+                    if (double.TryParse(deltaFactorField.Text, out delta))
+                    {
+                        dataItemSetup.DeltaFactor = delta;
+                    }
+                    double p;
+                    if (double.TryParse(pField.Text, out p))
+                    {
+                        dataItemSetup.P = p;
+                    }
+                    double d;
+                    if (double.TryParse(dField.Text, out d))
+                    {
+                        dataItemSetup.D = d;
+                    }
+                    double q;
+                    if (double.TryParse(qField.Text, out q))
+                    {
+                        dataItemSetup.Q = q;
+                    }
+                    dataItemSetup.ItemCategory = itemCategoryField.Text;
+                    double limit;
+                    if (double.TryParse(trackingLimitField.Text, out limit))
+                    {
+                        dataItemSetup.TrackingLimit = limit;
+                    }
+                    dataItemSetup.FactorOptimization = factorOptimisarionCheckBox.Checked;
+                    double no;
+                    if (double.TryParse(noOfPeriodToForecastField.Text, out no))
+                    {
+                        dataItemSetup.NoOfPeriodToForecast = no;
+                    }
+                    if (forecastPeriodAggregationPreferenceComboBox.SelectedIndex == -1)
+                    {
+                        dataItemSetup.ForecastPeriodAggregationPreference = null;
+                    }
+                    else
+                    {
+                        dataItemSetup.ForecastPeriodAggregationPreference = (DateOption)forecastPeriodAggregationPreferenceComboBox.SelectedIndex;
+                    }
+                    double mad;
+                    if (double.TryParse(madToleranceField.Text, out mad))
+                    {
+                        dataItemSetup.MADTolerance = mad;
+                    }
+                    dataItemSetup.SeasonalCyclePeriod = seasonalCyclePeriodField.Text;
+                    dataItemSetup.Initialization = initializationField.Text;
+                    dataItemSetup.ModelSelection = modelSelectionField.Text;
+                    dataItemSetup.OptimizationLevel = optimizationLevelField.Text;
+                    dataItemSetup.ForecastUnitOfMeasure = forecastUnitOfMeasureField.Text;
+                    dataItemSetup.ForecastByLocation = forecastByLocationCheckBox.Checked;
+                    dataItemSetup.ForecastByCustomer = forecastByCustomerCheckBox.Checked;
+                    int period;
+                    if (int.TryParse(simpleMAPeridoField.Text, out period))
+                    {
+                        dataItemSetup.SimpleMAPeriod = period;
+                    }
+                    if (int.TryParse(centeredMAPeriodField.Text, out period))
+                    {
+                        dataItemSetup.CenteredMAPeriod = period;
+                    }
+                    dataItemSetup.SeasonalPeriodLength = seasonalPeriodLengthField.Text;
+                    double qty;
+                    if (double.TryParse(safetyStockQtyField.Text, out qty))
+                    {
+                        dataItemSetup.SafetyStockQty = qty;
+                    }
+                    if (safetyLeadTimeUOMField.SelectedIndex == -1)
+                    {
+                        dataItemSetup.SafetyLeadTimeUOM = null;
+                    }
+                    else
+                    {
+                        dataItemSetup.SafetyLeadTimeUOM = (DateOption)safetyLeadTimeUOMField.SelectedIndex;
+                    }
+                    if (safetyLeadTimeUOMField.SelectedIndex == -1)
+                    {
+                        dataItemSetup.SafetyLeadTime = null;
+                    }
+                    else
+                    {
+                        dataItemSetup.SafetyLeadTime = (DateOption)safetyLeadTimeUOMField.SelectedIndex;
+                    }
+                    double point;
+                    if (double.TryParse(reorderPointField.Text, out point))
+                    {
+                        dataItemSetup.ReorderPoint = point;
+                    }
+                    if (double.TryParse(reorderQuantityField.Text, out qty))
+                    {
+                        dataItemSetup.ReorderQuantity = qty;
+                    }
+                    if (double.TryParse(minimumInventoryField.Text, out qty))
+                    {
+                        dataItemSetup.MinimumInventory = qty;
+                    }
+                    if (double.TryParse(maximumInventoryField.Text, out qty))
+                    {
+                        dataItemSetup.MaximumInventory = qty;
+                    }
+                    if (forwardBackwardConsumptionUONField.SelectedIndex == -1)
+                    {
+                        dataItemSetup.ForwardBackwardConsumptionUOM = null;
+                    }
+                    else
+                    {
+                        dataItemSetup.ForwardBackwardConsumptionUOM = (DateOption)forwardBackwardConsumptionUONField.SelectedIndex;
+                    }
+                    double consumption;
+                    if (double.TryParse(forwardConsumptionField.Text, out consumption))
+                    {
+                        dataItemSetup.ForwardConsumption = consumption;
+                    }
+                    if (double.TryParse(backwardConsumptionField.Text, out consumption))
+                    {
+                        dataItemSetup.BackwardConsumption = consumption;
+                    }
+                    dataItemSetup.BOMNo = bomNoField.Text;
+                    if (leadTimeUOMField.SelectedIndex == -1)
+                    {
+                        dataItemSetup.LeadTimeUOM = null;
+                    }
+                    else
+                    {
+                        dataItemSetup.LeadTimeUOM = (DateOption)leadTimeUOMField.SelectedIndex;
+                    }
+                    double time;
+                    if (double.TryParse(leadTimeField.Text, out time))
+                    {
+                        dataItemSetup.LeadTime = time;
+                    }
+                    if (overlapPeriodCheckBox.SelectedIndex == -1)
+                    {
+                        dataItemSetup.OverlapPeriod = null;
+                    }
+                    else
+                    {
+                        dataItemSetup.OverlapPeriod = (DateOption)overlapPeriodCheckBox.SelectedIndex;
+                    }
+                    dataItemSetup.UPCCode = upcCodeField.Text;
+                    dataItemSetup.CustomerItemCode = customerItemCodeField.Text;
+                    dataItemSetup.VendorItemCode = vendorItemCodeField.Text;
+                    int n;
+                    if (int.TryParse(noOfVariantsField.Text, out n))
+                    {
+                        dataItemSetup.NoOfVariants = n;
+                    }
+                    context.ItemSetup.Add(dataItemSetup);
+                    context.SaveData(errorHandler);
+                    ItemSetupCard card = new ItemSetupCard(dataItemSetup.ItemNo, parentForm);
+                    card.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -20,19 +20,28 @@ namespace BasicForecaster
         private SalesOrders dataSalesOrders = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public SalesOrdersCard()
+        public SalesOrdersCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            dataSalesOrders = new SalesOrders();
+            dataContext.SalesOrders.Load();
+            this.parentForm = parentForm;
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public SalesOrdersCard(string salesOrderNo, Form parentForm)
-            :this()
+            :this(parentForm)
         {
-            this.parentForm = parentForm;
-            dataContext.SalesOrders.Load();
             dataSalesOrders = dataContext.SalesOrders.Where(u => u.SalesOrderNo.Equals(salesOrderNo)).FirstOrDefault();
             salesOrderNoField.Text = dataSalesOrders.SalesOrderNo;
             customerCodeField.Text = dataSalesOrders.CustomerCode;
@@ -47,6 +56,12 @@ namespace BasicForecaster
             locationCodeField.Text = dataSalesOrders.LocationCode;
             customerLocationCodeField.Text = dataSalesOrders.CustomerLocationCode;
             orderDatePicker.Value = dataSalesOrders.OrderDate == null ? DateTime.Now : (DateTime)dataSalesOrders.OrderDate;
+
+            if (!IsNew)
+            {
+                salesOrderNoField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -96,7 +111,7 @@ namespace BasicForecaster
         private void salesPriceField_TextChanged(object sender, EventArgs e)
         {
             int salesPrice;
-            if (int.TryParse(salesOrderNoField.Text, out salesPrice))
+            if (int.TryParse(salesPriceField.Text, out salesPrice))
             {
                 dataSalesOrders.SalesPrice = salesPrice;
             }
@@ -158,6 +173,60 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            SalesOrdersCard salesOrder = new SalesOrdersCard(parentForm, true);
+            salesOrder.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(salesOrderNoField.Text))
+                    {
+                        throw new Exception("Field 'Sales Order No' can`t be empty!");
+                    }
+                    if (context.SalesOrders.Where(vs => vs.SalesOrderNo.Equals(salesOrderNoField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Sales Order No' = {salesOrderNoField.Text} already exist!");
+                    }
+                    dataSalesOrders.SalesOrderNo = salesOrderNoField.Text;
+                    dataSalesOrders.CustomerCode = customerCodeField.Text;
+                    dataSalesOrders.Description = descriptionField.Text;
+                    dataSalesOrders.ItemCode = itemCodeField.Text;
+                    dataSalesOrders.ItemDescription = itemCodeField.Text;
+                    int salesPrice;
+                    if (int.TryParse(salesPriceField.Text, out salesPrice))
+                    {
+                        dataSalesOrders.SalesPrice = salesPrice;
+                    }
+                    double quantity;
+                    if (double.TryParse(quantityField.Text, out quantity))
+                    {
+                        dataSalesOrders.Quantity = quantity;
+                    }
+                    dataSalesOrders.UnitOfMeasure = unitOfMeasureField.Text;
+                    dataSalesOrders.VariantCode = variantCodeField.Text;
+                    dataSalesOrders.LocationCode = locationCodeField.Text;
+                    dataSalesOrders.CustomerLocationCode = customerLocationCodeField.Text;
+                    dataSalesOrders.ShipmentDate = shipmentDatePicker.Value;
+                    dataSalesOrders.OrderDate = orderDatePicker.Value;
+                    context.SalesOrders.Add(dataSalesOrders);
+                    context.SaveData(errorHandler);
+                    SalesOrdersCard newSalesOrderCard = new SalesOrdersCard(dataSalesOrders.SalesOrderNo, parentForm);
+                    newSalesOrderCard.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

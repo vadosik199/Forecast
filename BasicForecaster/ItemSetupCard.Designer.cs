@@ -148,6 +148,8 @@
             this.betaFactorField = new System.Windows.Forms.TextBox();
             this.label60 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
+            this.NewButton = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // itemNoField
@@ -1256,11 +1258,35 @@
             this.label61.TabIndex = 156;
             this.label61.Text = "Q";
             // 
+            // NewButton
+            // 
+            this.NewButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.NewButton.Location = new System.Drawing.Point(93, 797);
+            this.NewButton.Name = "NewButton";
+            this.NewButton.Size = new System.Drawing.Size(75, 28);
+            this.NewButton.TabIndex = 157;
+            this.NewButton.Text = "New";
+            this.NewButton.UseVisualStyleBackColor = true;
+            this.NewButton.Click += new System.EventHandler(this.NewButton_Click);
+            // 
+            // SaveButton
+            // 
+            this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SaveButton.Location = new System.Drawing.Point(13, 797);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(75, 28);
+            this.SaveButton.TabIndex = 158;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
             // ItemSetupCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1120, 833);
+            this.Controls.Add(this.SaveButton);
+            this.Controls.Add(this.NewButton);
             this.Controls.Add(this.label61);
             this.Controls.Add(this.betaFactorField);
             this.Controls.Add(this.label60);
@@ -1511,5 +1537,7 @@
         private System.Windows.Forms.TextBox betaFactorField;
         private System.Windows.Forms.Label label60;
         private System.Windows.Forms.Label label61;
+        private System.Windows.Forms.Button NewButton;
+        private System.Windows.Forms.Button SaveButton;
     }
 }

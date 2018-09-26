@@ -20,19 +20,29 @@ namespace BasicForecaster
         private UserSetup dataUserSetup = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public UserSetupCard()
+        public UserSetupCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
+            this.parentForm = parentForm;
             dataContext = dbContext.GetInstance();
+            dataUserSetup = new UserSetup();
             errorHandler = new WinFormErrorHandler();
+            dataContext.UserSetup.Load();
+            IsNew = isNew;
+
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public UserSetupCard(string userId, Form parentForm)
-            :this()
+            :this(parentForm)
         {
-            this.parentForm = parentForm;
-            dataContext.UserSetup.Load();
             dataUserSetup = dataContext.UserSetup.Where(u => u.UserID.Equals(userId)).FirstOrDefault();
             userIdField.Text = dataUserSetup.UserID;
             firstNameField.Text = dataUserSetup.FirstName;
@@ -40,6 +50,12 @@ namespace BasicForecaster
             lastNameField.Text = dataUserSetup.LastName;
             passwordField.Text = dataUserSetup.Password;
             permissionField.Text = dataUserSetup.Permission;
+
+            if (!IsNew)
+            {
+                userIdField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -101,6 +117,45 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            UserSetupCard userSetupCard = new UserSetupCard(parentForm, true);
+            userSetupCard.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(userIdField.Text))
+                    {
+                        throw new Exception("Field 'User ID' can`t be empty!");
+                    }
+                    if (context.UserSetup.Where(vs => vs.UserID.Equals(userIdField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'User ID' = {userIdField.Text} already exist!");
+                    }
+                    dataUserSetup.UserID = userIdField.Text;
+                    dataUserSetup.FirstName = firstNameField.Text;
+                    dataUserSetup.MiddleName = middleNameField.Text;
+                    dataUserSetup.LastName = lastNameField.Text;
+                    dataUserSetup.Password = passwordField.Text;
+                    dataUserSetup.Permission = permissionField.Text;
+                    context.UserSetup.Add(dataUserSetup);
+                    context.SaveData(errorHandler);
+                    UserSetupCard newUserSetupCard = new UserSetupCard(dataUserSetup.UserID, parentForm);
+                    newUserSetupCard.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

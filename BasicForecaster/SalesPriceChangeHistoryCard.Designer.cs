@@ -47,6 +47,8 @@
             this.variantCodeField = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.Delete = new System.Windows.Forms.Button();
+            this.NewButton = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // entryNoField
@@ -222,11 +224,35 @@
             this.Delete.UseVisualStyleBackColor = true;
             this.Delete.Click += new System.EventHandler(this.Delete_Click);
             // 
+            // NewButton
+            // 
+            this.NewButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.NewButton.Location = new System.Drawing.Point(93, 256);
+            this.NewButton.Name = "NewButton";
+            this.NewButton.Size = new System.Drawing.Size(75, 28);
+            this.NewButton.TabIndex = 37;
+            this.NewButton.Text = "New";
+            this.NewButton.UseVisualStyleBackColor = true;
+            this.NewButton.Click += new System.EventHandler(this.NewButton_Click);
+            // 
+            // SaveButton
+            // 
+            this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SaveButton.Location = new System.Drawing.Point(12, 255);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(75, 28);
+            this.SaveButton.TabIndex = 38;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
             // SalesPriceChangeHistoryCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(442, 296);
+            this.Controls.Add(this.SaveButton);
+            this.Controls.Add(this.NewButton);
             this.Controls.Add(this.Delete);
             this.Controls.Add(this.variantCodeField);
             this.Controls.Add(this.label9);
@@ -275,5 +301,7 @@
         private System.Windows.Forms.TextBox variantCodeField;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button Delete;
+        private System.Windows.Forms.Button NewButton;
+        private System.Windows.Forms.Button SaveButton;
     }
 }

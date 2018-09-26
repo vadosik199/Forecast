@@ -20,19 +20,29 @@ namespace BasicForecaster
         private POSHistory dataPOSHistory = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public POSHistoryCard()
+        public POSHistoryCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.POSHistory.Load();
+            dataPOSHistory = new POSHistory();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public POSHistoryCard(double entryNo, Form parentForm)
-            :this()
+            :this(parentForm)
         {
-            this.parentForm = parentForm;
-            dataContext.POSHistory.Load();
+            
             dataPOSHistory = dataContext.POSHistory.Where(u => u.EntryNo.Equals(entryNo)).FirstOrDefault();
             entryNoField.Text = dataPOSHistory.EntryNo.ToString();
             storeNoField.Text = dataPOSHistory.StoreNo;
@@ -54,6 +64,12 @@ namespace BasicForecaster
             saleDatePicker.Value = dataPOSHistory.SaleDate == null ? DateTime.Now : (DateTime)dataPOSHistory.SaleDate;
             customerIDField.Text = dataPOSHistory.CustomerID;
             variantCodeField.Text = dataPOSHistory.VariantCode;
+
+            if (!IsNew)
+            {
+                entryNoField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -82,7 +98,7 @@ namespace BasicForecaster
 
         private void storeNoField_TextChanged(object sender, EventArgs e)
         {
-            dataPOSHistory.StoreNo = storeNameField.Text;
+            dataPOSHistory.StoreNo = storeNoField.Text;
             dataContext.SaveData(errorHandler);
         }
 
@@ -148,7 +164,7 @@ namespace BasicForecaster
 
         private void itemDescriptionField_TextChanged(object sender, EventArgs e)
         {
-            dataPOSHistory.ItemDescription = itemCodeField.Text;
+            dataPOSHistory.ItemDescription = itemDescriptionField.Text;
             dataContext.SaveData(errorHandler);
         }
 
@@ -211,6 +227,71 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            POSHistoryCard posHistory = new POSHistoryCard(this.parentForm, true);
+            posHistory.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(entryNoField.Text))
+                    {
+                        throw new Exception("Field 'Entry No' can`t be empty!");
+                    }
+                    double entryNo = double.Parse(entryNoField.Text);
+                    if (context.POSHistory.Where(vs => vs.EntryNo == entryNo).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Entry No' = {entryNoField.Text} already exist!");
+                    }
+                    if (double.TryParse(entryNoField.Text, out entryNo))
+                    {
+                        dataPOSHistory.EntryNo = entryNo;
+                    }
+                    dataPOSHistory.StoreNo = storeNoField.Text;
+                    dataPOSHistory.StoreName = storeNameField.Text;
+                    dataPOSHistory.Retailor = retailerField.Text;
+                    dataPOSHistory.Address1 = address1Field.Text;
+                    dataPOSHistory.Address2 = address2Field.Text;
+                    dataPOSHistory.City = cityField.Text;
+                    dataPOSHistory.State = stateField.Text;
+                    dataPOSHistory.Zip = zipField.Text;
+                    dataPOSHistory.UPCCode = UPCCodeField.Text;
+                    dataPOSHistory.CustomerItemNo = customerItemNoField.Text;
+                    dataPOSHistory.ItemCode = itemCodeField.Text;
+                    dataPOSHistory.ItemDescription = itemDescriptionField.Text;
+                    dataPOSHistory.Brand = brandField.Text;
+                    int salesPrice;
+                    if (int.TryParse(salesPriceField.Text, out salesPrice))
+                    {
+                        dataPOSHistory.SalesPrice = salesPrice;
+                    }
+                    double quantitySold;
+                    if (double.TryParse(quantitySoldField.Text, out quantitySold))
+                    {
+                        dataPOSHistory.QuantitySold = quantitySold;
+                    }
+                    dataPOSHistory.UnitOfMeasure = unitOfMeasureField.Text;
+                    dataPOSHistory.CustomerID = customerIDField.Text;
+                    dataPOSHistory.VariantCode = variantCodeField.Text;
+                    dataPOSHistory.SaleDate = saleDatePicker.Value;
+                    context.POSHistory.Add(dataPOSHistory);
+                    context.SaveData(errorHandler);
+                    POSHistoryCard newPOSHostoryCard = new POSHistoryCard(dataPOSHistory.EntryNo, parentForm);
+                    newPOSHostoryCard.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

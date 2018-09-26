@@ -20,19 +20,28 @@ namespace BasicForecaster
         private SalesPriceChangeHistory dataSalesPriceChangeHistory = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public SalesPriceChangeHistoryCard()
+        public SalesPriceChangeHistoryCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
+            this.parentForm = parentForm;
             dataContext = dbContext.GetInstance();
+            dataSalesPriceChangeHistory = new SalesPriceChangeHistory();
             errorHandler = new WinFormErrorHandler();
+            dataContext.SalesPriceChangeHistory.Load();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public SalesPriceChangeHistoryCard(string entryNo, Form parentForm)
-            :this()
+            :this(parentForm)
         {
-            this.parentForm = parentForm;
-            dataContext.SalesPriceChangeHistory.Load();
             dataSalesPriceChangeHistory = dataContext.SalesPriceChangeHistory.Where(u => u.EntryNo.Equals(entryNo)).FirstOrDefault();
             entryNoField.Text = dataSalesPriceChangeHistory.EntryNo;
             itemNoField.Text = dataSalesPriceChangeHistory.ItemNo;
@@ -43,6 +52,12 @@ namespace BasicForecaster
             unitOfMeasureField.Text = dataSalesPriceChangeHistory.UnitOfMeasure;
             shipmentDateDatePicker.Value = dataSalesPriceChangeHistory.ShipmentDate == null ? DateTime.Now : (DateTime)dataSalesPriceChangeHistory.ShipmentDate;
             variantCodeField.Text = dataSalesPriceChangeHistory.VariantCode;
+
+            if (!IsNew)
+            {
+                entryNoField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -126,6 +141,52 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            SalesPriceChangeHistoryCard salesPriceChangeHistoryCard = new SalesPriceChangeHistoryCard(parentForm, true);
+            salesPriceChangeHistoryCard.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(entryNoField.Text))
+                    {
+                        throw new Exception("Field 'Entry No' can`t be empty!");
+                    }
+                    if (context.SalesPriceChangeHistory.Where(vs => vs.EntryNo.Equals(entryNoField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Vendor No' = {entryNoField.Text} already exist!");
+                    }
+                    dataSalesPriceChangeHistory.EntryNo = entryNoField.Text;
+                    dataSalesPriceChangeHistory.ItemNo = itemNoField.Text;
+                    dataSalesPriceChangeHistory.Description = descriptionField.Text;
+                    dataSalesPriceChangeHistory.CustomerCode = customerCodeField.Text;
+                    dataSalesPriceChangeHistory.CustomerDescription = customerDescriptionField.Text;
+                    int salesPrice;
+                    if (int.TryParse(salesPriceField.Text, out salesPrice))
+                    {
+                        dataSalesPriceChangeHistory.SalesPrice = salesPrice;
+                    }
+                    dataSalesPriceChangeHistory.UnitOfMeasure = unitOfMeasureField.Text;
+                    dataSalesPriceChangeHistory.VariantCode = variantCodeField.Text;
+                    dataSalesPriceChangeHistory.ShipmentDate = shipmentDateDatePicker.Value;
+                    context.SalesPriceChangeHistory.Add(dataSalesPriceChangeHistory);
+                    context.SaveData(errorHandler);
+                    SalesPriceChangeHistoryCard newSalesPriceChange = new SalesPriceChangeHistoryCard(dataSalesPriceChangeHistory.EntryNo, parentForm);
+                    newSalesPriceChange.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

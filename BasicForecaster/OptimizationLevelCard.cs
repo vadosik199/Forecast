@@ -20,24 +20,40 @@ namespace BasicForecaster
         private Optimization_Level dataOptimizationLevel = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public OptimizationLevelCard()
+        public OptimizationLevelCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.Optimization_Levels.Load();
+            dataOptimizationLevel = new Optimization_Level();
+            IsNew = isNew;
+
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public OptimizationLevelCard(string code, Form parentForm)
-            :this()
-        {
-            this.parentForm = parentForm;
-            dataContext.Optimization_Levels.Load();
+            :this(parentForm)
+        {           
             dataOptimizationLevel = dataContext.Optimization_Levels.Where(u => u.Code.Equals(code)).FirstOrDefault();
             codeField.Text = dataOptimizationLevel.Code;
             descriptionField.Text = dataOptimizationLevel.Description;
             fromMADField.Text = dataOptimizationLevel.From_MAD == null ? "" : dataOptimizationLevel.From_MAD.ToString();
             toMADField.Text = dataOptimizationLevel.To_MAD == null ? "" : dataOptimizationLevel.To_MAD.ToString();
+
+            if (!IsNew)
+            {
+                codeField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -95,6 +111,50 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            OptimizationLevelCard optimizationLevel = new OptimizationLevelCard(parentForm, true);
+            optimizationLevel.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(codeField.Text))
+                    {
+                        throw new Exception("Field 'Code' can`t be empty!");
+                    }
+                    if (context.Optimization_Levels.Where(vs => vs.Code.Equals(codeField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Code' = {codeField.Text} already exist!");
+                    }
+                    dataOptimizationLevel.Code = codeField.Text;
+                    dataOptimizationLevel.Description = descriptionField.Text;
+                    int val;
+                    if (int.TryParse(fromMADField.Text, out val))
+                    {
+                        dataOptimizationLevel.From_MAD = val;
+                    }
+                    if (int.TryParse(toMADField.Text, out val))
+                    {
+                        dataOptimizationLevel.To_MAD = val;
+                    }
+                    context.Optimization_Levels.Add(dataOptimizationLevel);
+                    context.SaveData(errorHandler);
+                    OptimizationLevelCard card = new OptimizationLevelCard(dataOptimizationLevel.Code, parentForm);
+                    card.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

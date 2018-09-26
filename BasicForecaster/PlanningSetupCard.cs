@@ -20,19 +20,36 @@ namespace BasicForecaster
         private PlanningSetup dataPlanningSetup = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public PlanningSetupCard()
+        public PlanningSetupCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.PlanningSetup.Load();
+            dataPlanningSetup = new PlanningSetup();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
+            foreach (var item in Enum.GetValues(typeof(DateOption)))
+            {
+                lotAccumulationPeriodComboBox.Items.Add(item);
+                forwardBackwardConsumptionUOMComboBox.Items.Add(item);
+                forecastPeriodAggregationPreferenceComboBox.Items.Add(item);
+                periodsToBeUsedForHistoryUOMComboBox.Items.Add(item);
+                safetyStockLeadTimeUOMComboBox.Items.Add(item);
+            }
         }
 
         public PlanningSetupCard(int id, Form parentForm)
-            :this()
-        {
-            this.parentForm = parentForm;
-            dataContext.PlanningSetup.Load();
+            :this(parentForm)
+        {         
             dataPlanningSetup = dataContext.PlanningSetup.Where(u => u.ID == id).FirstOrDefault();
             idField.Text = dataPlanningSetup.ID.ToString();
             reorderPointField.Text = dataPlanningSetup.ReorderPoint == null ? "" : dataPlanningSetup.ReorderPoint.ToString();
@@ -44,19 +61,17 @@ namespace BasicForecaster
             noOfPeriodToForecastField.Text = dataPlanningSetup.NoOfPeriodToForecast == null ? "" : dataPlanningSetup.NoOfPeriodToForecast.ToString();
             periodsToBeUsedForHistoryField.Text = dataPlanningSetup.PeriodsToBeUsedForHistory == null ? "" : dataPlanningSetup.PeriodsToBeUsedForHistory.ToString();
             deportRequirementPlanningCheckBox.Checked = dataPlanningSetup.DeportRequirementPlanning == null ? false : (bool)dataPlanningSetup.DeportRequirementPlanning;
-            foreach (var item in Enum.GetValues(typeof(DateOption)))
-            {
-                lotAccumulationPeriodComboBox.Items.Add(item);
-                forwardBackwardConsumptionUOMComboBox.Items.Add(item);
-                forecastPeriodAggregationPreferenceComboBox.Items.Add(item);
-                periodsToBeUsedForHistoryUOMComboBox.Items.Add(item);
-                safetyStockLeadTimeUOMComboBox.Items.Add(item);
-            }
             lotAccumulationPeriodComboBox.SelectedIndex = dataPlanningSetup.LotAccumulationPeriod == null ? -1 : (int)dataPlanningSetup.LotAccumulationPeriod;
             forwardBackwardConsumptionUOMComboBox.SelectedIndex = dataPlanningSetup.ForwardBackwardConsumptionUOM == null ? -1 : (int)dataPlanningSetup.ForwardBackwardConsumptionUOM;
             forecastPeriodAggregationPreferenceComboBox.SelectedIndex = dataPlanningSetup.ForecastPeriodAggregationPreference == null ? -1 : (int)dataPlanningSetup.ForecastPeriodAggregationPreference;
             periodsToBeUsedForHistoryUOMComboBox.SelectedIndex = dataPlanningSetup.PeriodsToBeUsedForHistoryUOM == null ? -1 : (int)dataPlanningSetup.PeriodsToBeUsedForHistoryUOM;
             safetyStockLeadTimeUOMComboBox.SelectedIndex = dataPlanningSetup.SafetyStockLeadTimeUOM == null ? -1 : (int)dataPlanningSetup.SafetyStockLeadTimeUOM;
+
+            if (!IsNew)
+            {
+                idField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -208,6 +223,119 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            PlanningSetupCard planningSetup = new PlanningSetupCard(parentForm, true);
+            planningSetup.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(idField.Text))
+                    {
+                        throw new Exception("Field 'ID' can`t be empty!");
+                    }
+                    int id = int.Parse(idField.Text);
+                    if (context.PlanningSetup.Where(vs => vs.ID == id).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'ID' = {idField.Text} already exist!");
+                    }
+                    if (int.TryParse(idField.Text, out id))
+                    {
+                        dataPlanningSetup.ID = id;
+                    }
+                    double val;
+                    if (double.TryParse(reorderPointField.Text, out val))
+                    {
+                        dataPlanningSetup.ReorderPoint = val;
+                    }
+                    if (double.TryParse(reorderQuantityField.Text, out val))
+                    {
+                        dataPlanningSetup.ReorderQuantity = val;
+                    }
+                    if (double.TryParse(forwardConsumptionField.Text, out val))
+                    {
+                        dataPlanningSetup.ForwardConsumption = val;
+                    }
+                    if (double.TryParse(backwardConsumptionField.Text, out val))
+                    {
+                        dataPlanningSetup.BaclwardConsumption = val;
+                    }
+                    if (double.TryParse(safetyStockQtyField.Text, out val))
+                    {
+                        dataPlanningSetup.SafetyStockQty = val;
+                    }
+                    if (double.TryParse(safetyStockLeadTimeField.Text, out val))
+                    {
+                        dataPlanningSetup.SafetyStockLeadTime = val;
+                    }
+                    if (double.TryParse(noOfPeriodToForecastField.Text, out val))
+                    {
+                        dataPlanningSetup.NoOfPeriodToForecast = val;
+                    }
+                    int period;
+                    if (int.TryParse(periodsToBeUsedForHistoryField.Text, out period))
+                    {
+                        dataPlanningSetup.PeriodsToBeUsedForHistory = period;
+                    }
+                    dataPlanningSetup.DeportRequirementPlanning = deportRequirementPlanningCheckBox.Checked;
+                    if (lotAccumulationPeriodComboBox.SelectedIndex == -1)
+                    {
+                        dataPlanningSetup.LotAccumulationPeriod = null;
+                    }
+                    else
+                    {
+                        dataPlanningSetup.LotAccumulationPeriod = (DateOption)lotAccumulationPeriodComboBox.SelectedIndex;
+                    }
+                    if (forecastPeriodAggregationPreferenceComboBox.SelectedIndex == -1)
+                    {
+                        dataPlanningSetup.ForecastPeriodAggregationPreference = null;
+                    }
+                    else
+                    {
+                        dataPlanningSetup.ForecastPeriodAggregationPreference = (DateOption)forecastPeriodAggregationPreferenceComboBox.SelectedIndex;
+                    }
+                    if (forwardBackwardConsumptionUOMComboBox.SelectedIndex == -1)
+                    {
+                        dataPlanningSetup.ForwardBackwardConsumptionUOM = null;
+                    }
+                    else
+                    {
+                        dataPlanningSetup.ForwardBackwardConsumptionUOM = (DateOption)forwardBackwardConsumptionUOMComboBox.SelectedIndex;
+                    }
+                    if (safetyStockLeadTimeUOMComboBox.SelectedIndex == -1)
+                    {
+                        dataPlanningSetup.SafetyStockLeadTimeUOM = null;
+                    }
+                    else
+                    {
+                        dataPlanningSetup.SafetyStockLeadTimeUOM = (DateOption)safetyStockLeadTimeUOMComboBox.SelectedIndex;
+                    }
+                    if (periodsToBeUsedForHistoryUOMComboBox.SelectedIndex == -1)
+                    {
+                        dataPlanningSetup.PeriodsToBeUsedForHistoryUOM = null;
+                    }
+                    else
+                    {
+                        dataPlanningSetup.PeriodsToBeUsedForHistoryUOM = (DateOption)periodsToBeUsedForHistoryUOMComboBox.SelectedIndex;
+                    }
+                    context.PlanningSetup.Add(dataPlanningSetup);
+                    context.SaveData(errorHandler);
+                    PlanningSetupCard newPlanningSetupCard = new PlanningSetupCard(dataPlanningSetup.ID, parentForm);
+                    newPlanningSetupCard.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

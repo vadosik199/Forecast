@@ -20,19 +20,32 @@ namespace BasicForecaster
         private ForecastSetup dataForecastSetup = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public ForecastSetupCard()
+        public ForecastSetupCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.ForecastSetup.Load();
+            dataForecastSetup = new ForecastSetup();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
+            foreach (var item in Enum.GetValues(typeof(DateOption)))
+            {
+                overlapPeriodComboBox.Items.Add(item);
+            }
         }
 
         public ForecastSetupCard(string code, Form parentForm)
-            :this()
-        {
-            this.parentForm = parentForm;
-            dataContext.ForecastSetup.Load();
+            :this(parentForm)
+        {          
             dataForecastSetup = dataContext.ForecastSetup.Where(u => u.Code.Equals(code)).FirstOrDefault();
             codeField.Text = dataForecastSetup.Code;
             descriptionField.Text = dataForecastSetup.Description;
@@ -49,11 +62,13 @@ namespace BasicForecaster
             forecastByLocationCheckBox.Checked = dataForecastSetup.ForecastByLocation == null ? false : (bool)dataForecastSetup.ForecastByLocation;
             forecastByVariantCheckBox.Checked = dataForecastSetup.ForecastByVariant == null ? false : (bool)dataForecastSetup.ForecastByVariant;
             forecastByVendorCheckBox.Checked = dataForecastSetup.ForecastByVendor == null ? false : (bool)dataForecastSetup.ForecastByVendor;
-            foreach (var item in Enum.GetValues(typeof(DateOption)))
-            {
-                overlapPeriodComboBox.Items.Add(item);
-            }
             overlapPeriodComboBox.SelectedIndex = dataForecastSetup.OverlapPeriod == null ? -1 : (int)dataForecastSetup.OverlapPeriod;
+            trackingLimitField.Text = dataForecastSetup.TrackingLimit == null ? "" : dataForecastSetup.TrackingLimit.ToString();
+            if (!IsNew)
+            {
+                codeField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -213,6 +228,89 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            ForecastSetupCard card = new ForecastSetupCard(parentForm, true);
+            card.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(codeField.Text))
+                    {
+                        throw new Exception("Field 'Code' can`t be empty!");
+                    }
+                    if (context.ForecastSetup.Where(vs => vs.Code.Equals(codeField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Code' = {codeField.Text} already exist!");
+                    }
+                    dataForecastSetup.Code = codeField.Text;
+                    dataForecastSetup.Description = descriptionField.Text;
+                    double val;
+                    if (double.TryParse(alphaFactorField.Text, out val))
+                    {
+                        dataForecastSetup.AlphaFactor = val;
+                    }
+                    if (double.TryParse(betaFactorField.Text, out val))
+                    {
+                        dataForecastSetup.BetaFactor = val;
+                    }
+                    if (double.TryParse(gammaFactorField.Text, out val))
+                    {
+                        dataForecastSetup.GammaFactor = val;
+                    }
+                    if (double.TryParse(deltaFactorField.Text, out val))
+                    {
+                        dataForecastSetup.DeltaFactor = val;
+                    }
+                    if (double.TryParse(trackingLimitField.Text, out val))
+                    {
+                        dataForecastSetup.TrackingLimit = val;
+                    }
+                    dataForecastSetup.FactorOptimization = factorOptimizationCheckBox.Checked;
+                    int ival;
+                    if (int.TryParse(rankingField.Text, out ival))
+                    {
+                        dataForecastSetup.Ranking = ival;
+                    }
+                    if (double.TryParse(simpleMAPeriodInMonthField.Text, out val))
+                    {
+                        dataForecastSetup.SimpleMAPeriodInMonth = val;
+                    }
+                    if (double.TryParse(centeredMAPeriodInMonthField.Text, out val))
+                    {
+                        dataForecastSetup.CenteredMAPeriodInMonth = val;
+                    }
+                    dataForecastSetup.ForecastByCustomer = forecastByCustomerCheckBox.Checked;
+                    dataForecastSetup.ForecastByCustomerLocation = forecastByCustomerLocationCheckBox.Checked;
+                    dataForecastSetup.ForecastByLocation = forecastByLocationCheckBox.Checked;
+                    dataForecastSetup.ForecastByVariant = forecastByVariantCheckBox.Checked;
+                    dataForecastSetup.ForecastByVendor = forecastByVendorCheckBox.Checked;
+                    if (overlapPeriodComboBox.SelectedIndex == -1)
+                    {
+                        dataForecastSetup.OverlapPeriod = null;
+                    }
+                    else
+                    {
+                        dataForecastSetup.OverlapPeriod = (DateOption)overlapPeriodComboBox.SelectedIndex;
+                    }
+                    context.ForecastSetup.Add(dataForecastSetup);
+                    context.SaveData(errorHandler);
+                    ForecastSetupCard card = new ForecastSetupCard(dataForecastSetup.Code, parentForm);
+                    card.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

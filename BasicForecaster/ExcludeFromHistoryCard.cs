@@ -20,25 +20,40 @@ namespace BasicForecaster
         private Exclude_From_History dataExcludeFromHistory = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public ExcludeFromHistoryCard()
+        public ExcludeFromHistoryCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.Exclude_From_Histories.Load();
+            dataExcludeFromHistory = new Exclude_From_History();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public ExcludeFromHistoryCard(string itemNo, Form parentForm)
-            :this()
-        {
-            this.parentForm = parentForm;
-            dataContext.Exclude_From_Histories.Load();
+            :this(parentForm)
+        {   
             dataExcludeFromHistory = dataContext.Exclude_From_Histories.Where(u => u.Item_No.Equals(itemNo)).FirstOrDefault();
             itemNoField.Text = dataExcludeFromHistory.Item_No;
             descriptionField.Text = dataExcludeFromHistory.Description;
             lineNoField.Text = dataExcludeFromHistory.Line_No == null ? "" : dataExcludeFromHistory.Line_No.ToString();
             fromDatePicker.Value = dataExcludeFromHistory.From_Date == null ? DateTime.Now : (DateTime)dataExcludeFromHistory.From_Date;
             toDatePicker.Value = dataExcludeFromHistory.To_Date == null ? DateTime.Now : (DateTime)dataExcludeFromHistory.To_Date;
+
+            if (!IsNew)
+            {
+                itemNoField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -98,6 +113,48 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            ExcludeFromHistoryCard card = new ExcludeFromHistoryCard(parentForm, true);
+            card.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(itemNoField.Text))
+                    {
+                        throw new Exception("Field 'Item No' can`t be empty!");
+                    }
+                    if (context.Exclude_From_Histories.Where(vs => vs.Item_No.Equals(itemNoField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Item No' = {itemNoField.Text} already exist!");
+                    }
+                    dataExcludeFromHistory.Item_No = itemNoField.Text;
+                    dataExcludeFromHistory.Description = descriptionField.Text;
+                    int no;
+                    if (int.TryParse(lineNoField.Text, out no))
+                    {
+                        dataExcludeFromHistory.Line_No = no;
+                    }
+                    dataExcludeFromHistory.From_Date = fromDatePicker.Value;
+                    dataExcludeFromHistory.To_Date = toDatePicker.Value;
+                    context.Exclude_From_Histories.Add(dataExcludeFromHistory);
+                    context.SaveData(errorHandler);
+                    ExcludeFromHistoryCard card = new ExcludeFromHistoryCard(dataExcludeFromHistory.Item_No, parentForm);
+                    card.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

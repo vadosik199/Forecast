@@ -81,8 +81,8 @@ namespace BasicForecaster {
                 return;
             }
             List<double> items = null;
-            using (var db = dbContext.GetInstance())
-            {
+            var db = dbContext.GetInstance();
+            
                 /*items = db.Sales_Histories
                     .OrderByDescending(u => u.Entry_No)
                     .Take(days)
@@ -96,7 +96,7 @@ namespace BasicForecaster {
                     .OrderBy(x => x.Key)
                     .Select(x => x.Select(o => (double)o.Sales_Quantity).ToList().Sum())
                     .ToList();
-            }
+            
             IBasicMethod method = availableMethods[comboBox1.SelectedIndex];
             if (!ok3)
                 period = 0;

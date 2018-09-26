@@ -20,19 +20,28 @@ namespace BasicForecaster
         private Sales_History dataSalesHistory = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public SalesHistoryCard()
+        public SalesHistoryCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.Sales_Histories.Load();
+            dataSalesHistory = new Sales_History();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public SalesHistoryCard(int entryNo, Form parentForm)
-            :this()
+            :this(parentForm)
         {
-            this.parentForm = parentForm;
-            dataContext.Sales_Histories.Load();
             dataSalesHistory = dataContext.Sales_Histories.Where(u => u.Entry_No == entryNo).FirstOrDefault();
             entryNoField.Text = dataSalesHistory.Entry_No.ToString();
             itemNoField.Text = dataSalesHistory.Item_No;
@@ -52,6 +61,12 @@ namespace BasicForecaster
             salesPriceField.Text = dataSalesHistory.Sales_Price == null ? "" : dataSalesHistory.Sales_Price.ToString();
             returnQuantityField.Text = dataSalesHistory.Return_Quantity == null ? "" : dataSalesHistory.Return_Quantity.ToString();
             itemLedEntryNoField.Text = dataSalesHistory.Item_Led__Entry_No == null ? "" : dataSalesHistory.Item_Led__Entry_No.ToString();
+
+            if (!IsNew)
+            {
+                entryNoField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -213,6 +228,82 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            SalesHistoryCard salesHistory = new SalesHistoryCard(parentForm, true);
+            salesHistory.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(entryNoField.Text))
+                    {
+                        throw new Exception("Field 'Entry No' can`t be empty!");
+                    }
+                    int entryN = int.Parse(entryNoField.Text);
+                    if (context.Sales_Histories.Where(vs => vs.Entry_No == entryN).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Entry No' = {entryNoField.Text} already exist!");
+                    }
+                    int entryNo;
+                    if (int.TryParse(entryNoField.Text, out entryNo))
+                    {
+                        dataSalesHistory.Entry_No = entryNo;
+                    }
+                    dataSalesHistory.Item_No = itemNoField.Text;
+                    dataSalesHistory.Item_Description = itemDescriptionField.Text;
+                    dataSalesHistory.Item_Variant = itemVariantField.Text;
+                    dataSalesHistory.Item_Description2 = itemDescription2Field.Text;
+                    dataSalesHistory.Base_Unit_of_Measure = baseUnitOfMeasureField.Text;
+                    dataSalesHistory.Forecast_Unit_of_Measure = forecastUnitOfMeasureField.Text;
+                    dataSalesHistory.Type = typeField.Text;
+                    decimal qty;
+                    if (decimal.TryParse(salesQuantityField.Text, out qty))
+                    {
+                        dataSalesHistory.Sales_Quantity = qty;
+                    }
+                    if (decimal.TryParse(returnQuantityField.Text, out qty))
+                    {
+                        dataSalesHistory.Return_Quantity = qty;
+                    }
+                    if (decimal.TryParse(salesQuantityFUOMField.Text, out qty))
+                    {
+                        dataSalesHistory.Sales_Quantity___FUOM = qty;
+                    }
+                    if (decimal.TryParse(salesPriceField.Text, out qty))
+                    {
+                        dataSalesHistory.Sales_Price = qty;
+                    }
+                    if (decimal.TryParse(salesDiscountField.Text, out qty))
+                    {
+                        dataSalesHistory.Sales_Discount = qty;
+                    }
+                    int no;
+                    if (int.TryParse(itemLedEntryNoField.Text, out no))
+                    {
+                        dataSalesHistory.Item_Led__Entry_No = no;
+                    }
+                    dataSalesHistory.Item_Category = itemCategoryField.Text;
+                    dataSalesHistory.Location = locationField.Text;
+                    dataSalesHistory.Invoice_Date = invoiceDatePicker.Value;
+                    dataSalesHistory.Shipment_Date = shipmentDatePicker.Value;
+                    context.Sales_Histories.Add(dataSalesHistory);
+                    context.SaveChanges();
+                    SalesHistoryCard newSalesHistoryCard = new SalesHistoryCard(dataSalesHistory.Entry_No, parentForm);
+                    newSalesHistoryCard.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

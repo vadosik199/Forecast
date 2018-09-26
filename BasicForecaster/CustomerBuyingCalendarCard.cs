@@ -20,29 +20,44 @@ namespace BasicForecaster
         private CustomerBuyingCalendar dataCustomerBuyingCalendar = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public CustomerBuyingCalendarCard()
+        public CustomerBuyingCalendarCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.CustomerBuyingCalendar.Load();
+            dataCustomerBuyingCalendar = new CustomerBuyingCalendar();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public CustomerBuyingCalendarCard(string calendarCode, Form parentForm)
-            :this()
-        {
-            this.parentForm = parentForm;
-            dataContext.CustomerBuyingCalendar.Load();
+            :this(parentForm)
+        {            
             dataCustomerBuyingCalendar = dataContext.CustomerBuyingCalendar.Where(u => u.CalendarCode.Equals(calendarCode)).FirstOrDefault();
             calendarCodeField.Text = dataCustomerBuyingCalendar.CalendarCode;
             itemCodeField.Text = dataCustomerBuyingCalendar.ItemCode;
-            itemCodeField.Text = dataCustomerBuyingCalendar.ItemDescription;
+            itemDescriptionField.Text = dataCustomerBuyingCalendar.ItemDescription;
             quantityToBuyField.Text = dataCustomerBuyingCalendar.QuantityToBuy == null ? "" : dataCustomerBuyingCalendar.QuantityToBuy.ToString();
             unitOfMeasureField.Text = dataCustomerBuyingCalendar.UnitOfMeasure;
             customerLocationCodeField.Text = dataCustomerBuyingCalendar.CustomerLocationCode;
             variantCodeField.Text = dataCustomerBuyingCalendar.VariantCode;
             locationCodeField.Text = dataCustomerBuyingCalendar.LocationCode;
             orderDatePicker.Value = dataCustomerBuyingCalendar.OrderDate == null ? DateTime.Now : (DateTime)dataCustomerBuyingCalendar.OrderDate;
+
+            if (!IsNew)
+            {
+                calendarCodeField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -73,7 +88,7 @@ namespace BasicForecaster
 
         private void itemDescriptionField_TextChanged(object sender, EventArgs e)
         {
-            dataCustomerBuyingCalendar.ItemDescription = itemCodeField.Text;
+            dataCustomerBuyingCalendar.ItemDescription = itemDescriptionField.Text;
             dataContext.SaveData(errorHandler);
         }
 
@@ -130,6 +145,52 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            CustomerBuyingCalendarCard card = new CustomerBuyingCalendarCard(parentForm, true);
+            card.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(calendarCodeField.Text))
+                    {
+                        throw new Exception("Field 'Calendar Code' can`t be empty!");
+                    }
+                    if (context.CustomerBuyingCalendar.Where(vs => vs.CalendarCode.Equals(calendarCodeField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Calendar' = {calendarCodeField.Text} already exist!");
+                    }
+                    dataCustomerBuyingCalendar.CalendarCode = calendarCodeField.Text;
+                    dataCustomerBuyingCalendar.ItemCode = itemCodeField.Text;
+                    dataCustomerBuyingCalendar.ItemDescription = itemDescriptionField.Text;
+                    double qtyToBuy;
+                    if (double.TryParse(quantityToBuyField.Text, out qtyToBuy))
+                    {
+                        dataCustomerBuyingCalendar.QuantityToBuy = qtyToBuy;
+                    }
+                    dataCustomerBuyingCalendar.UnitOfMeasure = unitOfMeasureField.Text;
+                    dataCustomerBuyingCalendar.CustomerLocationCode = customerLocationCodeField.Text;
+                    dataCustomerBuyingCalendar.VariantCode = variantCodeField.Text;
+                    dataCustomerBuyingCalendar.LocationCode = locationCodeField.Text;
+                    dataCustomerBuyingCalendar.OrderDate = orderDatePicker.Value;
+                    context.CustomerBuyingCalendar.Add(dataCustomerBuyingCalendar);
+                    context.SaveData(errorHandler);
+                    CustomerBuyingCalendarCard card = new CustomerBuyingCalendarCard(dataCustomerBuyingCalendar.CalendarCode, parentForm);
+                    card.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

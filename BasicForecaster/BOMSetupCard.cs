@@ -20,19 +20,28 @@ namespace BasicForecaster
         private BOMSetup dataBOMSetup = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public BOMSetupCard()
+        public BOMSetupCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.BOMSetup.Load();
+            dataBOMSetup = new BOMSetup();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public BOMSetupCard(string bomNo, Form parentForm)
-            :this()
-        {
-            this.parentForm = parentForm;
-            dataContext.BOMSetup.Load();
+            :this(parentForm)
+        {          
             dataBOMSetup = dataContext.BOMSetup.Where(u => u.BOMNo.Equals(bomNo)).FirstOrDefault();
             bomNoField.Text = dataBOMSetup.BOMNo;
             lineNoField.Text = dataBOMSetup.LineNo == null ? "" : dataBOMSetup.LineNo.ToString();
@@ -45,6 +54,12 @@ namespace BasicForecaster
             quantityPerField.Text = dataBOMSetup.QuantityPer == null ? "" : dataBOMSetup.QuantityPer.ToString();
             quantityPerBaseField.Text = dataBOMSetup.QuantityPerBase == null ? "" : dataBOMSetup.QuantityPerBase.ToString();
             compVariantCodeField.Text = dataBOMSetup.CompVariantCode;
+
+            if (!IsNew)
+            {
+                bomNoField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -152,6 +167,64 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            BOMSetupCard card = new BOMSetupCard(parentForm, true);
+            card.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(bomNoField.Text))
+                    {
+                        throw new Exception("Field 'BOM No' can`t be empty!");
+                    }
+                    if (context.BOMSetup.Where(vs => vs.BOMNo.Equals(bomNoField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'BOM No' = {bomNoField.Text} already exist!");
+                    }
+                    dataBOMSetup.BOMNo = bomNoField.Text;
+                    int lineNo;
+                    if (int.TryParse(lineNoField.Text, out lineNo))
+                    {
+                        dataBOMSetup.LineNo = lineNo;
+                    }
+                    dataBOMSetup.BOMItemNo = bomItemNoField.Text;
+                    dataBOMSetup.BOMVariantCode = bomVariantCodeField.Text;
+                    dataBOMSetup.Description = descriptionField.Text;
+                    dataBOMSetup.BOMUnitOfMeasureCode = bomUnitOfMeasureCodeField.Text;
+                    double bomQty;
+                    if (double.TryParse(bomQuantityField.Text, out bomQty))
+                    {
+                        dataBOMSetup.BOMQuantity = bomQty;
+                    }
+                    dataBOMSetup.CompVariantCode = compVariantCodeField.Text;
+                    dataBOMSetup.CompItemNo = compItemNoField.Text;
+                    if (double.TryParse(quantityPerField.Text, out bomQty))
+                    {
+                        dataBOMSetup.QuantityPer = bomQty;
+                    }
+                    if (double.TryParse(quantityPerBaseField.Text, out bomQty))
+                    {
+                        dataBOMSetup.QuantityPerBase = bomQty;
+                    }
+                    context.BOMSetup.Add(dataBOMSetup);
+                    context.SaveData(errorHandler);
+                    BOMSetupCard card = new BOMSetupCard(dataBOMSetup.BOMNo, parentForm);
+                    card.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

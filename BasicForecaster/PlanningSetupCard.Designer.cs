@@ -59,6 +59,8 @@
             this.label15 = new System.Windows.Forms.Label();
             this.Delete = new System.Windows.Forms.Button();
             this.deportRequirementPlanningCheckBox = new System.Windows.Forms.CheckBox();
+            this.NewButton = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // idField
@@ -349,11 +351,35 @@
             this.deportRequirementPlanningCheckBox.UseVisualStyleBackColor = true;
             this.deportRequirementPlanningCheckBox.CheckedChanged += new System.EventHandler(this.deportRequirementPlanningCheckBox_CheckedChanged);
             // 
+            // NewButton
+            // 
+            this.NewButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.NewButton.Location = new System.Drawing.Point(90, 410);
+            this.NewButton.Name = "NewButton";
+            this.NewButton.Size = new System.Drawing.Size(75, 28);
+            this.NewButton.TabIndex = 60;
+            this.NewButton.Text = "New";
+            this.NewButton.UseVisualStyleBackColor = true;
+            this.NewButton.Click += new System.EventHandler(this.NewButton_Click);
+            // 
+            // SaveButton
+            // 
+            this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SaveButton.Location = new System.Drawing.Point(9, 410);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(75, 28);
+            this.SaveButton.TabIndex = 61;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
             // PlanningSetupCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(544, 450);
+            this.Controls.Add(this.SaveButton);
+            this.Controls.Add(this.NewButton);
             this.Controls.Add(this.deportRequirementPlanningCheckBox);
             this.Controls.Add(this.Delete);
             this.Controls.Add(this.label15);
@@ -426,5 +452,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button Delete;
         private System.Windows.Forms.CheckBox deportRequirementPlanningCheckBox;
+        private System.Windows.Forms.Button NewButton;
+        private System.Windows.Forms.Button SaveButton;
     }
 }

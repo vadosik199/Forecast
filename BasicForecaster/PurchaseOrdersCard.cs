@@ -20,19 +20,29 @@ namespace BasicForecaster
         private PurchaseOrders dataPurchaseOrders = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public PurchaseOrdersCard()
+        public PurchaseOrdersCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.PurchaseOrders.Load();
+            dataPurchaseOrders = new PurchaseOrders();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public PurchaseOrdersCard(string purchaseOrderNo, Form parentForm)
-            :this()
+            :this(parentForm)
         {
-            this.parentForm = parentForm;
-            dataContext.PurchaseOrders.Load();
+            
             dataPurchaseOrders = dataContext.PurchaseOrders.Where(u => u.PurchaseOrderNo.Equals(purchaseOrderNo)).FirstOrDefault();
             purchaseOrderNoField.Text = dataPurchaseOrders.PurchaseOrderNo;
             vendorLocationCodeField.Text = dataPurchaseOrders.VendorNo;
@@ -47,6 +57,12 @@ namespace BasicForecaster
             variantCodeField.Text = dataPurchaseOrders.VariantCode;
             vendorLocationCodeField.Text = dataPurchaseOrders.VendorLocationCode;
             orderDatePicker.Value = dataPurchaseOrders.OrderDate == null ? DateTime.Now : (DateTime)dataPurchaseOrders.OrderDate;
+
+            if (!IsNew)
+            {
+                purchaseOrderNoField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -158,6 +174,60 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            PurchaseOrdersCard purchaseOrder = new PurchaseOrdersCard(parentForm, true);
+            purchaseOrder.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(purchaseOrderNoField.Text))
+                    {
+                        throw new Exception("Field 'Purchase Order No' can`t be empty!");
+                    }
+                    if (context.PurchaseOrders.Where(vs => vs.PurchaseOrderNo.Equals(purchaseOrderNoField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Purchase Order No' = {purchaseOrderNoField.Text} already exist!");
+                    }
+                    dataPurchaseOrders.PurchaseOrderNo = purchaseOrderNoField.Text;
+                    dataPurchaseOrders.VendorNo = vendorNoField.Text;
+                    dataPurchaseOrders.Description = descriptionField.Text;
+                    dataPurchaseOrders.ItemCode = itemCodeField.Text;
+                    dataPurchaseOrders.ItemDescription = itemDescriptionField.Text;
+                    int purchasePrice;
+                    if (int.TryParse(purchasePriceField.Text, out purchasePrice))
+                    {
+                        dataPurchaseOrders.PurchasePrice = purchasePrice;
+                    }
+                    double quantity;
+                    if (double.TryParse(quantityField.Text, out quantity))
+                    {
+                        dataPurchaseOrders.Quantity = quantity;
+                    }
+                    dataPurchaseOrders.UnitOfMeasure = unitOfMeasureField.Text;
+                    dataPurchaseOrders.VariantCode = variantCodeField.Text;
+                    dataPurchaseOrders.LocationCode = locationCodeField.Text;
+                    dataPurchaseOrders.VendorLocationCode = vendorLocationCodeField.Text;
+                    dataPurchaseOrders.ExpectedReceiptDate = expectedReceiptDatePicker.Value;
+                    dataPurchaseOrders.OrderDate = orderDatePicker.Value;
+                    context.PurchaseOrders.Add(dataPurchaseOrders);
+                    context.SaveData(errorHandler);
+                    PurchaseOrdersCard newPurchaseOrderCard = new PurchaseOrdersCard(dataPurchaseOrders.PurchaseOrderNo, parentForm);
+                    newPurchaseOrderCard.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

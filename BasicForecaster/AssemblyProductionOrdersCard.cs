@@ -20,19 +20,28 @@ namespace BasicForecaster
         private AssemblyOrdersProductionOrders dataAssemblyProductionPrders = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public AssemblyProductionOrdersCard()
+        public AssemblyProductionOrdersCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.AssemblyOrdersProductionOrders.Load();
+            dataAssemblyProductionPrders = new AssemblyOrdersProductionOrders();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public AssemblyProductionOrdersCard(string productionOrderNo, Form parentForm)
-            :this()
+            :this(parentForm)
         {
-            this.parentForm = parentForm;
-            dataContext.AssemblyOrdersProductionOrders.Load();
             dataAssemblyProductionPrders = dataContext.AssemblyOrdersProductionOrders.Where(u => u.ProductionOrderNo.Equals(productionOrderNo)).FirstOrDefault();
             productionOrderNoField.Text = dataAssemblyProductionPrders.ProductionOrderNo;
             itemCodeField.Text = dataAssemblyProductionPrders.ItemCode;
@@ -43,6 +52,12 @@ namespace BasicForecaster
             variantCodeField.Text = dataAssemblyProductionPrders.VariantCode;
             locationCodeField.Text = dataAssemblyProductionPrders.LocationCode;
             orderDatePicker.Value = dataAssemblyProductionPrders.OrderDate == null ? DateTime.Now : (DateTime)dataAssemblyProductionPrders.OrderDate;
+
+            if (!IsNew)
+            {
+                productionOrderNoField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -126,6 +141,52 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            AssemblyProductionOrdersCard card = new AssemblyProductionOrdersCard(parentForm, true);
+            card.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(productionOrderNoField.Text))
+                    {
+                        throw new Exception("Field 'Production Order No' can`t be empty!");
+                    }
+                    if (context.AssemblyOrdersProductionOrders.Where(vs => vs.ProductionOrderNo.Equals(productionOrderNoField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Production Order No' = {productionOrderNoField.Text} already exist!");
+                    }
+                    dataAssemblyProductionPrders.ProductionOrderNo = productionOrderNoField.Text;
+                    dataAssemblyProductionPrders.ItemCode = itemCodeField.Text;
+                    dataAssemblyProductionPrders.ItemDescription = itemDescriptionField.Text;
+                    double qty;
+                    if (double.TryParse(quantityToMakeField.Text, out qty))
+                    {
+                        dataAssemblyProductionPrders.QuantityToMake = qty;
+                    }
+                    dataAssemblyProductionPrders.UnitOfMeasure = unitOfMeasureField.Text;
+                    dataAssemblyProductionPrders.ExpectedCompletionDate = expectedCompletionDatePicker.Value;
+                    dataAssemblyProductionPrders.VariantCode = variantCodeField.Text;
+                    dataAssemblyProductionPrders.LocationCode = locationCodeField.Text;
+                    dataAssemblyProductionPrders.OrderDate = orderDatePicker.Value;
+                    context.AssemblyOrdersProductionOrders.Add(dataAssemblyProductionPrders);
+                    context.SaveData(errorHandler);
+                    AssemblyProductionOrdersCard card = new AssemblyProductionOrdersCard(dataAssemblyProductionPrders.ProductionOrderNo, parentForm);
+                    card.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

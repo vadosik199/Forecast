@@ -20,23 +20,38 @@ namespace BasicForecaster
         private VendorLocation dataVendorLocation = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public VendorLocationSetupCard()
+        public VendorLocationSetupCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
+            this.parentForm = parentForm;
             dataContext = dbContext.GetInstance();
+            dataVendorLocation = new VendorLocation();
+            dataContext.VendorLocation.Load();
             errorHandler = new WinFormErrorHandler();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public VendorLocationSetupCard(string locationCode, Form parentForm)
-            :this()
+            :this(parentForm)
         {
-            this.parentForm = parentForm;
-            dataContext.VendorLocation.Load();
             dataVendorLocation = dataContext.VendorLocation.Where(u => u.VendorLocationCode.Equals(locationCode)).FirstOrDefault();
             locationCodeField.Text = dataVendorLocation.VendorLocationCode;
             descriptionField.Text = dataVendorLocation.Description;
-            blockedCheckBox.Checked = dataVendorLocation.Blocked == null ? false : true;
+            blockedCheckBox.Checked = dataVendorLocation.Blocked == null ? false : (bool)dataVendorLocation.Blocked;
+
+            if (!IsNew)
+            {
+                locationCodeField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -80,6 +95,42 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            VendorLocationSetupCard vendorLocationSetupCard = new VendorLocationSetupCard(this.parentForm, true);
+            vendorLocationSetupCard.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(locationCodeField.Text))
+                    {
+                        throw new Exception("Field 'Vendor Location Code' can`t be empty!");
+                    }
+                    if (context.VendorLocation.Where(vs => vs.VendorLocationCode.Equals(locationCodeField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Vendor Location Code' = {locationCodeField.Text} already exist!");
+                    }
+                    dataVendorLocation.VendorLocationCode = locationCodeField.Text;
+                    dataVendorLocation.Description = descriptionField.Text;
+                    dataVendorLocation.Blocked = blockedCheckBox.Checked;
+                    context.VendorLocation.Add(dataVendorLocation);
+                    context.SaveData(errorHandler);
+                    VendorLocationSetupCard newVendorLocationSetupCard = new VendorLocationSetupCard(dataVendorLocation.VendorLocationCode, this.parentForm);
+                    newVendorLocationSetupCard.Show();
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

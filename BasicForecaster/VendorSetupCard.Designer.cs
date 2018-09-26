@@ -47,6 +47,8 @@
             this.variantCodeField = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.leadTimeUOMComboBox = new System.Windows.Forms.ComboBox();
+            this.NewButton = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // blockedCheckBox
@@ -105,6 +107,7 @@
             this.vendorNoField.Size = new System.Drawing.Size(257, 20);
             this.vendorNoField.TabIndex = 15;
             this.vendorNoField.TextChanged += new System.EventHandler(this.vendorNoField_TextChanged);
+            this.vendorNoField.Leave += new System.EventHandler(this.vendorNoField_Leave);
             // 
             // label1
             // 
@@ -225,11 +228,35 @@
             this.leadTimeUOMComboBox.TabIndex = 33;
             this.leadTimeUOMComboBox.SelectedIndexChanged += new System.EventHandler(this.leadTimeUOMComboBox_SelectedIndexChanged);
             // 
+            // NewButton
+            // 
+            this.NewButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.NewButton.Location = new System.Drawing.Point(96, 251);
+            this.NewButton.Name = "NewButton";
+            this.NewButton.Size = new System.Drawing.Size(75, 28);
+            this.NewButton.TabIndex = 34;
+            this.NewButton.Text = "New";
+            this.NewButton.UseVisualStyleBackColor = true;
+            this.NewButton.Click += new System.EventHandler(this.NewButton_Click);
+            // 
+            // SaveButton
+            // 
+            this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SaveButton.Location = new System.Drawing.Point(16, 251);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(75, 28);
+            this.SaveButton.TabIndex = 35;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
             // VendorSetupCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(445, 294);
+            this.Controls.Add(this.SaveButton);
+            this.Controls.Add(this.NewButton);
             this.Controls.Add(this.leadTimeUOMComboBox);
             this.Controls.Add(this.variantCodeField);
             this.Controls.Add(this.label9);
@@ -278,5 +305,7 @@
         private System.Windows.Forms.TextBox variantCodeField;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox leadTimeUOMComboBox;
+        private System.Windows.Forms.Button NewButton;
+        private System.Windows.Forms.Button SaveButton;
     }
 }

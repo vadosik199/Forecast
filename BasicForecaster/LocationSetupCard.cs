@@ -20,19 +20,28 @@ namespace BasicForecaster
         private LocationSetup dataLocationSetup = null;
         private IErrorHandler errorHandler;
         private Form parentForm;
+        public bool IsNew { get; private set; }
 
-        public LocationSetupCard()
+        public LocationSetupCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
             dataContext = dbContext.GetInstance();
             errorHandler = new WinFormErrorHandler();
+            this.parentForm = parentForm;
+            dataContext.LocationSetup.Load();
+            dataLocationSetup = new LocationSetup();
+            IsNew = isNew;
+            if (IsNew)
+            {
+                SaveButton.Visible = true;
+                Delete.Visible = false;
+                NewButton.Visible = false;
+            }
         }
 
         public LocationSetupCard(string locationCode, Form parentForm)
-            :this()
-        {
-            this.parentForm = parentForm;
-            dataContext.LocationSetup.Load();
+            :this(parentForm)
+        {            
             dataLocationSetup = dataContext.LocationSetup.Where(u => u.LocationCode.Equals(locationCode)).FirstOrDefault();
             locationCodeField.Text = dataLocationSetup.LocationCode;
             descriptionField.Text = dataLocationSetup.Description;
@@ -44,6 +53,12 @@ namespace BasicForecaster
             zipCodeField.Text = dataLocationSetup.ZipCode;
             stateField.Text = dataLocationSetup.ZipCode;
             countryField.Text = dataLocationSetup.Country;
+
+            if (!IsNew)
+            {
+                locationCodeField.Enabled = false;
+                SaveButton.Visible = false;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -129,6 +144,49 @@ namespace BasicForecaster
         {
             dataContext.SaveData(errorHandler);
             RefreshParentForm();
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            LocationSetupCard card = new LocationSetupCard(parentForm, true);
+            card.Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (dbContext context = new dbContext())
+                {
+                    if (string.IsNullOrEmpty(locationCodeField.Text))
+                    {
+                        throw new Exception("Field 'Location Code' can`t be empty!");
+                    }
+                    if (context.LocationSetup.Where(vs => vs.LocationCode.Equals(locationCodeField.Text)).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Record with 'Location Code' = {locationCodeField.Text} already exist!");
+                    }
+                    dataLocationSetup.LocationCode = locationCodeField.Text;
+                    dataLocationSetup.Description = descriptionField.Text;
+                    dataLocationSetup.Blocked = blockedCheckBox.Checked;
+                    dataLocationSetup.Warehouse = warehouseCheckBox.Checked;
+                    dataLocationSetup.Address1 = address1Field.Text;
+                    dataLocationSetup.Address2 = address2Field.Text;
+                    dataLocationSetup.City = cityField.Text;
+                    dataLocationSetup.ZipCode = zipCodeField.Text;
+                    dataLocationSetup.Country = countryField.Text;
+                    dataLocationSetup.State = stateField.Text;
+                    context.LocationSetup.Add(dataLocationSetup);
+                    context.SaveData(errorHandler);
+                    LocationSetupCard card = new LocationSetupCard(dataLocationSetup.LocationCode, parentForm);
+                    card.Show();
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

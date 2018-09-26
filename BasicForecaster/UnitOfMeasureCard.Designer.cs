@@ -36,9 +36,10 @@
             this._Amit_R_devDataSet = new BasicForecaster._Amit_R_devDataSet();
             this.unitOfMeasureBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.unit_of_MeasureTableAdapter = new BasicForecaster._Amit_R_devDataSetTableAdapters.Unit_of_MeasureTableAdapter();
-            this.New = new System.Windows.Forms.Button();
             this.Delete = new System.Windows.Forms.Button();
             this.dbContextBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.NewButton = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._Amit_R_devDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.unitOfMeasureBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dbContextBindingSource)).BeginInit();
@@ -95,21 +96,10 @@
             // 
             this.unit_of_MeasureTableAdapter.ClearBeforeFill = true;
             // 
-            // New
-            // 
-            this.New.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.New.Location = new System.Drawing.Point(12, 80);
-            this.New.Name = "New";
-            this.New.Size = new System.Drawing.Size(75, 28);
-            this.New.TabIndex = 4;
-            this.New.Text = "New";
-            this.New.UseVisualStyleBackColor = true;
-            this.New.Click += new System.EventHandler(this.New_Click);
-            // 
             // Delete
             // 
             this.Delete.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.Delete.Location = new System.Drawing.Point(93, 80);
+            this.Delete.Location = new System.Drawing.Point(12, 80);
             this.Delete.Name = "Delete";
             this.Delete.Size = new System.Drawing.Size(75, 28);
             this.Delete.TabIndex = 5;
@@ -121,13 +111,36 @@
             // 
             this.dbContextBindingSource.DataSource = typeof(BasicForecaster.Models.dbContext);
             // 
+            // NewButton
+            // 
+            this.NewButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.NewButton.Location = new System.Drawing.Point(93, 80);
+            this.NewButton.Name = "NewButton";
+            this.NewButton.Size = new System.Drawing.Size(75, 28);
+            this.NewButton.TabIndex = 35;
+            this.NewButton.Text = "New";
+            this.NewButton.UseVisualStyleBackColor = true;
+            this.NewButton.Click += new System.EventHandler(this.NewButton_Click);
+            // 
+            // SaveButton
+            // 
+            this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SaveButton.Location = new System.Drawing.Point(12, 80);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(75, 28);
+            this.SaveButton.TabIndex = 36;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
             // UnitOfMeasureCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(403, 120);
+            this.Controls.Add(this.SaveButton);
+            this.Controls.Add(this.NewButton);
             this.Controls.Add(this.Delete);
-            this.Controls.Add(this.New);
             this.Controls.Add(this.descriptionField);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.unitOfMeasureField);
@@ -154,7 +167,8 @@
         private _Amit_R_devDataSet _Amit_R_devDataSet;
         private System.Windows.Forms.BindingSource unitOfMeasureBindingSource;
         private _Amit_R_devDataSetTableAdapters.Unit_of_MeasureTableAdapter unit_of_MeasureTableAdapter;
-        private System.Windows.Forms.Button New;
         private System.Windows.Forms.Button Delete;
+        private System.Windows.Forms.Button NewButton;
+        private System.Windows.Forms.Button SaveButton;
     }
 }
