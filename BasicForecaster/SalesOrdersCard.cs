@@ -25,7 +25,7 @@ namespace BasicForecaster
         public SalesOrdersCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
-            dataContext = dbContext.GetInstance();
+            dataContext = new dbContext();
             errorHandler = new WinFormErrorHandler();
             dataSalesOrders = new SalesOrders();
             dataContext.SalesOrders.Load();

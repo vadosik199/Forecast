@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2019
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicForecaster", "BasicForecaster\BasicForecaster.csproj", "{5C0FD278-EF7E-4977-B713-A42D663CAAB4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDisplay", "WebDisplay\WebDisplay.csproj", "{3F46218A-1387-4338-BD75-BFE450BE48C1}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ForecastSetup", "ForecastSetup\ForecastSetup.vdproj", "{0A571025-6EC8-49FD-8B5A-F0698ABF4EC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,8 +43,17 @@ Global
 		{3F46218A-1387-4338-BD75-BFE450BE48C1}.Release|x64.Build.0 = Release|x64
 		{3F46218A-1387-4338-BD75-BFE450BE48C1}.Release|x86.ActiveCfg = Release|x86
 		{3F46218A-1387-4338-BD75-BFE450BE48C1}.Release|x86.Build.0 = Release|x86
+		{0A571025-6EC8-49FD-8B5A-F0698ABF4EC6}.Debug|Any CPU.ActiveCfg = Debug
+		{0A571025-6EC8-49FD-8B5A-F0698ABF4EC6}.Debug|x64.ActiveCfg = Debug
+		{0A571025-6EC8-49FD-8B5A-F0698ABF4EC6}.Debug|x86.ActiveCfg = Debug
+		{0A571025-6EC8-49FD-8B5A-F0698ABF4EC6}.Release|Any CPU.ActiveCfg = Release
+		{0A571025-6EC8-49FD-8B5A-F0698ABF4EC6}.Release|x64.ActiveCfg = Release
+		{0A571025-6EC8-49FD-8B5A-F0698ABF4EC6}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09A76219-D05C-4A4A-B1A9-5C6FB2DA286B}
 	EndGlobalSection
 EndGlobal

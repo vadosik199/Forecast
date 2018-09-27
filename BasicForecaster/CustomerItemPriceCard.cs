@@ -25,7 +25,7 @@ namespace BasicForecaster
         public CustomerItemPriceCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
-            dataContext = dbContext.GetInstance();
+            dataContext = new dbContext();
             errorHandler = new WinFormErrorHandler();
             this.parentForm = parentForm;
             dataContext.CustomerItemPrice.Load();

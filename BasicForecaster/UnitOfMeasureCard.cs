@@ -25,7 +25,7 @@ namespace BasicForecaster
         public UnitOfMeasureCard(Form parentForm, bool isNew = false)
         {
             InitializeComponent();
-            dataContext = dbContext.GetInstance();
+            dataContext = new dbContext();
             this.IsNew = isNew;
             errorHandler = new WinFormErrorHandler();
             this.parentForm = parentForm;

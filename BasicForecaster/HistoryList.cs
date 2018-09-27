@@ -21,7 +21,7 @@ namespace BasicForecaster
         public HistoryList()
         {
             InitializeComponent();
-            dataContext = dbContext.GetInstance();
+            dataContext = new dbContext();
         }
 
         public HistoryList(HistoryType historyType)
@@ -163,7 +163,7 @@ namespace BasicForecaster
         public override void Refresh()
         {
             base.Refresh();
-            dataContext = dbContext.GetInstance();
+            dataContext = new dbContext();
             if (entityType == typeof(SalesOrders))
             {
                 dataContext.SalesOrders.Load();

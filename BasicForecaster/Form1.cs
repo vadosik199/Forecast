@@ -36,5 +36,11 @@ namespace BasicForecaster {
             HistoryMenu historyMenu = new HistoryMenu();
             historyMenu.Show();
         }
+
+        private void ProcessButton_Click(object sender, EventArgs e)
+        {
+            TestForm f = new TestForm();
+            f.Show();
+        }
     }
 }

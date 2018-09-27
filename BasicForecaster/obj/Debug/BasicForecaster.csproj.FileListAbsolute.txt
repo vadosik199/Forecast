@@ -307,7 +307,6 @@ M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\DynamicInterop.xm
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\EntityFramework.xml
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\EntityFramework.SqlServer.xml
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\Microsoft.R.Host.Client.API.xml
-M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.csprojAssemblyReference.cache
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.csproj.CoreCompileInputs.cache
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.csproj.CopyComplete
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\bin\Debug\LiveCharts.dll
@@ -352,3 +351,4 @@ M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.M
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.ExcludeFromHistoryCard.resources
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.ModelSelectionCard.resources
 M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.OptimizationLevelCard.resources
+M:\!personal\VAC\Projects\Forecaster\BasicForecaster\obj\Debug\BasicForecaster.csprojAssemblyReference.cache

@@ -22,7 +22,7 @@ namespace BasicForecaster
         public DBDataList()
         {
             InitializeComponent();
-            dataContext = dbContext.GetInstance();
+            dataContext = new dbContext();
         }
 
         public DBDataList(SetupType setupType)
@@ -241,7 +241,7 @@ namespace BasicForecaster
         public override void Refresh()
         {
             base.Refresh();
-            //dataContext = new dbContext();
+            dataContext = new dbContext();
             if (entityType == typeof(UnitOfMeasure))
             {
                 dataContext.UnitOfMeasure.Load();

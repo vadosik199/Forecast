@@ -108,6 +108,7 @@
             this.ProcessButton.Text = "Process";
             this.ProcessButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.ProcessButton.UseVisualStyleBackColor = false;
+            this.ProcessButton.Click += new System.EventHandler(this.ProcessButton_Click);
             // 
             // Form1
             // 

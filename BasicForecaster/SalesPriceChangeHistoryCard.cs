@@ -26,7 +26,7 @@ namespace BasicForecaster
         {
             InitializeComponent();
             this.parentForm = parentForm;
-            dataContext = dbContext.GetInstance();
+            dataContext = new dbContext();
             dataSalesPriceChangeHistory = new SalesPriceChangeHistory();
             errorHandler = new WinFormErrorHandler();
             dataContext.SalesPriceChangeHistory.Load();
