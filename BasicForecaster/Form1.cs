@@ -21,8 +21,10 @@ namespace BasicForecaster {
 
         private void ForecastButton_Click(object sender, EventArgs e)
         {
-            Forecast forecastForm = new Forecast();
-            forecastForm.Show();
+            //Forecast forecastForm = new Forecast();
+            //forecastForm.Show();
+            ForecastGraphic form = new ForecastGraphic();
+            form.Show();
         }
 
         private void SetupButton_Click(object sender, EventArgs e)

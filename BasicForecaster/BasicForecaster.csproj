@@ -190,6 +190,23 @@
     <Compile Include="Forecast.Designer.cs">
       <DependentUpon>Forecast.cs</DependentUpon>
     </Compile>
+    <Compile Include="ForecastEngine\Interfaces\IForecastMethod.cs" />
+    <Compile Include="ForecastEngine\Models\Arima.cs" />
+    <Compile Include="ForecastEngine\Models\ArimaParameters.cs" />
+    <Compile Include="ForecastEngine\Models\Basic.cs" />
+    <Compile Include="ForecastEngine\Models\BasicParameters.cs" />
+    <Compile Include="ForecastEngine\Models\Ets.cs" />
+    <Compile Include="ForecastEngine\Models\EtsParameters.cs" />
+    <Compile Include="ForecastEngine\Models\ForecastMethodAttribute.cs" />
+    <Compile Include="ForecastEngine\Models\Parameters.cs" />
+    <Compile Include="ForecastEngine\Models\Point.cs" />
+    <Compile Include="ForecastEngine\Models\Result.cs" />
+    <Compile Include="ForecastGraphic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ForecastGraphic.Designer.cs">
+      <DependentUpon>ForecastGraphic.cs</DependentUpon>
+    </Compile>
     <Compile Include="ForecastMethods\MethodInterface\FResult.cs" />
     <Compile Include="ForecastMethods\Method\MovingAverage.cs" />
     <Compile Include="ForecastMethods\Method\StlEts.cs" />
@@ -431,6 +448,9 @@
     <EmbeddedResource Include="Forecast.resx">
       <DependentUpon>Forecast.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ForecastGraphic.resx">
+      <DependentUpon>ForecastGraphic.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ForecastSetupCard.resx">
       <DependentUpon>ForecastSetupCard.cs</DependentUpon>
     </EmbeddedResource>
@@ -557,6 +577,7 @@
     <Content Include="Public\levels.png" />
     <Content Include="Public\settings.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets" Condition="Exists('..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
